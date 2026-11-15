@@ -26,12 +26,12 @@
                     },
                     colors: {
                         cosmos: {
-                            bg: '#13092b',
-                            card: '#1f1045',
-                            accent: '#ff6b6b',
-                            gold: '#ffd166',
-                            cyan: '#00f5d4',
-                            purple: '#9b5de5'
+                            bg: '#050b18',
+                            card: '#0c1b33',
+                            accent: '#7c9cff',
+                            gold: '#f5c96a',
+                            cyan: '#67e8f9',
+                            purple: '#6475c7'
                         }
                     }
                 }
@@ -41,7 +41,7 @@
 
     <style>
         body {
-            background: radial-gradient(circle at 15% 15%, #1e40af 0%, #4c1d95 45%, #090d16 100%);
+            background: radial-gradient(ellipse at 18% 12%, #172b52 0%, #0b1730 38%, #030712 78%, #01030a 100%);
             color: #ffffff;
             overflow-x: hidden;
             min-height: 100vh;
@@ -131,6 +131,46 @@
         ::-webkit-scrollbar { width: 8px; }
         ::-webkit-scrollbar-track { background: #13092b; }
         ::-webkit-scrollbar-thumb { background: #6c43c7; border-radius: 99px; }
+
+        /* Deep-space visual refresh */
+        body {
+            background-image:
+                radial-gradient(ellipse at 12% 8%, rgba(56, 91, 160, .34), transparent 34%),
+                radial-gradient(ellipse at 88% 30%, rgba(80, 45, 130, .22), transparent 38%),
+                radial-gradient(ellipse at 50% 100%, rgba(10, 76, 105, .18), transparent 45%),
+                linear-gradient(145deg, #071326 0%, #050b18 55%, #02050d 100%) !important;
+            background-attachment: fixed;
+        }
+        .comic-panel {
+            --panel-from: rgba(12, 29, 55, .96);
+            --panel-to: rgba(5, 13, 29, .98);
+            --panel-border: #29476d;
+            --panel-accent: #75d9ee;
+            border-width: 1px;
+            box-shadow: 0 0 0 1px rgba(103, 232, 249, .08), 0 18px 55px rgba(0, 0, 0, .48), inset 0 1px rgba(255,255,255,.035);
+        }
+        .comic-panel:hover {
+            border-color: #75d9ee;
+            box-shadow: 0 0 28px rgba(56, 189, 248, .12), 0 18px 55px rgba(0,0,0,.5);
+        }
+        .speech-bubble {
+            background: linear-gradient(145deg, #10223c, #0a172b);
+            color: #e6f3ff;
+            border: 1px solid #365578;
+            box-shadow: 0 8px 28px rgba(0,0,0,.28), inset 0 1px rgba(255,255,255,.04);
+        }
+        .speech-bubble .text-slate-900 { color: #e6f3ff !important; }
+        .speech-bubble .border-slate-200 { border-color: #29415e !important; }
+        .speech-bubble .text-slate-500 { color: #9bb2cc !important; }
+        .speech-bubble .bg-amber-50 { background: #29243a !important; }
+        .speech-bubble .text-amber-800 { color: #f5c96a !important; }
+        header.sticky {
+            background: rgba(4, 11, 24, .88) !important;
+            border-color: rgba(103, 150, 205, .35) !important;
+        }
+        ::-webkit-scrollbar-track { background: #030914; }
+        ::-webkit-scrollbar-thumb { background: #31577d; }
+        ::-webkit-scrollbar-thumb:hover { background: #4b83ad; }
     </style>
 </head>
 <body class="font-arabic antialiased selection:bg-cosmos-cyan selection:text-slate-950">
