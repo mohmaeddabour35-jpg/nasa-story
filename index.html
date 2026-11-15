@@ -222,7 +222,97 @@
         .comic-panel .shadow-2xl { box-shadow: 0 8px 22px rgba(0,0,0,.22) !important; }
         .comic-panel .border-cosmos-gold { border-color: #a98a50 !important; }
         header.sticky { box-shadow: 0 4px 18px rgba(0,0,0,.25); }
-    </style>
+    
+        /* Final palette balance: midnight navy, soft ivory and restrained brass */
+        :root {
+            --space-night: #050914;
+            --space-navy: #101b2d;
+            --space-ivory: #f4f0e7;
+            --space-ink: #252a32;
+            --space-muted: #646b73;
+            --space-brass: #a78345;
+        }
+        body {
+            background:
+                radial-gradient(ellipse at 15% 5%, rgba(35, 55, 88, .28), transparent 34%),
+                radial-gradient(ellipse at 86% 24%, rgba(93, 71, 43, .13), transparent 32%),
+                linear-gradient(150deg, #080e1b 0%, #03060d 62%, #010207 100%) !important;
+            color: #f3f0e9;
+        }
+        header.sticky {
+            background: rgba(7, 13, 25, .94) !important;
+            border-bottom: 1px solid rgba(190, 163, 112, .28) !important;
+            backdrop-filter: blur(14px);
+        }
+        .comic-panel {
+            background: linear-gradient(155deg, #f8f5ee 0%, #eee9df 100%) !important;
+            color: var(--space-ink) !important;
+            border: 1px solid #c9c0b1 !important;
+            border-radius: 1.1rem !important;
+            box-shadow: 0 14px 34px rgba(0,0,0,.28), inset 0 1px rgba(255,255,255,.8) !important;
+            overflow: hidden;
+        }
+        .comic-panel:hover {
+            border-color: #b79a68 !important;
+            box-shadow: 0 17px 38px rgba(0,0,0,.32) !important;
+            transform: translateY(-2px);
+        }
+        .comic-panel h1, .comic-panel h2, .comic-panel h3,
+        .comic-panel h4, .comic-panel h5 {
+            color: #242b35 !important;
+            letter-spacing: -.025em;
+        }
+        .comic-panel p, .comic-panel li, .comic-panel label {
+            color: #515963;
+        }
+        .comic-panel .text-white,
+        .comic-panel .text-slate-100,
+        .comic-panel .text-slate-200,
+        .comic-panel .text-purple-100,
+        .comic-panel .text-blue-100 {
+            color: #424b57 !important;
+        }
+        .comic-panel .text-yellow-300,
+        .comic-panel .text-amber-300,
+        .comic-panel .text-amber-400 {
+            color: #8b682f !important;
+        }
+        .comic-panel .speech-bubble {
+            background: #fffdf8 !important;
+            color: #303640 !important;
+            border: 1px solid #d9d1c4 !important;
+            border-radius: 1rem !important;
+            box-shadow: 0 5px 16px rgba(36,32,25,.08) !important;
+        }
+        .comic-panel .speech-bubble p,
+        .comic-panel .speech-bubble span,
+        .comic-panel .speech-bubble div {
+            color: inherit;
+        }
+        .comic-panel .bg-black\/25,
+        .comic-panel .bg-black\/30,
+        .comic-panel .bg-slate-900\/50 {
+            background: #202a38 !important;
+            color: #f3f0e9 !important;
+        }
+        .comic-panel .bg-black\/25 *,
+        .comic-panel .bg-black\/30 *,
+        .comic-panel .bg-slate-900\/50 * {
+            color: #f3f0e9 !important;
+        }
+        .btn-comic {
+            border: 1px solid #9d804f !important;
+            border-radius: .75rem !important;
+            box-shadow: 0 3px 0 #6f5938 !important;
+        }
+        .btn-comic:hover:not(:disabled) {
+            box-shadow: 0 5px 0 #6f5938 !important;
+        }
+        .beacon-dot { box-shadow: 0 0 0 3px rgba(167,131,69,.14); }
+        ::-webkit-scrollbar-track { background: #080e19; }
+        ::-webkit-scrollbar-thumb { background: #8a7047; border-radius: 99px; }
+        ::-webkit-scrollbar-thumb:hover { background: #b59661; }
+</style>
 </head>
 <body class="font-arabic antialiased selection:bg-cosmos-gold selection:text-slate-950">
 
