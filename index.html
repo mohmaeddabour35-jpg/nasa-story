@@ -30,7 +30,7 @@
                             card: '#0c1b33',
                             accent: '#7c9cff',
                             gold: '#f5c96a',
-                            cyan: '#67e8f9',
+                            cyan: '#d6b36a',
                             purple: '#6475c7'
                         }
                     }
@@ -120,9 +120,9 @@
 
         /* Pulsing 3D Beacon Ring */
         @keyframes beaconPulse {
-            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(0, 245, 212, 0.7); }
-            70% { transform: scale(1); box-shadow: 0 0 0 10px rgba(0, 245, 212, 0); }
-            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(0, 245, 212, 0); }
+            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(214, 179, 106, 0.7); }
+            70% { transform: scale(1); box-shadow: 0 0 0 10px rgba(214, 179, 106, 0); }
+            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(214, 179, 106, 0); }
         }
         .beacon-dot {
             animation: beaconPulse 2s infinite;
@@ -132,26 +132,43 @@
         ::-webkit-scrollbar-track { background: #13092b; }
         ::-webkit-scrollbar-thumb { background: #6c43c7; border-radius: 99px; }
 
+        /* Black, graphite and antique-gold palette — no turquoise */
+        :root {
+            --space-black: #020308;
+            --space-graphite: #111318;
+            --space-gold: #d6b36a;
+        }
+        .comic-panel {
+            --panel-from: rgba(19, 21, 28, .97);
+            --panel-to: rgba(5, 6, 11, .99);
+            --panel-border: #55452e;
+            --panel-accent: #d6b36a;
+        }
+        .comic-panel:hover { border-color: #d6b36a; }
+        .speech-bubble {
+            background: linear-gradient(145deg, #191a20, #090a0f);
+            border-color: #514632;
+        }
         /* Deep-space visual refresh */
         body {
             background-image:
                 radial-gradient(ellipse at 12% 8%, rgba(35, 55, 95, .18), transparent 32%),
                 radial-gradient(ellipse at 88% 30%, rgba(55, 35, 95, .12), transparent 36%),
-                radial-gradient(ellipse at 50% 100%, rgba(5, 45, 65, .10), transparent 42%),
+                radial-gradient(ellipse at 50% 100%, rgba(55, 35, 12, .10), transparent 42%),
                 linear-gradient(145deg, #02040a 0%, #01030a 58%, #000000 100%) !important;
             background-attachment: fixed;
         }
         .comic-panel {
             --panel-from: rgba(12, 29, 55, .96);
             --panel-to: rgba(5, 13, 29, .98);
-            --panel-border: #29476d;
-            --panel-accent: #75d9ee;
+            --panel-border: #55452e;
+            --panel-accent: #d6b36a;
             border-width: 1px;
-            box-shadow: 0 0 0 1px rgba(103, 232, 249, .08), 0 18px 55px rgba(0, 0, 0, .48), inset 0 1px rgba(255,255,255,.035);
+            box-shadow: 0 0 0 1px rgba(214, 179, 106, .08), 0 18px 55px rgba(0, 0, 0, .48), inset 0 1px rgba(255,255,255,.035);
         }
         .comic-panel:hover {
-            border-color: #75d9ee;
-            box-shadow: 0 0 28px rgba(56, 189, 248, .12), 0 18px 55px rgba(0,0,0,.5);
+            border-color: #d6b36a;
+            box-shadow: 0 0 28px rgba(214, 179, 106, .12), 0 18px 55px rgba(0,0,0,.5);
         }
         .speech-bubble {
             background: linear-gradient(145deg, #10223c, #0a172b);
@@ -166,14 +183,14 @@
         .speech-bubble .text-amber-800 { color: #f5c96a !important; }
         header.sticky {
             background: rgba(4, 11, 24, .88) !important;
-            border-color: rgba(103, 150, 205, .35) !important;
+            border-color: rgba(140, 120, 90, .28) !important;
         }
         ::-webkit-scrollbar-track { background: #030914; }
         ::-webkit-scrollbar-thumb { background: #31577d; }
         ::-webkit-scrollbar-thumb:hover { background: #4b83ad; }
     </style>
 </head>
-<body class="font-arabic antialiased selection:bg-cosmos-cyan selection:text-slate-950">
+<body class="font-arabic antialiased selection:bg-cosmos-gold selection:text-slate-950">
 
     <!-- Animated Cosmos Canvas Background -->
     <canvas id="cosmos-canvas" class="fixed inset-0 w-full h-full pointer-events-none z-0"></canvas>
@@ -189,7 +206,7 @@
         <div class="max-w-6xl mx-auto px-4 py-3 flex flex-wrap items-center justify-between gap-3">
             <!-- Brand Title -->
             <div class="flex items-center gap-3">
-                <div class="w-11 h-11 rounded-2xl bg-gradient-to-br from-cosmos-cyan to-cosmos-purple flex items-center justify-center text-slate-950 font-black text-xl border-2 border-white shadow-lg">
+                <div class="w-11 h-11 rounded-2xl bg-gradient-to-br from-cosmos-gold to-cosmos-purple flex items-center justify-center text-slate-950 font-black text-xl border-2 border-white shadow-lg">
                     <i class="fa-solid fa-rocket"></i>
                 </div>
                 <div>
@@ -209,12 +226,12 @@
 
                 <!-- NASA Archives Modal Button -->
                 <button onclick="toggleSourcesModal(true)" class="btn-comic px-3 py-2 rounded-xl bg-purple-800 hover:bg-purple-700 text-xs font-bold text-white flex items-center gap-1.5">
-                    <i class="fa-solid fa-satellite-dish text-cosmos-cyan"></i>
+                    <i class="fa-solid fa-satellite-dish text-cosmos-gold"></i>
                     <span data-i18n="sourcesBtn" class="hidden md:inline">مصادر ناسا</span>
                 </button>
 
                 <!-- Language Switcher -->
-                <button id="lang-toggle" onclick="toggleLanguage()" class="btn-comic px-3.5 py-2 rounded-xl bg-cosmos-cyan text-slate-950 font-black text-xs">
+                <button id="lang-toggle" onclick="toggleLanguage()" class="btn-comic px-3.5 py-2 rounded-xl bg-cosmos-gold text-slate-950 font-black text-xs">
                     EN
                 </button>
             </div>
@@ -233,20 +250,20 @@
                         <span data-i18n="prologueBadge">بث لاسلكي سري من أعماق الفضاء</span>
                     </div>
                     <h2 data-i18n="heroHeadline" class="text-2xl sm:text-4xl font-black text-white leading-snug">
-                        هل تظن أن مركبات ناسا التي بقيت على القمر والمريخ قد ماتت؟ <span class="text-cosmos-cyan">استمع جيداً!</span>
+                        هل تظن أن مركبات ناسا التي بقيت على القمر والمريخ قد ماتت؟ <span class="text-cosmos-gold">استمع جيداً!</span>
                     </h2>
                     <p data-i18n="heroIntro" class="text-purple-100 text-sm sm:text-base leading-relaxed">
                         تخيّل أنك في غرفتك ليلاً، وفجأة يلتقط جهاز الراديو الخاص بك إشارات قادمة من 9 أبطال فضائيين أنهوا مهماتهم وبقوا في القمر والمريخ والفضاء السحيق... كل بطل سيروي لك قصته الكاملة في 3 مشاهد مشوقة! اجمع <strong>نجوم الاستكشاف الـ 9</strong> لتحصل على بطاقة مستكشف الفضاء الذهبية باسمك.
                     </p>
 
                     <!-- Apollo Program Spotlight Card -->
-                    <div class="rounded-2xl bg-gradient-to-r from-indigo-950/95 via-purple-950/90 to-slate-900/95 border-2 border-cosmos-cyan/60 p-4 sm:p-5 shadow-lg space-y-2.5">
+                    <div class="rounded-2xl bg-gradient-to-r from-indigo-950/95 via-purple-950/90 to-slate-900/95 border-2 border-cosmos-gold/60 p-4 sm:p-5 shadow-lg space-y-2.5">
                         <div class="flex flex-wrap items-center justify-between gap-2">
                             <span class="text-xs sm:text-sm font-black text-cosmos-gold flex items-center gap-2">
-                                <i class="fa-solid fa-moon text-cosmos-cyan"></i>
+                                <i class="fa-solid fa-moon text-cosmos-gold"></i>
                                 <span data-i18n="apolloCardTitle">أولاً: ما هو برنامج Apollo؟</span>
                             </span>
-                            <span class="px-2.5 py-0.5 rounded-lg bg-cosmos-cyan/15 border border-cosmos-cyan/40 font-mono text-[11px] font-bold text-cosmos-cyan">
+                            <span class="px-2.5 py-0.5 rounded-lg bg-cosmos-gold/15 border border-cosmos-gold/40 font-mono text-[11px] font-bold text-cosmos-gold">
                                 1961 – 1972 • NASA MOON MISSIONS
                             </span>
                         </div>
@@ -259,7 +276,7 @@
                                 <span data-i18n="apolloStat1" class="text-purple-200">رحلات هبوط ناجحة</span>
                             </div>
                             <div class="bg-[#13092b]/90 p-2 rounded-xl border border-purple-700/60">
-                                <span class="text-cosmos-cyan font-black block">382 kg</span>
+                                <span class="text-cosmos-gold font-black block">382 kg</span>
                                 <span data-i18n="apolloStat2" class="text-purple-200">صخور قمرية عادت</span>
                             </div>
                             <div class="bg-[#13092b]/90 p-2 rounded-xl border border-purple-700/60">
@@ -270,7 +287,7 @@
                     </div>
 
                     <div class="flex flex-wrap items-center gap-3 pt-1">
-                        <button onclick="scrollToStory()" class="btn-comic px-6 py-3 rounded-2xl bg-gradient-to-r from-cosmos-cyan to-emerald-400 text-slate-950 font-black text-sm sm:text-base flex items-center gap-2">
+                        <button onclick="scrollToStory()" class="btn-comic px-6 py-3 rounded-2xl bg-gradient-to-r from-cosmos-gold to-emerald-400 text-slate-950 font-black text-sm sm:text-base flex items-center gap-2">
                             <i class="fa-solid fa-play"></i>
                             <span data-i18n="startStoryBtn">ابدأ المغامرة الآن</span>
                         </button>
@@ -286,7 +303,7 @@
                     <div class="relative w-52 h-52 sm:w-60 sm:h-60 rounded-full bg-gradient-to-tr from-purple-900 via-indigo-800 to-cyan-700 border-4 border-cosmos-gold flex flex-col items-center justify-center p-4 text-center shadow-2xl float-hero">
                         <i class="fa-solid fa-user-astronaut text-6xl sm:text-7xl text-white mb-2 drop-shadow-lg"></i>
                         <span data-i18n="badgeHeroSub" class="text-xs font-extrabold text-cosmos-gold uppercase tracking-wider">مهمة المستكشف الصغير</span>
-                        <span class="text-[11px] font-mono text-cyan-200 mt-1">MOON • MARS • DEEP SPACE</span>
+                        <span class="text-[11px] font-mono text-amber-200 mt-1">MOON • MARS • DEEP SPACE</span>
                     </div>
                 </div>
             </div>
@@ -299,7 +316,7 @@
                     <i class="fa-solid fa-map-location-dot"></i>
                     <span>خريطة أبطال الفضاء (اختر فصلاً لتستمع إليه)</span>
                 </h3>
-                <span id="chapter-indicator" class="px-3.5 py-1 rounded-xl bg-purple-950 border border-purple-500 font-mono text-xs text-cosmos-cyan font-bold">
+                <span id="chapter-indicator" class="px-3.5 py-1 rounded-xl bg-purple-950 border border-purple-500 font-mono text-xs text-cosmos-gold font-bold">
                     CHAPTER 1 / 9
                 </span>
             </div>
@@ -316,20 +333,20 @@
                     <!-- Character Header + Voice Narrator Button -->
                     <div class="flex flex-wrap items-center justify-between gap-3 bg-black/25 p-4 rounded-2xl border border-white/15">
                         <div class="flex items-center gap-3.5">
-                            <div id="char-avatar" class="w-14 h-14 rounded-2xl bg-gradient-to-br from-cosmos-cyan to-purple-600 text-slate-950 flex items-center justify-center text-2xl font-black border-2 border-white shadow-lg shrink-0">
+                            <div id="char-avatar" class="w-14 h-14 rounded-2xl bg-gradient-to-br from-cosmos-gold to-purple-600 text-slate-950 flex items-center justify-center text-2xl font-black border-2 border-white shadow-lg shrink-0">
                                 <i class="fa-solid fa-shuttle-space"></i>
                             </div>
                             <div>
                                 <span id="char-location" class="text-xs font-extrabold text-cosmos-gold block">بحر السكون • القمر</span>
                                 <h4 id="char-name" class="text-lg sm:text-xl font-black text-white leading-snug">الوحدة القمرية</h4>
-                                <span class="inline-flex items-center gap-1.5 text-[11px] font-mono text-cosmos-cyan mt-0.5">
+                                <span class="inline-flex items-center gap-1.5 text-[11px] font-mono text-cosmos-gold mt-0.5">
                                     <i class="fa-solid fa-location-crosshairs"></i>
                                     <span id="char-coords-text">Apollo 11 • 00°40'26.69"N, 23°28'22.69"E</span>
                                 </span>
                             </div>
                         </div>
 
-                        <button onclick="speakChapterStory()" class="btn-comic px-4 py-2.5 rounded-xl bg-cosmos-cyan hover:bg-emerald-300 text-slate-950 font-black text-xs flex items-center gap-2 shrink-0">
+                        <button onclick="speakChapterStory()" class="btn-comic px-4 py-2.5 rounded-xl bg-cosmos-gold hover:bg-amber-200 text-slate-950 font-black text-xs flex items-center gap-2 shrink-0">
                             <i id="voice-icon" class="fa-solid fa-volume-high"></i>
                             <span id="voice-label" data-i18n="listenBtn">اسمع القصة كاملة</span>
                         </button>
@@ -358,7 +375,7 @@
 
                         <!-- Act 3: Message to Young Explorers -->
                         <div class="space-y-1">
-                            <span data-i18n="act3Label" class="text-[11px] font-black uppercase tracking-wider text-cyan-800 block">المشهد الثالث: رسالتي إليك أيها المستكشف</span>
+                            <span data-i18n="act3Label" class="text-[11px] font-black uppercase tracking-wider text-amber-300 block">المشهد الثالث: رسالتي إليك أيها المستكشف</span>
                             <p id="story-act-3" class="text-sm sm:text-base font-bold leading-relaxed text-slate-900"></p>
                         </div>
                     </div>
@@ -375,9 +392,9 @@
                     </div>
 
                     <!-- INTERACTIVE MINI-MISSION INSIDE THE STORY -->
-                    <div class="rounded-2xl bg-[#13092b] border-2 border-dashed border-cosmos-cyan p-4 sm:p-5 space-y-3">
+                    <div class="rounded-2xl bg-[#13092b] border-2 border-dashed border-cosmos-gold p-4 sm:p-5 space-y-3">
                         <div class="flex items-center justify-between">
-                            <span class="text-xs font-black uppercase tracking-wider text-cosmos-cyan flex items-center gap-1.5">
+                            <span class="text-xs font-black uppercase tracking-wider text-cosmos-gold flex items-center gap-1.5">
                                 <i class="fa-solid fa-wand-magic-sparkles"></i>
                                 <span data-i18n="miniMissionBadge">مهمة تفاعلية لكشف السر العلمي</span>
                             </span>
@@ -434,8 +451,8 @@
                     <!-- INTERACTIVE 3D PLANETARY LANDING BEACON OBSERVATORY -->
                     <div class="rounded-3xl bg-[#0b0520] border-2 border-purple-500/80 p-3.5 shadow-2xl space-y-2.5">
                         <div class="flex items-center justify-between text-[11px] font-mono px-1">
-                            <span class="text-cosmos-cyan font-bold flex items-center gap-2">
-                                <span class="w-2.5 h-2.5 rounded-full bg-cosmos-cyan beacon-dot inline-block"></span>
+                            <span class="text-cosmos-gold font-bold flex items-center gap-2">
+                                <span class="w-2.5 h-2.5 rounded-full bg-cosmos-gold beacon-dot inline-block"></span>
                                 <span data-i18n="planetRadarTitle">المرصد الكوكبي 3D • موقع الهبوط</span>
                             </span>
                             <span id="planet-body-badge" class="px-2 py-0.5 rounded bg-purple-900/90 text-cosmos-gold font-bold">MOON • 3D</span>
@@ -443,35 +460,35 @@
                         <div id="planet-3d-viewport" class="relative w-full h-44 sm:h-48 rounded-2xl overflow-hidden bg-gradient-to-b from-[#060212] to-[#120830] border border-white/10 cursor-grab active:cursor-grabbing">
                             <div class="absolute bottom-2 left-2.5 right-2.5 flex items-center justify-between pointer-events-none z-10 text-[10px] font-mono text-purple-200 bg-black/65 backdrop-blur-sm px-2.5 py-1 rounded-lg">
                                 <span id="planet-telemetry-latlon">LAT 00°40'N • LON 23°28'E</span>
-                                <span class="text-cosmos-cyan" data-i18n="rotatePlanetHint">اسحب لتدوير الكوكب</span>
+                                <span class="text-cosmos-gold" data-i18n="rotatePlanetHint">اسحب لتدوير الكوكب</span>
                             </div>
                         </div>
                     </div>
 
                     <!-- LIVE VOYAGER 1 DEEP SPACE TELEMETRY (Shown only on Voyager Chapter) -->
-                    <div id="voyager-live-telemetry" class="hidden rounded-2xl bg-gradient-to-r from-teal-950/95 via-indigo-950/95 to-purple-950/95 border-2 border-cosmos-cyan p-4 shadow-xl space-y-2">
+                    <div id="voyager-live-telemetry" class="hidden rounded-2xl bg-gradient-to-r from-teal-950/95 via-indigo-950/95 to-purple-950/95 border-2 border-cosmos-gold p-4 shadow-xl space-y-2">
                         <div class="flex items-center justify-between text-xs font-mono">
-                            <span class="text-cosmos-cyan font-black flex items-center gap-1.5">
+                            <span class="text-cosmos-gold font-black flex items-center gap-1.5">
                                 <i class="fa-solid fa-satellite-dish animate-pulse"></i>
                                 <span data-i18n="voyagerLiveLabel">بث المسافة الحي (VOYAGER 1 LIVE)</span>
                             </span>
                             <span class="px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 font-bold text-[10px]">+17 km/s</span>
                         </div>
-                        <div class="bg-black/50 rounded-xl p-3 border border-cosmos-cyan/30 flex items-center justify-between">
+                        <div class="bg-black/50 rounded-xl p-3 border border-cosmos-gold/30 flex items-center justify-between">
                             <div>
                                 <span data-i18n="voyagerDistTitle" class="text-[11px] text-purple-200 block">المسافة الحالية عن الأرض:</span>
                                 <strong id="voyager-km-counter" class="font-mono text-base sm:text-lg font-black text-cosmos-gold tracking-wider">24,892,410,540 km</strong>
                             </div>
                             <div class="text-end font-mono text-[11px]">
                                 <span class="text-purple-300 block" data-i18n="signalDelayLabel">زمن وصول الإشارة:</span>
-                                <strong class="text-cosmos-cyan">23h 04m</strong>
+                                <strong class="text-cosmos-gold">23h 04m</strong>
                             </div>
                         </div>
                     </div>
 
                     <!-- Blueprint vs Photo Toggle Bar (Shown when chapter has uploaded schematic blueprint) -->
                     <div id="blueprint-switch-bar" class="hidden grid grid-cols-2 gap-2 bg-[#13092b] p-1.5 rounded-2xl border border-purple-600">
-                        <button id="btn-view-blueprint" onclick="setMediaView('blueprint')" class="py-2 px-3 rounded-xl font-black text-xs bg-cosmos-cyan text-slate-950 flex items-center justify-center gap-1.5">
+                        <button id="btn-view-blueprint" onclick="setMediaView('blueprint')" class="py-2 px-3 rounded-xl font-black text-xs bg-cosmos-gold text-slate-950 flex items-center justify-center gap-1.5">
                             <i class="fa-solid fa-compass-drafting"></i>
                             <span data-i18n="viewBlueprint">المخطط الهندسي</span>
                         </button>
@@ -514,7 +531,7 @@
                         </div>
                         <div class="bg-gradient-to-t from-black via-black/85 to-transparent p-3.5 text-xs space-y-1">
                             <div class="flex items-center justify-between gap-2">
-                                <span id="nasa-archive-id" class="font-mono font-bold text-cosmos-cyan">NASA ID</span>
+                                <span id="nasa-archive-id" class="font-mono font-bold text-cosmos-gold">NASA ID</span>
                                 <a id="nasa-photo-link" href="https://www.nasa.gov/the-apollo-program/" target="_blank" rel="noopener noreferrer" class="text-amber-300 hover:underline font-extrabold flex items-center gap-1">
                                     <span data-i18n="nasaSource">المصدر</span> <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i>
                                 </a>
@@ -527,7 +544,7 @@
                     <div class="rounded-2xl bg-black/30 border border-white/15 p-3 space-y-2">
                         <div class="flex items-center justify-between text-[11px] font-extrabold text-cosmos-gold px-1">
                             <span class="flex items-center gap-1.5">
-                                <i class="fa-solid fa-images text-cosmos-cyan"></i>
+                                <i class="fa-solid fa-images text-cosmos-gold"></i>
                                 <span data-i18n="galleryTitle">معرض صور ناسا الإضافية (اضغط للتبديل)</span>
                             </span>
                             <span id="gallery-counter" class="font-mono text-purple-200">1 / 3</span>
@@ -544,7 +561,7 @@
                                 <span class="text-[11px] font-mono font-bold text-amber-300 block">NASA SCIENCE • 3D ROVER LAB</span>
                                 <h5 data-i18n="model3dTitle" class="font-black text-white text-sm sm:text-base">عارض مركبة Spirit & Opportunity ثلاثي الأبعاد (3D)</h5>
                             </div>
-                            <span class="px-2.5 py-1 rounded-lg bg-cosmos-cyan/20 border border-cosmos-cyan text-cosmos-cyan font-mono text-[10px] font-bold">
+                            <span class="px-2.5 py-1 rounded-lg bg-cosmos-gold/20 border border-cosmos-gold text-cosmos-gold font-mono text-[10px] font-bold">
                                 <i class="fa-solid fa-hand-pointer mr-1"></i> <span data-i18n="drag3dHint">اسحب للتدوير</span>
                             </span>
                         </div>
@@ -584,7 +601,7 @@
                             </div>
                             <div class="bg-[#13092b] p-2.5 rounded-xl">
                                 <span data-i18n="statSuperpowerLabel" class="text-purple-300 block text-[11px]">الإنجاز الخارق</span>
-                                <strong id="hw-superpower-val" class="text-cosmos-cyan font-bold">أول سيارة على القمر</strong>
+                                <strong id="hw-superpower-val" class="text-cosmos-gold font-bold">أول سيارة على القمر</strong>
                             </div>
                         </div>
                     </div>
@@ -597,7 +614,7 @@
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
                 <!-- Interactive Quick Challenge (7 Cols) -->
                 <div class="lg:col-span-7 space-y-4">
-                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cosmos-cyan/20 border border-cosmos-cyan text-cosmos-cyan text-xs font-extrabold">
+                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cosmos-gold/20 border border-cosmos-gold text-cosmos-gold text-xs font-extrabold">
                         <i class="fa-solid fa-trophy"></i>
                         <span data-i18n="finaleTag">الاختبار النهائي للمستكشفين</span>
                     </div>
@@ -625,18 +642,18 @@
                                 <span>EXPLORER ID #2026</span>
                             </div>
 
-                            <div class="w-20 h-20 mx-auto rounded-2xl bg-gradient-to-tr from-cosmos-cyan to-purple-600 flex items-center justify-center text-4xl text-slate-950 border-2 border-white shadow-lg">
+                            <div class="w-20 h-20 mx-auto rounded-2xl bg-gradient-to-tr from-cosmos-gold to-purple-600 flex items-center justify-center text-4xl text-slate-950 border-2 border-white shadow-lg">
                                 <i class="fa-solid fa-medal"></i>
                             </div>
 
                             <div>
-                                <span data-i18n="cardRankLabel" class="text-xs font-bold text-cosmos-cyan uppercase">بطاقة مستكشف الفضاء المعتمد</span>
+                                <span data-i18n="cardRankLabel" class="text-xs font-bold text-cosmos-gold uppercase">بطاقة مستكشف الفضاء المعتمد</span>
                                 <h4 id="explorer-card-name" class="text-2xl font-black text-white mt-1">مستكشف الفضاء البطل</h4>
                             </div>
 
                             <!-- Student Name Input -->
                             <div class="flex gap-2">
-                                <input id="student-name-input" type="text" oninput="updateExplorerName(this.value)" placeholder="اكتب اسمك هنا ليظهر على البطاقة..." class="w-full px-3.5 py-2.5 rounded-xl bg-purple-950 border-2 border-purple-500 text-white placeholder-purple-300 text-xs sm:text-sm font-bold focus:outline-none focus:border-cosmos-cyan">
+                                <input id="student-name-input" type="text" oninput="updateExplorerName(this.value)" placeholder="اكتب اسمك هنا ليظهر على البطاقة..." class="w-full px-3.5 py-2.5 rounded-xl bg-purple-950 border-2 border-purple-500 text-white placeholder-purple-300 text-xs sm:text-sm font-bold focus:outline-none focus:border-cosmos-gold">
                             </div>
 
                             <div class="flex items-center justify-center gap-1 text-cosmos-gold text-sm sm:text-base flex-wrap" id="card-stars-row">
@@ -651,7 +668,7 @@
                                 <i class="fa-regular fa-star"></i>
                             </div>
 
-                            <button onclick="copyExplorerBadge()" class="btn-comic w-full py-3 rounded-xl bg-gradient-to-r from-cosmos-cyan to-emerald-400 text-slate-950 font-black text-xs sm:text-sm flex items-center justify-center gap-2">
+                            <button onclick="copyExplorerBadge()" class="btn-comic w-full py-3 rounded-xl bg-gradient-to-r from-cosmos-gold to-emerald-400 text-slate-950 font-black text-xs sm:text-sm flex items-center justify-center gap-2">
                                 <i class="fa-solid fa-share-nodes"></i>
                                 <span data-i18n="shareBadgeBtn">انسخ بطاقتك وشارك إنجازك</span>
                             </button>
@@ -667,7 +684,7 @@
         <div class="comic-panel max-w-xl w-full p-6 sm:p-7 space-y-4 relative">
             <div class="flex items-center justify-between border-b border-white/20 pb-3">
                 <h4 data-i18n="modalTitle" class="text-lg sm:text-xl font-black text-cosmos-gold flex items-center gap-2">
-                    <i class="fa-solid fa-satellite text-cosmos-cyan"></i> مصادر ناسا الرسمية المستخدمة في القصة
+                    <i class="fa-solid fa-satellite text-cosmos-gold"></i> مصادر ناسا الرسمية المستخدمة في القصة
                 </h4>
                 <button onclick="toggleSourcesModal(false)" class="w-9 h-9 rounded-xl bg-rose-500 text-white font-black flex items-center justify-center hover:bg-rose-400">
                     <i class="fa-solid fa-xmark"></i>
@@ -678,7 +695,7 @@
             </p>
             <ul class="space-y-2.5 text-xs sm:text-sm font-bold">
                 <li>
-                    <a href="https://www.nasa.gov/the-apollo-program/" target="_blank" rel="noopener noreferrer" class="flex items-center justify-between p-3 rounded-xl bg-white/10 hover:bg-white/20 text-cosmos-cyan">
+                    <a href="https://www.nasa.gov/the-apollo-program/" target="_blank" rel="noopener noreferrer" class="flex items-center justify-between p-3 rounded-xl bg-white/10 hover:bg-white/20 text-cosmos-gold">
                         <span>🚀 NASA Apollo Program Official Archive (1961–1972)</span>
                         <i class="fa-solid fa-arrow-up-right-from-square"></i>
                     </a>
@@ -749,7 +766,7 @@
                 panelTo: 'rgba(76, 29, 149, 0.96)',
                 panelBorder: '#2dd4bf',
                 panelAccent: '#f472b6',
-                avatarGrad: 'from-teal-300 to-purple-500',
+                avatarGrad: 'from-amber-300 to-purple-500',
                 pageBg: 'radial-gradient(circle at 20% 10%, #115e59 0%, #4c1d95 45%, #070b19 100%)'
             }
         };
@@ -932,7 +949,7 @@
                 starsLabel: "نجوم الاستكشاف",
                 sourcesBtn: "مصادر ناسا",
                 prologueBadge: "بث لاسلكي سري من أعماق الفضاء",
-                heroHeadline: 'هل تظن أن مركبات ناسا التي بقيت على القمر والمريخ قد ماتت؟ <span class="text-cosmos-cyan">استمع جيداً!</span>',
+                heroHeadline: 'هل تظن أن مركبات ناسا التي بقيت على القمر والمريخ قد ماتت؟ <span class="text-cosmos-gold">استمع جيداً!</span>',
                 heroIntro: "تخيّل أنك في غرفتك ليلاً، وفجأة يلتقط جهاز الراديو الخاص بك إشارات قادمة من 9 أبطال فضائيين أنهوا مهماتهم وبقوا في القمر والمريخ والفضاء السحيق... كل بطل سيروي لك قصته الكاملة في 3 مشاهد مشوقة! اجمع <strong>نجوم الاستكشاف الـ 9</strong> لتحصل على بطاقة مستكشف الفضاء الذهبية باسمك.",
                 apolloCardTitle: "أولاً: ما هو برنامج Apollo؟",
                 apolloCardDesc: "<strong>Apollo Program</strong> هو برنامج فضائي تاريخي أطلقته الولايات المتحدة بهدف إرسال البشر إلى القمر وإعادتهم سالمين إلى الأرض؛ وقد نجح في إنزال 12 رائد فضاء على سطح القمر وترك وراءه كنزاً من المعدات العلمية التي ما زالت تروي قصتها حتى اليوم.",
@@ -985,7 +1002,7 @@
                 starsLabel: "Explorer Stars",
                 sourcesBtn: "NASA Sources",
                 prologueBadge: "SECRET RADIO TRANSMISSION FROM DEEP SPACE",
-                heroHeadline: 'Think NASA hardware left on the Moon and Mars is gone forever? <span class="text-cosmos-cyan">Listen closely!</span>',
+                heroHeadline: 'Think NASA hardware left on the Moon and Mars is gone forever? <span class="text-cosmos-gold">Listen closely!</span>',
                 heroIntro: "Imagine sitting in your room at night when your radio picks up signals from 9 space heroes left behind on the Moon, Mars, and deep space... Each hero tells their full 3-act adventure! Collect all <strong>9 Explorer Stars</strong> to earn your golden Space Explorer ID.",
                 apolloCardTitle: "First: What is the Apollo Program?",
                 apolloCardDesc: "<strong>The Apollo Program</strong> was a historic spaceflight program launched by the United States to land humans on the Moon and bring them safely back to Earth—successfully landing 12 astronauts and leaving behind scientific instruments that still tell their story today.",
@@ -1831,13 +1848,13 @@
 
                 btn.className = `btn-comic p-3 rounded-2xl text-start flex flex-col justify-between gap-1.5 ${
                     isActive
-                        ? 'bg-gradient-to-br from-cosmos-cyan via-amber-300 to-emerald-400 text-slate-950 font-black'
+                        ? 'bg-gradient-to-br from-cosmos-gold via-amber-300 to-emerald-400 text-slate-950 font-black'
                         : 'bg-purple-950/90 hover:bg-purple-900 text-white font-bold'
                 }`;
 
                 btn.innerHTML = `
                     <div class="flex items-center justify-between w-full">
-                        <i class="fa-solid ${ch.icon} text-base ${isActive ? 'text-slate-950' : 'text-cosmos-cyan'}"></i>
+                        <i class="fa-solid ${ch.icon} text-base ${isActive ? 'text-slate-950' : 'text-cosmos-gold'}"></i>
                         <i class="fa-${isDone ? 'solid' : 'regular'} fa-star text-xs ${isDone ? (isActive ? 'text-amber-700' : 'text-cosmos-gold') : 'opacity-40'}"></i>
                     </div>
                     <span class="text-xs sm:text-sm truncate w-full">${data.tabTitle}</span>
@@ -1865,7 +1882,7 @@
                     ? 'المخطط الهندسي التفصيلي للوحدة القمرية (Apollo Lunar Module)'
                     : 'Detailed Engineering Schematic of the Apollo Lunar Module';
                 archiveEl.textContent = 'NASA LM-SCHEMATIC';
-                btnBlueprint.className = 'py-2 px-3 rounded-xl font-black text-xs bg-cosmos-cyan text-slate-950 flex items-center justify-center gap-1.5';
+                btnBlueprint.className = 'py-2 px-3 rounded-xl font-black text-xs bg-cosmos-gold text-slate-950 flex items-center justify-center gap-1.5';
                 btnPhoto.className = 'py-2 px-3 rounded-xl font-bold text-xs text-purple-200 hover:text-white flex items-center justify-center gap-1.5';
             } else {
                 const item = ch.gallery[activeGalleryIndex] || ch.gallery[0];
@@ -1874,7 +1891,7 @@
                 photoEl.classList.add('object-cover');
                 captionEl.textContent = currentLang === 'ar' ? item.captionAr : item.captionEn;
                 archiveEl.textContent = item.id;
-                btnPhoto.className = 'py-2 px-3 rounded-xl font-black text-xs bg-cosmos-cyan text-slate-950 flex items-center justify-center gap-1.5';
+                btnPhoto.className = 'py-2 px-3 rounded-xl font-black text-xs bg-cosmos-gold text-slate-950 flex items-center justify-center gap-1.5';
                 btnBlueprint.className = 'py-2 px-3 rounded-xl font-bold text-xs text-purple-200 hover:text-white flex items-center justify-center gap-1.5';
             }
             playFx('click');
@@ -1897,7 +1914,7 @@
 
             if (ch.hasBlueprint) {
                 activeMediaMode = 'photo';
-                document.getElementById('btn-view-photo').className = 'py-2 px-3 rounded-xl font-black text-xs bg-cosmos-cyan text-slate-950 flex items-center justify-center gap-1.5';
+                document.getElementById('btn-view-photo').className = 'py-2 px-3 rounded-xl font-black text-xs bg-cosmos-gold text-slate-950 flex items-center justify-center gap-1.5';
                 document.getElementById('btn-view-blueprint').className = 'py-2 px-3 rounded-xl font-bold text-xs text-purple-200 hover:text-white flex items-center justify-center gap-1.5';
             }
 
@@ -2353,7 +2370,7 @@
             sunLight.position.set(5, 8, 5);
             scene.add(sunLight);
 
-            const rimLight = new THREE.DirectionalLight(0x00f5d4, 0.5);
+            const rimLight = new THREE.DirectionalLight(0xd6b36a, 0.5);
             rimLight.position.set(-4, 3, -4);
             scene.add(rimLight);
 
@@ -2401,7 +2418,7 @@
             roverGroup.add(camHead);
 
             // Stereo Camera Lenses (Eyes)
-            const lensMat = new THREE.MeshStandardMaterial({ color: 0x00f5d4, emissive: 0x00a896, emissiveIntensity: 0.5 });
+            const lensMat = new THREE.MeshStandardMaterial({ color: 0xd6b36a, emissive: 0x9a7536, emissiveIntensity: 0.5 });
             const eyeL = new THREE.Mesh(new THREE.CylinderGeometry(0.04, 0.04, 0.06, 12), lensMat);
             eyeL.rotation.x = Math.PI / 2;
             eyeL.position.set(0.28, 1.34, 0.49);
@@ -2538,7 +2555,7 @@
             const pinGroup = new THREE.Group();
             const pinHead = new THREE.Mesh(
                 new THREE.SphereGeometry(0.085, 16, 16),
-                new THREE.MeshBasicMaterial({ color: 0x00f5d4 })
+                new THREE.MeshBasicMaterial({ color: 0xd6b36a })
             );
             pinHead.position.y = 0.18;
             const pinStem = new THREE.Mesh(
