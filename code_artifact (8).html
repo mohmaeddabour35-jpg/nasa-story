@@ -1,0 +1,2632 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>رسائل من الصمت | رواية ناسا التفاعلية للمستكشفين</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Cairo, Tajawal & Fredoka -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@500;700;800;900&family=Fredoka:wght@600;700&family=Space+Mono:wght@400;700&family=Tajawal:wght@500;700;800;900&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <!-- Three.js for Interactive 3D Mars Rover Explorer -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        arabic: ['Cairo', 'Tajawal', 'sans-serif'],
+                        comic: ['Fredoka', 'Cairo', 'sans-serif'],
+                        mono: ['Space Mono', 'monospace'],
+                    },
+                    colors: {
+                        cosmos: {
+                            bg: '#13092b',
+                            card: '#1f1045',
+                            accent: '#ff6b6b',
+                            gold: '#ffd166',
+                            cyan: '#00f5d4',
+                            purple: '#9b5de5'
+                        }
+                    }
+                }
+            }
+        };
+    </script>
+
+    <style>
+        body {
+            background: radial-gradient(circle at 15% 15%, #1e40af 0%, #4c1d95 45%, #090d16 100%);
+            color: #ffffff;
+            overflow-x: hidden;
+            min-height: 100vh;
+            transition: background 0.6s ease;
+        }
+
+        /* Vibrant Student-Friendly Storybook Card Style */
+        .comic-panel {
+            background: linear-gradient(145deg, var(--panel-from, rgba(30, 58, 138, 0.94)), var(--panel-to, rgba(23, 15, 66, 0.97)));
+            border: 4px solid var(--panel-border, #38bdf8);
+            border-radius: 2rem;
+            box-shadow: 0 10px 0 #070a17, 0 20px 38px rgba(0, 0, 0, 0.5);
+            transition: transform 0.25s ease, border-color 0.35s ease, background 0.45s ease;
+        }
+
+        .comic-panel:hover {
+            border-color: var(--panel-accent, #fde047);
+        }
+
+        /* Playful Comic Speech Bubble */
+        .speech-bubble {
+            position: relative;
+            background: #fffdf5;
+            color: #0f172a;
+            border-radius: 1.75rem;
+            border: 4px solid #0f172a;
+            box-shadow: 7px 7px 0 var(--panel-accent, #fbbf24);
+            transition: box-shadow 0.35s ease;
+        }
+
+        html[dir="ltr"] .speech-bubble {
+            box-shadow: -7px 7px 0 var(--panel-accent, #fbbf24);
+        }
+
+        /* Bouncy Student Arcade Buttons */
+        .btn-comic {
+            border: 3px solid #0f172a;
+            box-shadow: 0 5px 0 #0f172a;
+            transition: all 0.15s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .btn-comic:hover:not(:disabled) {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 8px 0 #0f172a;
+        }
+
+        .btn-comic:active:not(:disabled) {
+            transform: translateY(2px) scale(0.98);
+            box-shadow: 0 2px 0 #0f172a;
+        }
+
+        /* Floating Hero Animation */
+        @keyframes floatHero {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-10px) rotate(2deg); }
+        }
+        .float-hero {
+            animation: floatHero 4s ease-in-out infinite;
+        }
+
+        /* Star Badge Glow */
+        @keyframes starPop {
+            0% { transform: scale(0.5); }
+            70% { transform: scale(1.25); }
+            100% { transform: scale(1); }
+        }
+        .star-unlocked {
+            animation: starPop 0.45s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        /* Red Mars Dust Overlay for Interactive Wipe */
+        .mars-dust-cover {
+            background: repeating-radial-gradient(circle at 20% 30%, rgba(194, 77, 44, 0.94), rgba(145, 48, 22, 0.96) 40px);
+            transition: opacity 0.6s ease;
+        }
+
+        /* Pulsing 3D Beacon Ring */
+        @keyframes beaconPulse {
+            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(0, 245, 212, 0.7); }
+            70% { transform: scale(1); box-shadow: 0 0 0 10px rgba(0, 245, 212, 0); }
+            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(0, 245, 212, 0); }
+        }
+        .beacon-dot {
+            animation: beaconPulse 2s infinite;
+        }
+
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #13092b; }
+        ::-webkit-scrollbar-thumb { background: #6c43c7; border-radius: 99px; }
+    </style>
+</head>
+<body class="font-arabic antialiased selection:bg-cosmos-cyan selection:text-slate-950">
+
+    <!-- Animated Cosmos Canvas Background -->
+    <canvas id="cosmos-canvas" class="fixed inset-0 w-full h-full pointer-events-none z-0"></canvas>
+
+    <!-- Custom Toast Notification (No alert() allowed) -->
+    <div id="toast-box" class="fixed bottom-5 left-1/2 -translate-x-1/2 z-50 hidden px-5 py-3 rounded-2xl bg-cosmos-gold text-slate-950 font-extrabold text-sm shadow-2xl border-2 border-slate-950 flex items-center gap-2.5">
+        <i class="fa-solid fa-sparkles text-purple-900"></i>
+        <span id="toast-text"></span>
+    </div>
+
+    <!-- TOP GAME HUD BAR -->
+    <header class="sticky top-0 z-40 bg-[#13092b]/90 backdrop-blur-md border-b-2 border-purple-700/60">
+        <div class="max-w-6xl mx-auto px-4 py-3 flex flex-wrap items-center justify-between gap-3">
+            <!-- Brand Title -->
+            <div class="flex items-center gap-3">
+                <div class="w-11 h-11 rounded-2xl bg-gradient-to-br from-cosmos-cyan to-cosmos-purple flex items-center justify-center text-slate-950 font-black text-xl border-2 border-white shadow-lg">
+                    <i class="fa-solid fa-rocket"></i>
+                </div>
+                <div>
+                    <span class="text-[11px] font-mono uppercase tracking-wider text-cosmos-gold font-bold block">NASA Space Apps • Graphic Story</span>
+                    <h1 id="hud-title" class="text-base sm:text-xl font-black text-white leading-tight">رسائل من الصمت: أبطال ناسا المنسيون</h1>
+                </div>
+            </div>
+
+            <!-- Explorer Star Counter & Controls -->
+            <div class="flex items-center gap-2 sm:gap-3">
+                <!-- Stars Collected Pill -->
+                <div class="px-3.5 py-1.5 rounded-2xl bg-purple-950 border-2 border-cosmos-gold flex items-center gap-2 shadow-inner">
+                    <i class="fa-solid fa-star text-cosmos-gold animate-pulse"></i>
+                    <span class="text-xs sm:text-sm font-black text-cosmos-gold"><span id="stars-count">0</span> / 9</span>
+                    <span data-i18n="starsLabel" class="hidden sm:inline text-xs text-purple-200">نجوم الاستكشاف</span>
+                </div>
+
+                <!-- NASA Archives Modal Button -->
+                <button onclick="toggleSourcesModal(true)" class="btn-comic px-3 py-2 rounded-xl bg-purple-800 hover:bg-purple-700 text-xs font-bold text-white flex items-center gap-1.5">
+                    <i class="fa-solid fa-satellite-dish text-cosmos-cyan"></i>
+                    <span data-i18n="sourcesBtn" class="hidden md:inline">مصادر ناسا</span>
+                </button>
+
+                <!-- Language Switcher -->
+                <button id="lang-toggle" onclick="toggleLanguage()" class="btn-comic px-3.5 py-2 rounded-xl bg-cosmos-cyan text-slate-950 font-black text-xs">
+                    EN
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- MAIN STORYBOOK CONTAINER -->
+    <main class="relative z-10 max-w-6xl mx-auto px-4 pt-6 pb-20 space-y-10">
+
+        <!-- HERO INTRO BANNER (Interactive Story Prologue) -->
+        <section class="comic-panel rounded-3xl p-6 sm:p-8 relative overflow-hidden">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
+                <div class="lg:col-span-8 space-y-4">
+                    <div class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-cosmos-gold/20 border border-cosmos-gold text-cosmos-gold text-xs font-extrabold">
+                        <i class="fa-solid fa-headphones"></i>
+                        <span data-i18n="prologueBadge">بث لاسلكي سري من أعماق الفضاء</span>
+                    </div>
+                    <h2 data-i18n="heroHeadline" class="text-2xl sm:text-4xl font-black text-white leading-snug">
+                        هل تظن أن مركبات ناسا التي بقيت على القمر والمريخ قد ماتت؟ <span class="text-cosmos-cyan">استمع جيداً!</span>
+                    </h2>
+                    <p data-i18n="heroIntro" class="text-purple-100 text-sm sm:text-base leading-relaxed">
+                        تخيّل أنك في غرفتك ليلاً، وفجأة يلتقط جهاز الراديو الخاص بك إشارات قادمة من 9 أبطال فضائيين أنهوا مهماتهم وبقوا في القمر والمريخ والفضاء السحيق... كل بطل سيروي لك قصته الكاملة في 3 مشاهد مشوقة! اجمع <strong>نجوم الاستكشاف الـ 9</strong> لتحصل على بطاقة مستكشف الفضاء الذهبية باسمك.
+                    </p>
+
+                    <!-- Apollo Program Spotlight Card -->
+                    <div class="rounded-2xl bg-gradient-to-r from-indigo-950/95 via-purple-950/90 to-slate-900/95 border-2 border-cosmos-cyan/60 p-4 sm:p-5 shadow-lg space-y-2.5">
+                        <div class="flex flex-wrap items-center justify-between gap-2">
+                            <span class="text-xs sm:text-sm font-black text-cosmos-gold flex items-center gap-2">
+                                <i class="fa-solid fa-moon text-cosmos-cyan"></i>
+                                <span data-i18n="apolloCardTitle">أولاً: ما هو برنامج Apollo؟</span>
+                            </span>
+                            <span class="px-2.5 py-0.5 rounded-lg bg-cosmos-cyan/15 border border-cosmos-cyan/40 font-mono text-[11px] font-bold text-cosmos-cyan">
+                                1961 – 1972 • NASA MOON MISSIONS
+                            </span>
+                        </div>
+                        <p data-i18n="apolloCardDesc" class="text-xs sm:text-sm text-purple-100 leading-relaxed font-semibold">
+                            <strong>Apollo Program</strong> هو برنامج فضائي تاريخي أطلقته الولايات المتحدة بهدف إرسال البشر إلى القمر وإعادتهم سالمين إلى الأرض؛ وقد نجح في إنزال 12 رائد فضاء على سطح القمر وترك وراءه كنزاً من المعدات العلمية التي ما زالت تروي قصتها حتى اليوم.
+                        </p>
+                        <div class="grid grid-cols-3 gap-2 pt-1 text-center text-[11px] sm:text-xs">
+                            <div class="bg-[#13092b]/90 p-2 rounded-xl border border-purple-700/60">
+                                <span class="text-cosmos-gold font-black block">6</span>
+                                <span data-i18n="apolloStat1" class="text-purple-200">رحلات هبوط ناجحة</span>
+                            </div>
+                            <div class="bg-[#13092b]/90 p-2 rounded-xl border border-purple-700/60">
+                                <span class="text-cosmos-cyan font-black block">382 kg</span>
+                                <span data-i18n="apolloStat2" class="text-purple-200">صخور قمرية عادت</span>
+                            </div>
+                            <div class="bg-[#13092b]/90 p-2 rounded-xl border border-purple-700/60">
+                                <span class="text-amber-400 font-black block">00°40'N</span>
+                                <span data-i18n="apolloStat3" class="text-purple-200">إحداثيات بحر السكون</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flex flex-wrap items-center gap-3 pt-1">
+                        <button onclick="scrollToStory()" class="btn-comic px-6 py-3 rounded-2xl bg-gradient-to-r from-cosmos-cyan to-emerald-400 text-slate-950 font-black text-sm sm:text-base flex items-center gap-2">
+                            <i class="fa-solid fa-play"></i>
+                            <span data-i18n="startStoryBtn">ابدأ المغامرة الآن</span>
+                        </button>
+                        <button onclick="scrollToQuiz()" class="btn-comic px-5 py-3 rounded-2xl bg-purple-900 hover:bg-purple-800 text-white font-bold text-sm flex items-center gap-2">
+                            <i class="fa-solid fa-award text-cosmos-gold"></i>
+                            <span data-i18n="badgePreviewBtn">بطاقة المستكشف</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Animated Hero Illustration Badge -->
+                <div class="lg:col-span-4 flex justify-center">
+                    <div class="relative w-52 h-52 sm:w-60 sm:h-60 rounded-full bg-gradient-to-tr from-purple-900 via-indigo-800 to-cyan-700 border-4 border-cosmos-gold flex flex-col items-center justify-center p-4 text-center shadow-2xl float-hero">
+                        <i class="fa-solid fa-user-astronaut text-6xl sm:text-7xl text-white mb-2 drop-shadow-lg"></i>
+                        <span data-i18n="badgeHeroSub" class="text-xs font-extrabold text-cosmos-gold uppercase tracking-wider">مهمة المستكشف الصغير</span>
+                        <span class="text-[11px] font-mono text-cyan-200 mt-1">MOON • MARS • DEEP SPACE</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CHAPTER NAVIGATION MAP (6 Interactive Comic Chapters) -->
+        <section id="story-stage" class="space-y-6 scroll-mt-20">
+            <div class="flex flex-wrap items-center justify-between gap-3">
+                <h3 data-i18n="chaptersTitle" class="text-xl sm:text-2xl font-black text-cosmos-gold flex items-center gap-2.5">
+                    <i class="fa-solid fa-map-location-dot"></i>
+                    <span>خريطة أبطال الفضاء (اختر فصلاً لتستمع إليه)</span>
+                </h3>
+                <span id="chapter-indicator" class="px-3.5 py-1 rounded-xl bg-purple-950 border border-purple-500 font-mono text-xs text-cosmos-cyan font-bold">
+                    CHAPTER 1 / 9
+                </span>
+            </div>
+
+            <!-- Chapter Selector Pills -->
+            <div id="chapter-tabs" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-9 gap-2.5">
+                <!-- Populated dynamically by JS -->
+            </div>
+
+            <!-- ACTIVE GRAPHIC NOVEL CHAPTER PANEL -->
+            <div id="comic-reader-card" class="comic-panel rounded-3xl p-5 sm:p-8 grid grid-cols-1 lg:grid-cols-12 gap-7 items-start">
+                <!-- LEFT/RIGHT: Character Header, Audio Narration & Story Acts (7 Cols) -->
+                <div class="lg:col-span-7 space-y-5">
+                    <!-- Character Header + Voice Narrator Button -->
+                    <div class="flex flex-wrap items-center justify-between gap-3 bg-black/25 p-4 rounded-2xl border border-white/15">
+                        <div class="flex items-center gap-3.5">
+                            <div id="char-avatar" class="w-14 h-14 rounded-2xl bg-gradient-to-br from-cosmos-cyan to-purple-600 text-slate-950 flex items-center justify-center text-2xl font-black border-2 border-white shadow-lg shrink-0">
+                                <i class="fa-solid fa-shuttle-space"></i>
+                            </div>
+                            <div>
+                                <span id="char-location" class="text-xs font-extrabold text-cosmos-gold block">بحر السكون • القمر</span>
+                                <h4 id="char-name" class="text-lg sm:text-xl font-black text-white leading-snug">الوحدة القمرية</h4>
+                                <span class="inline-flex items-center gap-1.5 text-[11px] font-mono text-cosmos-cyan mt-0.5">
+                                    <i class="fa-solid fa-location-crosshairs"></i>
+                                    <span id="char-coords-text">Apollo 11 • 00°40'26.69"N, 23°28'22.69"E</span>
+                                </span>
+                            </div>
+                        </div>
+
+                        <button onclick="speakChapterStory()" class="btn-comic px-4 py-2.5 rounded-xl bg-cosmos-cyan hover:bg-emerald-300 text-slate-950 font-black text-xs flex items-center gap-2 shrink-0">
+                            <i id="voice-icon" class="fa-solid fa-volume-high"></i>
+                            <span id="voice-label" data-i18n="listenBtn">اسمع القصة كاملة</span>
+                        </button>
+                    </div>
+
+                    <!-- Comic Speech Bubble (First-Person Fun Story - Expanded Multi-Act Narrative) -->
+                    <div class="speech-bubble p-5 sm:p-6 space-y-4">
+                        <div class="flex flex-wrap items-center justify-between gap-2 border-b-2 border-slate-200 pb-2.5">
+                            <span id="bubble-tag" class="px-3 py-1 rounded-lg bg-purple-100 text-purple-900 font-extrabold text-xs">
+                                <i class="fa-solid fa-comment-dots mr-1"></i> رسالة مباشرة إليك — القصة الكاملة
+                            </span>
+                            <span id="char-year" class="font-mono text-xs font-bold text-slate-500">1971</span>
+                        </div>
+
+                        <!-- Act 1: The Arrival & Mission -->
+                        <div class="space-y-1">
+                            <span data-i18n="act1Label" class="text-[11px] font-black uppercase tracking-wider text-purple-700 block">المشهد الأول: لحظة الوصول والمغامرة</span>
+                            <p id="story-act-1" class="text-sm sm:text-base font-bold leading-relaxed text-slate-900"></p>
+                        </div>
+
+                        <!-- Act 2: Engineering Secret & What Was Left Behind -->
+                        <div class="p-3.5 rounded-xl bg-amber-50 border-r-4 rtl:border-r-4 ltr:border-l-4 ltr:border-r-0 border-amber-400 space-y-1">
+                            <span data-i18n="act2Label" class="text-[11px] font-black uppercase tracking-wider text-amber-800 block">المشهد الثاني: لماذا بقيتُ هنا؟ وكيف صُممت؟</span>
+                            <p id="story-act-2" class="text-sm sm:text-base font-bold leading-relaxed text-slate-800"></p>
+                        </div>
+
+                        <!-- Act 3: Message to Young Explorers -->
+                        <div class="space-y-1">
+                            <span data-i18n="act3Label" class="text-[11px] font-black uppercase tracking-wider text-cyan-800 block">المشهد الثالث: رسالتي إليك أيها المستكشف</span>
+                            <p id="story-act-3" class="text-sm sm:text-base font-bold leading-relaxed text-slate-900"></p>
+                        </div>
+                    </div>
+
+                    <!-- DID YOU KNOW? DEEP SCIENCE CARD -->
+                    <div class="rounded-2xl bg-indigo-950/90 border-2 border-purple-500/80 p-4 flex items-start gap-3.5 shadow-lg">
+                        <div class="w-10 h-10 rounded-xl bg-cosmos-gold text-slate-950 flex items-center justify-center text-lg shrink-0 font-black">
+                            <i class="fa-solid fa-lightbulb"></i>
+                        </div>
+                        <div class="space-y-1">
+                            <span data-i18n="didYouKnowTitle" class="text-xs font-black text-cosmos-gold uppercase">هل تعلم؟ (تفصيل علمي مهم)</span>
+                            <p id="did-you-know-text" class="text-xs sm:text-sm text-purple-100 leading-relaxed font-semibold"></p>
+                        </div>
+                    </div>
+
+                    <!-- INTERACTIVE MINI-MISSION INSIDE THE STORY -->
+                    <div class="rounded-2xl bg-[#13092b] border-2 border-dashed border-cosmos-cyan p-4 sm:p-5 space-y-3">
+                        <div class="flex items-center justify-between">
+                            <span class="text-xs font-black uppercase tracking-wider text-cosmos-cyan flex items-center gap-1.5">
+                                <i class="fa-solid fa-wand-magic-sparkles"></i>
+                                <span data-i18n="miniMissionBadge">مهمة تفاعلية لكشف السر العلمي</span>
+                            </span>
+                            <span id="mission-star-status" class="text-xs font-bold text-cosmos-gold">
+                                <i class="fa-regular fa-star"></i> +1 نجمة
+                            </span>
+                        </div>
+
+                        <p id="mini-mission-prompt" class="text-sm text-purple-100 font-bold"></p>
+
+                        <!-- Dynamic Action Button / Interactive Control -->
+                        <div id="mini-mission-controls" class="pt-1 flex flex-wrap items-center gap-3">
+                            <!-- Rendered per chapter -->
+                        </div>
+
+                        <!-- Unlocked Secret Science Fact (Revealed after interaction) -->
+                        <div id="secret-reveal-box" class="hidden mt-4 p-4 rounded-xl bg-emerald-950/90 border-2 border-emerald-400 text-emerald-100">
+                            <div class="flex items-center gap-2 font-black text-emerald-300 text-sm mb-1">
+                                <i class="fa-solid fa-circle-check"></i>
+                                <span data-i18n="secretUnlockedTitle">تم كشف السر العلمي! (+1 نجمة استكشاف)</span>
+                            </div>
+                            <p id="secret-science-text" class="text-xs sm:text-sm leading-relaxed"></p>
+                        </div>
+                    </div>
+
+                    <!-- STUDENT FIELD NOTEBOOK (Interactive Student Reflection & School Takeaway) -->
+                    <div class="rounded-2xl bg-gradient-to-r from-sky-950/90 to-indigo-950/90 border-2 border-sky-400/70 p-4 space-y-2.5 shadow-lg">
+                        <div class="flex items-center justify-between text-xs font-black text-sky-300">
+                            <span class="flex items-center gap-2">
+                                <i class="fa-solid fa-book-open-reader text-amber-300 text-sm"></i>
+                                <span data-i18n="studentNotebookTitle">دفتر المستكشف المدرسي • ماذا تعلمنا من هذا البطل؟</span>
+                            </span>
+                            <span class="px-2 py-0.5 rounded-lg bg-sky-400/20 text-sky-200 font-mono text-[10px]">STEM TAKEAWAY</span>
+                        </div>
+                        <p id="student-takeaway-text" class="text-xs sm:text-sm text-white/95 font-bold leading-relaxed"></p>
+                    </div>
+
+                    <!-- Chapter Next / Prev Navigation -->
+                    <div class="flex items-center justify-between gap-3 pt-2">
+                        <button id="prev-ch-btn" onclick="changeChapter(-1)" class="btn-comic px-4 sm:px-5 py-3 rounded-2xl bg-purple-900 hover:bg-purple-800 disabled:opacity-40 text-white font-bold text-xs sm:text-sm flex items-center gap-2">
+                            <i class="fa-solid fa-arrow-right rtl:rotate-0 ltr:rotate-180"></i>
+                            <span data-i18n="prevChapter">الفصل السابق</span>
+                        </button>
+
+                        <button id="next-ch-btn" onclick="changeChapter(1)" class="btn-comic px-5 sm:px-6 py-3 rounded-2xl bg-gradient-to-r from-amber-400 to-orange-500 text-slate-950 font-black text-xs sm:text-sm flex items-center gap-2">
+                            <span id="next-ch-label" data-i18n="nextChapter">الفصل التالي</span>
+                            <i class="fa-solid fa-arrow-left rtl:rotate-0 ltr:rotate-180"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- RIGHT/LEFT: Real NASA Photo / Blueprint Frame & Cosmic Stats Card (5 Cols) -->
+                <div class="lg:col-span-5 space-y-5">
+                    <!-- INTERACTIVE 3D PLANETARY LANDING BEACON OBSERVATORY -->
+                    <div class="rounded-3xl bg-[#0b0520] border-2 border-purple-500/80 p-3.5 shadow-2xl space-y-2.5">
+                        <div class="flex items-center justify-between text-[11px] font-mono px-1">
+                            <span class="text-cosmos-cyan font-bold flex items-center gap-2">
+                                <span class="w-2.5 h-2.5 rounded-full bg-cosmos-cyan beacon-dot inline-block"></span>
+                                <span data-i18n="planetRadarTitle">المرصد الكوكبي 3D • موقع الهبوط</span>
+                            </span>
+                            <span id="planet-body-badge" class="px-2 py-0.5 rounded bg-purple-900/90 text-cosmos-gold font-bold">MOON • 3D</span>
+                        </div>
+                        <div id="planet-3d-viewport" class="relative w-full h-44 sm:h-48 rounded-2xl overflow-hidden bg-gradient-to-b from-[#060212] to-[#120830] border border-white/10 cursor-grab active:cursor-grabbing">
+                            <div class="absolute bottom-2 left-2.5 right-2.5 flex items-center justify-between pointer-events-none z-10 text-[10px] font-mono text-purple-200 bg-black/65 backdrop-blur-sm px-2.5 py-1 rounded-lg">
+                                <span id="planet-telemetry-latlon">LAT 00°40'N • LON 23°28'E</span>
+                                <span class="text-cosmos-cyan" data-i18n="rotatePlanetHint">اسحب لتدوير الكوكب</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- LIVE VOYAGER 1 DEEP SPACE TELEMETRY (Shown only on Voyager Chapter) -->
+                    <div id="voyager-live-telemetry" class="hidden rounded-2xl bg-gradient-to-r from-teal-950/95 via-indigo-950/95 to-purple-950/95 border-2 border-cosmos-cyan p-4 shadow-xl space-y-2">
+                        <div class="flex items-center justify-between text-xs font-mono">
+                            <span class="text-cosmos-cyan font-black flex items-center gap-1.5">
+                                <i class="fa-solid fa-satellite-dish animate-pulse"></i>
+                                <span data-i18n="voyagerLiveLabel">بث المسافة الحي (VOYAGER 1 LIVE)</span>
+                            </span>
+                            <span class="px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 font-bold text-[10px]">+17 km/s</span>
+                        </div>
+                        <div class="bg-black/50 rounded-xl p-3 border border-cosmos-cyan/30 flex items-center justify-between">
+                            <div>
+                                <span data-i18n="voyagerDistTitle" class="text-[11px] text-purple-200 block">المسافة الحالية عن الأرض:</span>
+                                <strong id="voyager-km-counter" class="font-mono text-base sm:text-lg font-black text-cosmos-gold tracking-wider">24,892,410,540 km</strong>
+                            </div>
+                            <div class="text-end font-mono text-[11px]">
+                                <span class="text-purple-300 block" data-i18n="signalDelayLabel">زمن وصول الإشارة:</span>
+                                <strong class="text-cosmos-cyan">23h 04m</strong>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Blueprint vs Photo Toggle Bar (Shown when chapter has uploaded schematic blueprint) -->
+                    <div id="blueprint-switch-bar" class="hidden grid grid-cols-2 gap-2 bg-[#13092b] p-1.5 rounded-2xl border border-purple-600">
+                        <button id="btn-view-blueprint" onclick="setMediaView('blueprint')" class="py-2 px-3 rounded-xl font-black text-xs bg-cosmos-cyan text-slate-950 flex items-center justify-center gap-1.5">
+                            <i class="fa-solid fa-compass-drafting"></i>
+                            <span data-i18n="viewBlueprint">المخطط الهندسي</span>
+                        </button>
+                        <button id="btn-view-photo" onclick="setMediaView('photo')" class="py-2 px-3 rounded-xl font-bold text-xs text-purple-200 hover:text-white flex items-center justify-center gap-1.5">
+                            <i class="fa-solid fa-camera"></i>
+                            <span data-i18n="viewRealPhoto">صورة ناسا الحقيقية</span>
+                        </button>
+                    </div>
+
+                    <!-- INTERACTIVE BEFORE/AFTER COMPARISON SLIDER (Shown on Lunar Module Chapter) -->
+                    <div id="blueprint-compare-box" class="hidden rounded-3xl bg-[#0f172a] border-4 border-sky-400 p-3.5 space-y-2.5 shadow-xl">
+                        <div class="flex flex-wrap items-center justify-between gap-2 text-xs font-black text-sky-300">
+                            <span><i class="fa-solid fa-sliders mr-1 text-amber-300"></i> <span data-i18n="compareSliderTitle">اسحب الشريط للمقارنة: المخطط الهندسي مقابل القمر الحقيقي!</span></span>
+                            <span id="compare-percent" class="px-2 py-0.5 rounded-lg bg-amber-400 text-slate-950 font-mono">50%</span>
+                        </div>
+                        <div class="relative w-full h-72 sm:h-80 rounded-2xl overflow-hidden border-3 border-white select-none bg-white">
+                            <!-- Base Real NASA Photo -->
+                            <img src="https://images-assets.nasa.gov/image/AS11-40-5903/AS11-40-5903~medium.jpg" alt="Apollo 11 Lunar Module on Moon" class="absolute inset-0 w-full h-full object-cover">
+                            <!-- Clipped Engineering Blueprint Overlay -->
+                            <div id="compare-overlay-clip" class="absolute inset-0 bg-white" style="clip-path: inset(0 50% 0 0);">
+                                <img id="compare-blueprint-img" src="" alt="Lunar Module Blueprint" class="w-full h-full object-contain p-2 bg-white">
+                            </div>
+                            <!-- Vertical Divider Handle -->
+                            <div id="compare-divider-line" class="absolute top-0 bottom-0 w-1 bg-amber-400 shadow-[0_0_12px_rgba(251,191,36,0.9)] pointer-events-none" style="left: 50%;">
+                                <div class="w-8 h-8 rounded-full bg-amber-400 border-2 border-slate-950 text-slate-950 flex items-center justify-center text-xs font-black absolute top-1/2 -translate-y-1/2 -translate-x-1/2 shadow-lg">
+                                    <i class="fa-solid fa-left-right"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <input type="range" min="0" max="100" value="50" oninput="updateCompareSlider(this.value)" class="w-full accent-amber-400 cursor-ew-resize">
+                    </div>
+
+                    <!-- Standard High-Res NASA Photo Frame (Used for Chapters 2-9) -->
+                    <div id="standard-photo-frame" class="relative rounded-3xl overflow-hidden border-4 border-white/85 bg-slate-950 shadow-2xl group">
+                        <img id="nasa-photo" src="https://images-assets.nasa.gov/image/AS12-48-7136/AS12-48-7136~medium.jpg" alt="NASA Hardware" class="w-full h-64 sm:h-72 object-cover transition-transform duration-500 group-hover:scale-105">
+                        <!-- Mars Interactive Red Dust Overlay -->
+                        <div id="mars-dust-layer" onclick="wipeMarsDust()" class="hidden mars-dust-cover absolute inset-0 cursor-pointer flex flex-col items-center justify-center p-4 text-center z-20">
+                            <i class="fa-solid fa-hand-sparkles text-4xl text-amber-200 mb-2 animate-bounce"></i>
+                            <span data-i18n="wipeDustHint" class="font-black text-sm sm:text-base text-white drop-shadow">اضغط هنا لمسح غبار المريخ الأحمر عن الصورة!</span>
+                        </div>
+                        <div class="bg-gradient-to-t from-black via-black/85 to-transparent p-3.5 text-xs space-y-1">
+                            <div class="flex items-center justify-between gap-2">
+                                <span id="nasa-archive-id" class="font-mono font-bold text-cosmos-cyan">NASA ID</span>
+                                <a id="nasa-photo-link" href="https://www.nasa.gov/the-apollo-program/" target="_blank" rel="noopener noreferrer" class="text-amber-300 hover:underline font-extrabold flex items-center gap-1">
+                                    <span data-i18n="nasaSource">المصدر</span> <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i>
+                                </a>
+                            </div>
+                            <p id="nasa-photo-caption" class="text-purple-100 font-semibold leading-snug"></p>
+                        </div>
+                    </div>
+
+                    <!-- Multi-Photo NASA Gallery Strip (3 Real NASA Photos per Chapter) -->
+                    <div class="rounded-2xl bg-black/30 border border-white/15 p-3 space-y-2">
+                        <div class="flex items-center justify-between text-[11px] font-extrabold text-cosmos-gold px-1">
+                            <span class="flex items-center gap-1.5">
+                                <i class="fa-solid fa-images text-cosmos-cyan"></i>
+                                <span data-i18n="galleryTitle">معرض صور ناسا الإضافية (اضغط للتبديل)</span>
+                            </span>
+                            <span id="gallery-counter" class="font-mono text-purple-200">1 / 3</span>
+                        </div>
+                        <div id="chapter-gallery-thumbs" class="grid grid-cols-3 gap-2.5">
+                            <!-- Populated dynamically with 3 NASA images per chapter -->
+                        </div>
+                    </div>
+
+                    <!-- Official NASA 3D Model Interactive Card & Live 3D Rover Viewer (Shown on Opportunity Chapter) -->
+                    <div id="nasa-3d-card" class="hidden bg-gradient-to-br from-[#1d0f45] via-[#281359] to-[#13092b] border-2 border-amber-400 rounded-2xl p-4 shadow-xl space-y-3">
+                        <div class="flex items-center justify-between gap-2">
+                            <div>
+                                <span class="text-[11px] font-mono font-bold text-amber-300 block">NASA SCIENCE • 3D ROVER LAB</span>
+                                <h5 data-i18n="model3dTitle" class="font-black text-white text-sm sm:text-base">عارض مركبة Spirit & Opportunity ثلاثي الأبعاد (3D)</h5>
+                            </div>
+                            <span class="px-2.5 py-1 rounded-lg bg-cosmos-cyan/20 border border-cosmos-cyan text-cosmos-cyan font-mono text-[10px] font-bold">
+                                <i class="fa-solid fa-hand-pointer mr-1"></i> <span data-i18n="drag3dHint">اسحب للتدوير</span>
+                            </span>
+                        </div>
+
+                        <!-- Interactive 3D Rover Canvas Container -->
+                        <div id="rover-3d-container" class="relative w-full h-52 sm:h-60 rounded-xl overflow-hidden bg-[#0a041a] border border-purple-500/60 cursor-grab active:cursor-grabbing">
+                            <div class="absolute bottom-2 left-2.5 right-2.5 flex items-center justify-between pointer-events-none z-10 text-[10px] font-mono text-purple-200 bg-slate-950/75 px-2.5 py-1 rounded-lg">
+                                <span>MER-A SPIRIT / MER-B OPPORTUNITY</span>
+                                <span class="text-amber-300">6-WHEEL ROCKER-BOGIE</span>
+                            </div>
+                        </div>
+
+                        <div class="flex flex-col sm:flex-row items-center justify-between gap-3 pt-1">
+                            <p data-i18n="model3dSub" class="text-xs text-purple-200">افتح النموذج الرسمي الكامل على موقع ناسا (Spirit and Opportunity Rover, 3D Model):</p>
+                            <a href="https://science.nasa.gov/resource/spirit-and-opportunity-rover-3d-model/" target="_blank" rel="noopener noreferrer" onclick="playFx('star')" class="btn-comic w-full sm:w-auto shrink-0 px-4 py-2.5 rounded-xl bg-amber-400 hover:bg-amber-300 text-slate-950 font-black text-xs sm:text-sm flex items-center justify-center gap-2">
+                                <i class="fa-solid fa-cube text-base"></i>
+                                <span data-i18n="open3dBtn">نموذج ناسا 3D الرسمي</span>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Fun Fact Mini Hologram Card -->
+                    <div class="rounded-2xl bg-purple-950/90 border-2 border-purple-500 p-4 space-y-2.5">
+                        <div class="flex items-center justify-between">
+                            <span class="text-xs font-black text-cosmos-gold uppercase">
+                                <i class="fa-solid fa-bolt mr-1"></i>
+                                <span data-i18n="quickStatsTitle">بطاقة القوة الخارقة</span>
+                            </span>
+                            <span id="hw-status-pill" class="px-2.5 py-0.5 rounded-full text-[11px] font-extrabold bg-amber-500/20 text-amber-300 border border-amber-400/40">
+                                نائمة بسلام
+                            </span>
+                        </div>
+                        <div class="grid grid-cols-2 gap-2 text-xs">
+                            <div class="bg-[#13092b] p-2.5 rounded-xl">
+                                <span data-i18n="statMissionLabel" class="text-purple-300 block text-[11px]">المهمة</span>
+                                <strong id="hw-mission-val" class="text-white font-bold">Apollo 15</strong>
+                            </div>
+                            <div class="bg-[#13092b] p-2.5 rounded-xl">
+                                <span data-i18n="statSuperpowerLabel" class="text-purple-300 block text-[11px]">الإنجاز الخارق</span>
+                                <strong id="hw-superpower-val" class="text-cosmos-cyan font-bold">أول سيارة على القمر</strong>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FINALE: SPACE EXPLORER QUIZ & PERSONALIZED BADGE -->
+        <section id="explorer-finale" class="comic-panel rounded-3xl p-6 sm:p-8 scroll-mt-20">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+                <!-- Interactive Quick Challenge (7 Cols) -->
+                <div class="lg:col-span-7 space-y-4">
+                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cosmos-cyan/20 border border-cosmos-cyan text-cosmos-cyan text-xs font-extrabold">
+                        <i class="fa-solid fa-trophy"></i>
+                        <span data-i18n="finaleTag">الاختبار النهائي للمستكشفين</span>
+                    </div>
+                    <h3 data-i18n="finaleHeading" class="text-2xl sm:text-3xl font-black text-white">
+                        أثبت أنك سمعت قصص الأبطال واحصل على بطاقتك الفضائية!
+                    </h3>
+
+                    <div id="quiz-box" class="bg-[#13092b] border-2 border-purple-600 rounded-2xl p-5 space-y-4">
+                        <div class="flex items-center justify-between text-xs font-bold text-cosmos-gold">
+                            <span id="q-step-label">سؤال 1 من 6</span>
+                            <span id="q-score-label">النقاط: 0 / 6</span>
+                        </div>
+                        <p id="q-prompt" class="text-base sm:text-lg font-extrabold text-white"></p>
+                        <div id="q-choices" class="grid grid-cols-1 gap-2.5"></div>
+                        <div id="q-feedback" class="hidden p-3 rounded-xl text-xs sm:text-sm font-bold"></div>
+                    </div>
+                </div>
+
+                <!-- Personalized Explorer ID Card Generator (5 Cols) -->
+                <div class="lg:col-span-5">
+                    <div class="rounded-3xl bg-gradient-to-br from-amber-400 via-orange-400 to-rose-500 p-1 shadow-2xl">
+                        <div class="bg-[#13092b] rounded-[22px] p-5 sm:p-6 text-center space-y-4">
+                            <div class="flex items-center justify-between text-[11px] font-mono text-cosmos-gold">
+                                <span>NASA SPACE APPS</span>
+                                <span>EXPLORER ID #2026</span>
+                            </div>
+
+                            <div class="w-20 h-20 mx-auto rounded-2xl bg-gradient-to-tr from-cosmos-cyan to-purple-600 flex items-center justify-center text-4xl text-slate-950 border-2 border-white shadow-lg">
+                                <i class="fa-solid fa-medal"></i>
+                            </div>
+
+                            <div>
+                                <span data-i18n="cardRankLabel" class="text-xs font-bold text-cosmos-cyan uppercase">بطاقة مستكشف الفضاء المعتمد</span>
+                                <h4 id="explorer-card-name" class="text-2xl font-black text-white mt-1">مستكشف الفضاء البطل</h4>
+                            </div>
+
+                            <!-- Student Name Input -->
+                            <div class="flex gap-2">
+                                <input id="student-name-input" type="text" oninput="updateExplorerName(this.value)" placeholder="اكتب اسمك هنا ليظهر على البطاقة..." class="w-full px-3.5 py-2.5 rounded-xl bg-purple-950 border-2 border-purple-500 text-white placeholder-purple-300 text-xs sm:text-sm font-bold focus:outline-none focus:border-cosmos-cyan">
+                            </div>
+
+                            <div class="flex items-center justify-center gap-1 text-cosmos-gold text-sm sm:text-base flex-wrap" id="card-stars-row">
+                                <i class="fa-regular fa-star"></i>
+                                <i class="fa-regular fa-star"></i>
+                                <i class="fa-regular fa-star"></i>
+                                <i class="fa-regular fa-star"></i>
+                                <i class="fa-regular fa-star"></i>
+                                <i class="fa-regular fa-star"></i>
+                                <i class="fa-regular fa-star"></i>
+                                <i class="fa-regular fa-star"></i>
+                                <i class="fa-regular fa-star"></i>
+                            </div>
+
+                            <button onclick="copyExplorerBadge()" class="btn-comic w-full py-3 rounded-xl bg-gradient-to-r from-cosmos-cyan to-emerald-400 text-slate-950 font-black text-xs sm:text-sm flex items-center justify-center gap-2">
+                                <i class="fa-solid fa-share-nodes"></i>
+                                <span data-i18n="shareBadgeBtn">انسخ بطاقتك وشارك إنجازك</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- OFFICIAL NASA ARCHIVES MODAL -->
+    <div id="sources-modal" class="fixed inset-0 z-50 hidden bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="comic-panel max-w-xl w-full p-6 sm:p-7 space-y-4 relative">
+            <div class="flex items-center justify-between border-b border-white/20 pb-3">
+                <h4 data-i18n="modalTitle" class="text-lg sm:text-xl font-black text-cosmos-gold flex items-center gap-2">
+                    <i class="fa-solid fa-satellite text-cosmos-cyan"></i> مصادر ناسا الرسمية المستخدمة في القصة
+                </h4>
+                <button onclick="toggleSourcesModal(false)" class="w-9 h-9 rounded-xl bg-rose-500 text-white font-black flex items-center justify-center hover:bg-rose-400">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            <p data-i18n="modalDesc" class="text-xs sm:text-sm text-purple-100 leading-relaxed">
+                جميع الصور والبيانات العلمية في هذه القصة مستندة إلى أرشيف وكالة ناسا المفتوح لتعريف الطلاب بالمعدات الفضائية الحقيقية:
+            </p>
+            <ul class="space-y-2.5 text-xs sm:text-sm font-bold">
+                <li>
+                    <a href="https://www.nasa.gov/the-apollo-program/" target="_blank" rel="noopener noreferrer" class="flex items-center justify-between p-3 rounded-xl bg-white/10 hover:bg-white/20 text-cosmos-cyan">
+                        <span>🚀 NASA Apollo Program Official Archive (1961–1972)</span>
+                        <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                    </a>
+                </li>
+                <li>
+                    <a href="https://science.nasa.gov/resource/spirit-and-opportunity-rover-3d-model/" target="_blank" rel="noopener noreferrer" class="flex items-center justify-between p-3 rounded-xl bg-white/10 hover:bg-white/20 text-amber-300">
+                        <span>🤖 Spirit and Opportunity Rover — NASA 3D Model</span>
+                        <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                    </a>
+                </li>
+                <li>
+                    <a href="https://science.nasa.gov/mission/voyager/" target="_blank" rel="noopener noreferrer" class="flex items-center justify-between p-3 rounded-xl bg-white/10 hover:bg-white/20 text-emerald-300">
+                        <span>💿 NASA Voyager Interstellar Mission & Golden Record</span>
+                        <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                    </a>
+                </li>
+                <li>
+                    <a href="https://images.nasa.gov/" target="_blank" rel="noopener noreferrer" class="flex items-center justify-between p-3 rounded-xl bg-white/10 hover:bg-white/20 text-sky-300">
+                        <span>📸 NASA Image and Video Library (27 Verified Photos)</span>
+                        <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        // ========================================================
+        // 1. STATE, VIBRANT STUDENT COLOR THEMES & STORY DATA
+        // ========================================================
+        let currentLang = 'ar';
+        let activeChapterIndex = 0;
+        let activeGalleryIndex = 0;
+        let activeMediaMode = 'blueprint';
+        const unlockedStars = new Set();
+        let currentQuizStep = 0;
+        let quizScore = 0;
+        let quizAnswered = false;
+
+        // Distinct Vibrant Student-Friendly Color Palettes per World
+        const worldThemes = {
+            moon: {
+                panelFrom: 'rgba(14, 116, 144, 0.92)',
+                panelTo: 'rgba(30, 58, 138, 0.96)',
+                panelBorder: '#38bdf8',
+                panelAccent: '#fde047',
+                avatarGrad: 'from-sky-300 to-blue-500',
+                pageBg: 'radial-gradient(circle at 20% 10%, #0369a1 0%, #1e3a8a 45%, #090d16 100%)'
+            },
+            mars: {
+                panelFrom: 'rgba(194, 65, 12, 0.92)',
+                panelTo: 'rgba(124, 45, 18, 0.96)',
+                panelBorder: '#fb923c',
+                panelAccent: '#fef08a',
+                avatarGrad: 'from-amber-300 to-orange-500',
+                pageBg: 'radial-gradient(circle at 20% 10%, #9a3412 0%, #7c2d12 45%, #120806 100%)'
+            },
+            saturn: {
+                panelFrom: 'rgba(161, 98, 7, 0.92)',
+                panelTo: 'rgba(88, 28, 135, 0.96)',
+                panelBorder: '#facc15',
+                panelAccent: '#38bdf8',
+                avatarGrad: 'from-yellow-300 to-amber-500',
+                pageBg: 'radial-gradient(circle at 20% 10%, #854d0e 0%, #4c1d95 45%, #0b0719 100%)'
+            },
+            deepSpace: {
+                panelFrom: 'rgba(15, 118, 110, 0.92)',
+                panelTo: 'rgba(76, 29, 149, 0.96)',
+                panelBorder: '#2dd4bf',
+                panelAccent: '#f472b6',
+                avatarGrad: 'from-teal-300 to-purple-500',
+                pageBg: 'radial-gradient(circle at 20% 10%, #115e59 0%, #4c1d95 45%, #070b19 100%)'
+            }
+        };
+
+        // Detailed High-Contrast Schematic Blueprint matching the uploaded Lunar Module Diagram
+        const lunarModuleBlueprintSvg = "data:image/svg+xml;charset=UTF-8," + encodeURIComponent(`
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 860" width="900" height="860">
+                <rect width="900" height="860" fill="#ffffff"/>
+                <text x="450" y="42" font-family="Arial, Helvetica, sans-serif" font-size="26" font-weight="900" text-anchor="middle" fill="#0f172a" letter-spacing="1">LUNAR MODULE</text>
+
+                <!-- Ascent Stage Geometric Hull -->
+                <g stroke="#0f172a" stroke-width="2.6" stroke-linejoin="round" fill="#f8fafc">
+                    <!-- Main Cabin Facets -->
+                    <polygon points="335,215 470,195 575,245 595,345 555,445 340,455 295,355"/>
+                    <polygon points="365,215 470,195 530,235 430,255" fill="#e2e8f0"/>
+                    <polygon points="430,255 530,235 575,305 480,335" fill="#f1f5f9"/>
+                    <polygon points="480,335 575,305 595,375 510,415" fill="#e2e8f0"/>
+                    <polygon points="335,255 430,255 450,360 325,365" fill="#cbd5e1"/>
+                    <!-- Forward Hatch & Docking Window -->
+                    <rect x="342" y="370" width="52" height="62" rx="4" fill="#94a3b8"/>
+                    <polygon points="392,272 418,266 422,282 395,288" fill="#334155"/>
+                    <!-- Overhead Hatch -->
+                    <ellipse cx="458" cy="216" rx="34" ry="11" fill="#cbd5e1"/>
+                    <ellipse cx="458" cy="216" rx="20" ry="6" fill="#64748b"/>
+                </g>
+
+                <!-- Antennas & Dish -->
+                <g stroke="#0f172a" stroke-width="2.4" fill="none">
+                    <!-- Top S-Band Dish Antenna -->
+                    <line x1="340" y1="225" x2="295" y2="195"/>
+                    <ellipse cx="290" cy="190" rx="22" ry="30" transform="rotate(-25 290 190)" fill="#f1f5f9"/>
+                    <line x1="290" y1="190" x2="270" y2="178"/>
+                    <!-- Rendezvous Radar Antenna -->
+                    <line x1="322" y1="265" x2="288" y2="255"/>
+                    <circle cx="280" cy="252" r="18" fill="#e2e8f0"/>
+                    <!-- Top VHF & EVA Antennas -->
+                    <line x1="440" y1="198" x2="432" y2="168"/>
+                    <line x1="422" y1="172" x2="444" y2="164"/>
+                    <line x1="540" y1="228" x2="540" y2="155"/>
+                    <polygon points="540,145 528,168 552,168" fill="#cbd5e1"/>
+                    <line x1="518" y1="268" x2="518" y2="245"/>
+                    <line x1="506" y1="252" x2="530" y2="248"/>
+                </g>
+
+                <!-- RCS Thruster Clusters -->
+                <g stroke="#0f172a" stroke-width="2.4" fill="#cbd5e1">
+                    <rect x="268" y="295" width="26" height="32"/>
+                    <polygon points="274,295 288,295 292,280 270,280"/>
+                    <polygon points="274,327 288,327 292,344 270,344"/>
+                    <rect x="615" y="305" width="26" height="32"/>
+                    <polygon points="621,305 635,305 639,290 617,290"/>
+                    <polygon points="621,337 635,337 639,354 617,354"/>
+                </g>
+
+                <!-- Descent Stage (Octagonal Base with Rover Bay & RTG) -->
+                <g stroke="#0f172a" stroke-width="2.6" fill="#e2e8f0">
+                    <polygon points="270,455 375,475 555,465 620,435 620,575 555,615 375,625 270,585"/>
+                    <!-- Textured Rover Bay Panel -->
+                    <rect x="375" y="475" width="180" height="145" fill="#cbd5e1"/>
+                    <line x1="375" y1="475" x2="555" y2="620" stroke-dasharray="4 4" stroke-width="1.5"/>
+                    <line x1="555" y1="475" x2="375" y2="620" stroke-dasharray="4 4" stroke-width="1.5"/>
+                    <!-- Egress Platform & Ladder -->
+                    <polygon points="255,445 355,455 335,478 238,465" fill="#94a3b8"/>
+                    <line x1="252" y1="468" x2="225" y2="625" stroke-width="3.2"/>
+                    <line x1="278" y1="472" x2="252" y2="628" stroke-width="3.2"/>
+                    <line x1="248" y1="495" x2="274" y2="498" stroke-width="2.2"/>
+                    <line x1="243" y1="522" x2="269" y2="525" stroke-width="2.2"/>
+                    <line x1="238" y1="550" x2="264" y2="553" stroke-width="2.2"/>
+                    <line x1="233" y1="578" x2="259" y2="581" stroke-width="2.2"/>
+                    <line x1="228" y1="605" x2="254" y2="608" stroke-width="2.2"/>
+                    <!-- RTG Fuel Cask -->
+                    <rect x="622" y="505" width="18" height="45" rx="4" fill="#94a3b8"/>
+                </g>
+
+                <!-- 4 Landing Gear Legs, Footpads & Probe -->
+                <g stroke="#0f172a" stroke-width="3.2" fill="#cbd5e1">
+                    <!-- Left Leg -->
+                    <line x1="270" y1="490" x2="195" y2="670"/>
+                    <line x1="270" y1="565" x2="212" y2="630"/>
+                    <ellipse cx="195" cy="675" rx="34" ry="11"/>
+                    <!-- Front-Center Left Leg -->
+                    <line x1="365" y1="620" x2="345" y2="715"/>
+                    <ellipse cx="345" cy="720" rx="32" ry="10"/>
+                    <!-- Front-Center Right Leg -->
+                    <line x1="565" y1="610" x2="585" y2="710"/>
+                    <ellipse cx="585" cy="715" rx="32" ry="10"/>
+                    <!-- Right Leg + Landing Probe -->
+                    <line x1="620" y1="475" x2="705" y2="665"/>
+                    <line x1="620" y1="555" x2="682" y2="615"/>
+                    <ellipse cx="705" cy="670" rx="34" ry="11"/>
+                    <polyline points="705,681 705,735 718,742" fill="none" stroke-width="2.6"/>
+                </g>
+
+                <!-- Technical Callout Annotations (All 18 Original Labels) -->
+                <g font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="800" fill="#0f172a">
+                    <!-- Top & Left Callouts -->
+                    <text x="495" y="88">ANTENNA</text>
+                    <polyline points="490,84 468,84 440,162" fill="none" stroke="#0f172a" stroke-width="2"/>
+
+                    <text x="205" y="105">DOCKING WINDOW</text>
+                    <polyline points="355,100 402,100 402,265" fill="none" stroke="#0f172a" stroke-width="2"/>
+
+                    <text x="580" y="122">EVA ANTENNA</text>
+                    <polyline points="695,118 725,118 552,155" fill="none" stroke="#0f172a" stroke-width="2"/>
+
+                    <text x="85" y="178">ANTENNA</text>
+                    <polyline points="168,174 220,174 268,188" fill="none" stroke="#0f172a" stroke-width="2"/>
+
+                    <text x="572" y="195">OVERHEAD HATCH</text>
+                    <polyline points="565,190 520,190 482,212" fill="none" stroke="#0f172a" stroke-width="2"/>
+
+                    <text x="588" y="232">DOCKING TARGET</text>
+                    <polyline points="582,228 538,228 502,248" fill="none" stroke="#0f172a" stroke-width="2"/>
+
+                    <text x="598" y="272">VHF ANTENNA</text>
+                    <polyline points="592,268 545,268 525,262" fill="none" stroke="#0f172a" stroke-width="2"/>
+
+                    <text x="68" y="242">RENDEZVOUS</text>
+                    <text x="68" y="259">RADAR ANTENNA</text>
+                    <polyline points="205,250 245,250 262,252" fill="none" stroke="#0f172a" stroke-width="2"/>
+
+                    <text x="85" y="318">DOCKING</text>
+                    <text x="85" y="335">LIGHTS</text>
+                    <polyline points="165,322 250,322 330,305" fill="none" stroke="#0f172a" stroke-width="2"/>
+
+                    <text x="688" y="328">THRUST</text>
+                    <text x="688" y="345">CHAMBER</text>
+                    <text x="688" y="362">ASSEMBLY</text>
+                    <text x="688" y="379">CLUSTER</text>
+                    <polyline points="682,340 655,340 642,325" fill="none" stroke="#0f172a" stroke-width="2"/>
+
+                    <text x="85" y="375">TRACKING</text>
+                    <text x="85" y="392">LIGHT</text>
+                    <polyline points="172,380 285,380 342,350" fill="none" stroke="#0f172a" stroke-width="2"/>
+
+                    <text x="85" y="425">FORWARD</text>
+                    <text x="85" y="442">HATCH</text>
+                    <polyline points="172,430 295,430 342,402" fill="none" stroke="#0f172a" stroke-width="2"/>
+
+                    <text x="698" y="442">PLUME</text>
+                    <text x="698" y="459">DEFLECTOR</text>
+                    <polyline points="692,446 655,446 620,425" fill="none" stroke="#0f172a" stroke-width="2"/>
+
+                    <text x="665" y="502">DOCKING LIGHT</text>
+                    <polyline points="658,498 595,498 545,442" fill="none" stroke="#0f172a" stroke-width="2"/>
+
+                    <text x="95" y="555">MESA</text>
+                    <polyline points="148,550 218,550 272,515" fill="none" stroke="#0f172a" stroke-width="2"/>
+
+                    <text x="720" y="562">RTG</text>
+                    <text x="720" y="579">FUEL</text>
+                    <text x="720" y="596">CASK</text>
+                    <polyline points="714,572 668,572 640,535" fill="none" stroke="#0f172a" stroke-width="2"/>
+
+                    <text x="95" y="618">LADDER</text>
+                    <polyline points="168,614 205,614 232,590" fill="none" stroke="#0f172a" stroke-width="2"/>
+
+                    <text x="735" y="642">LANDING</text>
+                    <text x="735" y="659">GEAR</text>
+                    <polyline points="728,648 698,648 688,632" fill="none" stroke="#0f172a" stroke-width="2"/>
+
+                    <!-- Bottom Callouts -->
+                    <text x="155" y="758">EGRESS</text>
+                    <text x="155" y="775">PLATFORM</text>
+                    <polyline points="248,765 318,765 318,472" fill="none" stroke="#0f172a" stroke-width="2"/>
+
+                    <text x="535" y="782">ROVER</text>
+                    <polyline points="528,778 468,778 468,615" fill="none" stroke="#0f172a" stroke-width="2"/>
+
+                    <text x="752" y="752">LANDING</text>
+                    <text x="752" y="769">PROBE</text>
+                    <polyline points="745,758 725,758 712,738" fill="none" stroke="#0f172a" stroke-width="2"/>
+                </g>
+            </svg>
+        `);
+
+        const uiText = {
+            ar: {
+                hudTitle: "رسائل من الصمت: أبطال ناسا المنسيون",
+                starsLabel: "نجوم الاستكشاف",
+                sourcesBtn: "مصادر ناسا",
+                prologueBadge: "بث لاسلكي سري من أعماق الفضاء",
+                heroHeadline: 'هل تظن أن مركبات ناسا التي بقيت على القمر والمريخ قد ماتت؟ <span class="text-cosmos-cyan">استمع جيداً!</span>',
+                heroIntro: "تخيّل أنك في غرفتك ليلاً، وفجأة يلتقط جهاز الراديو الخاص بك إشارات قادمة من 9 أبطال فضائيين أنهوا مهماتهم وبقوا في القمر والمريخ والفضاء السحيق... كل بطل سيروي لك قصته الكاملة في 3 مشاهد مشوقة! اجمع <strong>نجوم الاستكشاف الـ 9</strong> لتحصل على بطاقة مستكشف الفضاء الذهبية باسمك.",
+                apolloCardTitle: "أولاً: ما هو برنامج Apollo؟",
+                apolloCardDesc: "<strong>Apollo Program</strong> هو برنامج فضائي تاريخي أطلقته الولايات المتحدة بهدف إرسال البشر إلى القمر وإعادتهم سالمين إلى الأرض؛ وقد نجح في إنزال 12 رائد فضاء على سطح القمر وترك وراءه كنزاً من المعدات العلمية التي ما زالت تروي قصتها حتى اليوم.",
+                apolloStat1: "رحلات هبوط ناجحة",
+                apolloStat2: "صخور قمرية عادت",
+                apolloStat3: "إحداثيات بحر السكون",
+                startStoryBtn: "ابدأ المغامرة الآن",
+                badgePreviewBtn: "بطاقة المستكشف",
+                badgeHeroSub: "مهمة المستكشف الصغير",
+                chaptersTitle: "خريطة أبطال الفضاء الـ 9 (اختر فصلاً لتقرأ وتستمع للقصة الكاملة)",
+                act1Label: "المشهد الأول: لحظة الوصول والمغامرة",
+                act2Label: "المشهد الثاني: لماذا بقيتُ هنا؟ وكيف صُممت؟",
+                act3Label: "المشهد الثالث: رسالتي إليك أيها المستكشف",
+                didYouKnowTitle: "هل تعلم؟ (تفصيل علمي وهندسي)",
+                studentNotebookTitle: "دفتر المستكشف المدرسي • ماذا تعلمنا من هذا البطل؟",
+                listenBtn: "اسمع القصة كاملة",
+                stopBtn: "إيقاف الصوت",
+                miniMissionBadge: "مهمة تفاعلية لكشف السر العلمي",
+                secretUnlockedTitle: "تم كشف السر العلمي! (+1 نجمة استكشاف)",
+                prevChapter: "الفصل السابق",
+                nextChapter: "الفصل التالي",
+                finishStoryBtn: "اذهب لبطاقتك الفضائية!",
+                wipeDustHint: "اضغط هنا لمسح غبار المريخ الأحمر عن الصورة!",
+                viewBlueprint: "المخطط الهندسي",
+                viewRealPhoto: "صورة ناسا الحقيقية",
+                planetRadarTitle: "المرصد الكوكبي 3D • موقع الهبوط",
+                rotatePlanetHint: "اسحب لتدوير الكوكب",
+                voyagerLiveLabel: "بث المسافة الحي (VOYAGER 1 LIVE)",
+                voyagerDistTitle: "المسافة الحالية عن الأرض:",
+                signalDelayLabel: "زمن وصول الإشارة:",
+                compareSliderTitle: "مقارنة تفاعلية: المخطط الهندسي مقابل الواقع",
+                galleryTitle: "معرض صور ناسا الإضافية (اضغط للتبديل)",
+                model3dTitle: "عارض مركبة Spirit & Opportunity ثلاثي الأبعاد (3D)",
+                drag3dHint: "اسحب للتدوير",
+                model3dSub: "افتح النموذج الرسمي الكامل على موقع ناسا (Spirit and Opportunity Rover, 3D Model):",
+                open3dBtn: "نموذج ناسا 3D الرسمي",
+                nasaSource: "المصدر",
+                quickStatsTitle: "بطاقة القوة الخارقة",
+                statMissionLabel: "المهمة",
+                statSuperpowerLabel: "الإنجاز الخارق",
+                finaleTag: "الاختبار النهائي للمستكشفين",
+                finaleHeading: "أثبت أنك سمعت قصص الأبطال واحصل على بطاقتك الفضائية!",
+                cardRankLabel: "بطاقة مستكشف الفضاء المعتمد",
+                shareBadgeBtn: "انسخ بطاقتك وشارك إنجازك",
+                modalTitle: "مصادر ناسا الرسمية المستخدمة في القصة",
+                modalDesc: "جميع الصور والبيانات العلمية في هذه القصة مستندة إلى أرشيف وكالة ناسا المفتوح لتعريف الطلاب بالمعدات الفضائية الحقيقية:"
+            },
+            en: {
+                hudTitle: "Messages from Silence: NASA's Forgotten Heroes",
+                starsLabel: "Explorer Stars",
+                sourcesBtn: "NASA Sources",
+                prologueBadge: "SECRET RADIO TRANSMISSION FROM DEEP SPACE",
+                heroHeadline: 'Think NASA hardware left on the Moon and Mars is gone forever? <span class="text-cosmos-cyan">Listen closely!</span>',
+                heroIntro: "Imagine sitting in your room at night when your radio picks up signals from 9 space heroes left behind on the Moon, Mars, and deep space... Each hero tells their full 3-act adventure! Collect all <strong>9 Explorer Stars</strong> to earn your golden Space Explorer ID.",
+                apolloCardTitle: "First: What is the Apollo Program?",
+                apolloCardDesc: "<strong>The Apollo Program</strong> was a historic spaceflight program launched by the United States to land humans on the Moon and bring them safely back to Earth—successfully landing 12 astronauts and leaving behind scientific instruments that still tell their story today.",
+                apolloStat1: "Successful Landings",
+                apolloStat2: "Moon Rocks Returned",
+                apolloStat3: "Tranquility Base Coords",
+                startStoryBtn: "Start Adventure Now",
+                badgePreviewBtn: "Explorer ID Card",
+                badgeHeroSub: "JUNIOR EXPLORER MISSION",
+                chaptersTitle: "9 Space Heroes Map (Pick a Chapter for the Full Story)",
+                act1Label: "Act I: Touchdown & The Big Adventure",
+                act2Label: "Act II: Why I Stayed Behind & How I Was Built",
+                act3Label: "Act III: My Message to You, Young Explorer",
+                didYouKnowTitle: "Did You Know? (Science & Engineering Fact)",
+                studentNotebookTitle: "Student Field Notebook • Key STEM Takeaway",
+                listenBtn: "Listen to Full Story",
+                stopBtn: "Stop Voice",
+                miniMissionBadge: "INTERACTIVE SCIENCE MINI-MISSION",
+                secretUnlockedTitle: "Science Secret Unlocked! (+1 Explorer Star)",
+                prevChapter: "Previous Chapter",
+                nextChapter: "Next Chapter",
+                finishStoryBtn: "Claim Your Explorer Card!",
+                wipeDustHint: "Tap here to wipe red Martian dust off the image!",
+                viewBlueprint: "Engineering Blueprint",
+                viewRealPhoto: "Real NASA Photo",
+                planetRadarTitle: "3D Planetary Radar • Landing Site",
+                rotatePlanetHint: "Drag to Rotate Planet",
+                voyagerLiveLabel: "VOYAGER 1 LIVE TELEMETRY",
+                voyagerDistTitle: "Current Distance from Earth:",
+                signalDelayLabel: "One-Way Signal Time:",
+                compareSliderTitle: "Interactive Compare: Blueprint vs Reality",
+                galleryTitle: "Bonus NASA Photo Gallery (Tap to Switch)",
+                model3dTitle: "Spirit & Opportunity 3D Rover Viewer",
+                drag3dHint: "Drag to Rotate",
+                model3dSub: "Open the full official 3D model on NASA Science (Spirit and Opportunity Rover):",
+                open3dBtn: "Official NASA 3D Model",
+                nasaSource: "Source",
+                quickStatsTitle: "SUPERPOWER STATS CARD",
+                statMissionLabel: "Mission",
+                statSuperpowerLabel: "Superpower",
+                finaleTag: "FINAL EXPLORER CHALLENGE",
+                finaleHeading: "Prove you heard the heroes' stories and claim your Space ID!",
+                cardRankLabel: "CERTIFIED JUNIOR SPACE EXPLORER",
+                shareBadgeBtn: "Copy & Share Your Explorer Card",
+                modalTitle: "Official NASA Resources Behind This Story",
+                modalDesc: "All photographs and scientific facts in this interactive story are sourced directly from NASA's public archives:"
+            }
+        };
+
+        const storyChapters = [
+            {
+                id: "lunar-module",
+                theme: "moon",
+                icon: "fa-shuttle-space",
+                year: "20 July 1969",
+                coords: "Apollo 11 • 00°40'26.69\"N, 23°28'22.69\"E",
+                archiveId: "NASA LM-SCHEMATIC / AS11-40-5903",
+                hasBlueprint: true,
+                blueprintUrl: lunarModuleBlueprintSvg,
+                photoUrl: "https://images-assets.nasa.gov/image/AS11-40-5903/AS11-40-5903~medium.jpg",
+                fallbackImg: "https://placehold.co/800x500/172554/38bdf8?text=Apollo+Lunar+Module",
+                nasaUrl: "https://www.nasa.gov/the-apollo-program/",
+                gallery: [
+                    {
+                        url: "https://images-assets.nasa.gov/image/AS11-40-5903/AS11-40-5903~medium.jpg",
+                        id: "NASA ID: AS11-40-5903",
+                        captionAr: "باز ألدرين يقف بجانب الوحدة القمرية Eagle في بحر السكون",
+                        captionEn: "Buzz Aldrin stands beside the Eagle Lunar Module at Tranquility Base"
+                    },
+                    {
+                        url: "https://images-assets.nasa.gov/image/AS11-40-5875/AS11-40-5875~medium.jpg",
+                        id: "NASA ID: AS11-40-5875",
+                        captionAr: "بصمة حذاء رائد الفضاء في تراب القمر الرمادي الناعم",
+                        captionEn: "Astronaut bootprint pressed into the fine gray lunar soil"
+                    },
+                    {
+                        url: "https://images-assets.nasa.gov/image/AS11-44-6642/AS11-44-6642~medium.jpg",
+                        id: "NASA ID: AS11-44-6642",
+                        captionAr: "مرحلة الصعود من الوحدة القمرية تعود والأرض تشرق في الأفق",
+                        captionEn: "Lunar Module ascent stage returning with Earth rising above the Moon"
+                    }
+                ],
+                ar: {
+                    tabTitle: "1. مركبة الهبوط",
+                    name: "الوحدة القمرية (Apollo Lunar Module - Eagle)",
+                    location: "بحر السكون (Mare Tranquillitatis) • القمر",
+                    status: "منصة إطلاق صامتة",
+                    mission: "Apollo 11 (1969)",
+                    superpower: "أول بيت بشري على القمر",
+                    act1: "مرحباً أيها المهندس الصغير! في 20 يوليو 1969، كنتُ أول مركبة فضائية مأهولة تهبط على عالم آخر خارج الأرض. نفد وقودي تقريباً وأنا أبحث عن مكان مستوٍ بعيداً عن الصخور العملاقة، حتى هبطتُ بسلام في بحر السكون عند الإحداثيات 00°40' شمالاً و23°28' شرقاً، ونزل نيل أرمسترونغ وباز ألدرين على سلمي الفضي ليخطوا أولى خطوات البشر!",
+                    act2: "انظر إلى مخططي الهندسي جيداً: لقد صُممتُ من جزأين عبقريين لتوفير الوزن والوقود. عندما انتهت مهمة الرواد وحان وقت العودة إلى الأرض، اشتعل محرك جزئي العلوي (مرحلة الصعود) واستخدم جزئي السفلي (مرحلة الهبوط بأرجله الأربعة) كمنصة إطلاق! بقي جزئي السفلي مغلفاً برقائق الذهب العازلة للحرارة على القمر إلى الأبد.",
+                    act3: "عندما تنظر إلى القمر بدراً في الليل، تذكّر أن أرجلي الأربعة ما زالت تقف هناك في صمت تام، تحرس أول مكان وطأته أقدام البشر خارج كوكبهم، وتنتظر عودتكم في برنامج أرتميس!",
+                    didYouKnow: "جدران الوحدة القمرية كانت رقيقة جداً لدرجة أن سمكها في بعض الأماكن لم يتجاوز سمك 3 طبقات من ورق الألومنيوم المنزلي، وذلك لتقليل وزنها في الفضاء حيث لا يوجد هواء يقاومها!",
+                    takeaway: "في الهندسة الفضائية، كل غرام له ثمن! تصميم المركبة من مرحلتين (هبوط وصعود) علّمنا كيف نترك الجزء الثقيل خلفنا لنعود برواد الفضاء سالمين.",
+                    missionPrompt: "انظر إلى المخطط الهندسي: اضغط الزر لفحص أرجل الهبوط الأربعة وإحداثيات هبوط أبولو 11 في بحر السكون!",
+                    missionBtn: "افحص أرجل الهبوط وإحداثيات أبولو 11",
+                    secretFact: "هبطت مركبة Eagle في بحر السكون (00°40'26.69\"N, 23°28'22.69\"E) وبقي 6 أجزاء سفلية من الوحدات القمرية (أبولو 11، 12، 14، 15، 16، 17) على سطح القمر كمعالم تاريخية!"
+                },
+                en: {
+                    tabTitle: "1. Lunar Lander",
+                    name: "Apollo Lunar Module (Eagle)",
+                    location: "Sea of Tranquility • The Moon",
+                    status: "Silent Launchpad",
+                    mission: "Apollo 11 (1969)",
+                    superpower: "First Human Home on Moon",
+                    act1: "Hello young engineer! On July 20, 1969, I became the first crewed spacecraft to land on another world. With less than 30 seconds of landing fuel left, I dodged giant boulders and touched down safely in the Sea of Tranquility at 00°40'N, 23°28'E, letting Neil Armstrong and Buzz Aldrin climb down my ladder!",
+                    act2: "Look closely at my engineering blueprint: I was built in two clever stages to save weight. When it was time to return home, my upper cabin (Ascent Stage) blasted off, using my four-legged lower body (Descent Stage) as a launchpad! My gold-foil covered lower stage remained behind on the Moon forever.",
+                    act3: "Whenever you look up at the full Moon at night, remember that my four landing pads still stand silently in the lunar dust, guarding humanity's very first footsteps beyond Earth!",
+                    didYouKnow: "The walls of the Lunar Module were so thin to save weight that in some spots they were no thicker than three layers of kitchen aluminum foil!",
+                    takeaway: "In space engineering, every gram counts! Splitting into a Descent and Ascent stage taught us how to leave heavy hardware behind so astronauts return safely.",
+                    missionPrompt: "Inspect my schematic diagram: tap below to test my 4 Landing Gear pads and Apollo 11 coordinates!",
+                    missionBtn: "Inspect Landing Gear & Apollo 11 Coords",
+                    secretFact: "Eagle touched down at 00°40'26.69\"N, 23°28'22.69\"E in the Sea of Tranquility, and six Lunar Module descent stages still stand on the Moon today!"
+                }
+            },
+            {
+                id: "surveyor3",
+                theme: "moon",
+                icon: "fa-microscope",
+                year: "1967 & 1969",
+                coords: "Ocean of Storms • 03°00'54\"S, 336°34'55\"E",
+                archiveId: "NASA ID: AS12-48-7136",
+                photoUrl: "https://images-assets.nasa.gov/image/AS12-48-7136/AS12-48-7136~medium.jpg",
+                fallbackImg: "https://placehold.co/800x500/172554/38bdf8?text=Surveyor+3+and+Apollo+12",
+                nasaUrl: "https://www.nasa.gov/the-apollo-program/",
+                gallery: [
+                    {
+                        url: "https://images-assets.nasa.gov/image/AS12-48-7136/AS12-48-7136~medium.jpg",
+                        id: "NASA ID: AS12-48-7136",
+                        captionAr: "لقاء تاريخي: رائد فضاء أبولو 12 يفحص المسبار الروبوتي سيرفيور 3",
+                        captionEn: "Historic reunion: Apollo 12 astronaut inspects Surveyor 3 lander"
+                    },
+                    {
+                        url: "https://images-assets.nasa.gov/image/AS12-48-7133/AS12-48-7133~medium.jpg",
+                        id: "NASA ID: AS12-48-7133",
+                        captionAr: "سيرفيور 3 على حافة الفوهة القمرية ووحدة أبولو 12 في الخلفية",
+                        captionEn: "Surveyor 3 perched on the crater slope with Apollo 12 in the background"
+                    },
+                    {
+                        url: "https://images-assets.nasa.gov/image/AS12-48-7110/AS12-48-7110~medium.jpg",
+                        id: "NASA ID: AS12-48-7110",
+                        captionAr: "رواد أبولو 12 يستكشفون محيط العواصف قبل زيارة سيرفيور 3",
+                        captionEn: "Apollo 12 crew exploring the Ocean of Storms before visiting Surveyor 3"
+                    }
+                ],
+                ar: {
+                    tabTitle: "2. اللقاء التاريخي",
+                    name: "المسبار الروبوتي سيرفيور 3 (Surveyor 3)",
+                    location: "محيط العواصف (Oceanus Procellarum) • القمر",
+                    status: "أول روبوت زاره البشر!",
+                    mission: "Surveyor 3 & Apollo 12",
+                    superpower: "اختبر تربة القمر قبل البشر",
+                    act1: "أهلاً! أنا المسبار الروبوتي سيرفيور 3. هبطتُ على القمر عام 1967—قبل وصول البشر بعامين كاملين! كانت مهمتي أن أحفر تربة القمر بذراعي الآلية الصغيرة لأتأكد أن الأرض صلبة ولن تغرق فيها مركبات أبولو عندما تهبط لاحقاً.",
+                    act2: "بعد أن أنهيتُ عملي ودخلتُ في سبات عميق لمدة عامين ونصف، حدثت مفاجأة مذهلة في نوفمبر 1969! هبطت مركبة أبولو 12 على بعد 180 متراً مني فقط! مشى رائدا الفضاء بيت كونراد وآلان بين نحوي، والتقطا صورة سيلفي تاريخية معي، ثم فكّا كاميرتي التلفزيونية وأخذاها معهما إلى الأرض!",
+                    act3: "أنا الروبوت الوحيد في التاريخ الذي زاره البشر على كوكب آخر وأعادوا أجزاءً منه إلى المتاحف على الأرض ليدرس العلماء كيف يؤثر الفضاء القاسي على المعادن والعدسات!",
+                    didYouKnow: "فحص العلماء على الأرض كاميرا سيرفيور 3 بعد بقائها 31 شهراً في فراغ القمر القاسي ودرجات حرارته المتطرفة، وساعدهم ذلك في تصميم مركبات فضائية تدوم لعقود!",
+                    takeaway: "الروبوتات هي طليعة الاستكشاف؛ فهي تختبر المخاطر أولاً ليمهد عملها الطريق الآمن لوصول البشر لاحقاً.",
+                    missionPrompt: "اضغط الزر لمقارنة صورة سيرفيور 3 مع رائد فضاء أبولو 12 وكشف سر هذه الزيارة التاريخية!",
+                    missionBtn: "افحص كاميرا سيرفيور 3 العائدة للأرض",
+                    secretFact: "تُعرض كاميرا مسبار سيرفيور 3 الحقيقية اليوم في المتحف الوطني للطيران والفضاء في واشنطن بعد أن قضت عامين ونصف على سطح القمر!"
+                },
+                en: {
+                    tabTitle: "2. Moon Reunion",
+                    name: "Surveyor 3 Robotic Lander",
+                    location: "Ocean of Storms • The Moon",
+                    status: "Visited by Humans!",
+                    mission: "Surveyor 3 & Apollo 12",
+                    superpower: "Tested Moon Soil Before Humans",
+                    act1: "Hello! I am Surveyor 3, a robotic scout that landed on the Moon in 1967—two full years before humans arrived! My job was to dig into the lunar soil with my little robotic scoop to prove the ground wouldn't swallow future Apollo landers.",
+                    act2: "After finishing my mission and sleeping quietly for two and a half years, an unbelievable surprise happened in November 1969! Apollo 12 landed just 180 meters away from me! Astronauts Pete Conrad and Alan Bean walked right up to me, took an iconic photo, and unbolted my TV camera to bring back to Earth!",
+                    act3: "I am the only robot in history visited by humans on another world with parts returned to Earth so scientists could study how harsh space weather affects spacecraft materials!",
+                    didYouKnow: "Studying Surveyor 3's camera after 31 months in the Moon's vacuum and extreme temperatures taught NASA engineers how to build longer-lasting spacecraft!",
+                    takeaway: "Robots are the scouts of exploration—they test unknown worlds first so human astronauts can land safely later.",
+                    missionPrompt: "Tap below to inspect Surveyor 3's historic reunion with Apollo 12 astronauts!",
+                    missionBtn: "Inspect Surveyor 3 Camera Return",
+                    secretFact: "Surveyor 3's actual TV camera is displayed today at the Smithsonian National Air and Space Museum after spending 2.5 years on the Moon!"
+                }
+            },
+            {
+                id: "lrv",
+                theme: "moon",
+                icon: "fa-car-side",
+                year: "30 July 1971",
+                coords: "Apollo 15 • 26°07'55.99\"N, 03°38'01.90\"E",
+                archiveId: "NASA ID: AS15-88-11901",
+                photoUrl: "https://images-assets.nasa.gov/image/AS15-88-11901/AS15-88-11901~medium.jpg",
+                fallbackImg: "https://placehold.co/800x500/172554/38bdf8?text=Apollo+Lunar+Rover",
+                nasaUrl: "https://www.nasa.gov/the-apollo-program/",
+                gallery: [
+                    {
+                        url: "https://images-assets.nasa.gov/image/AS15-88-11901/AS15-88-11901~medium.jpg",
+                        id: "NASA ID: AS15-88-11901",
+                        captionAr: "عربة أبولو 15 القمرية مركونة أمام جبال أبينين على القمر",
+                        captionEn: "Apollo 15 Lunar Roving Vehicle parked in front of the Apennine Mountains"
+                    },
+                    {
+                        url: "https://images-assets.nasa.gov/image/AS16-117-18825/AS16-117-18825~medium.jpg",
+                        id: "NASA ID: AS16-117-18825",
+                        captionAr: "عربة أبولو 16 القمرية تقطع تضاريس مرتفعات ديكارت القمرية",
+                        captionEn: "Apollo 16 Lunar Rover traversing the rugged Descartes Highlands"
+                    },
+                    {
+                        url: "https://images-assets.nasa.gov/image/AS17-147-22526/AS17-147-22526~medium.jpg",
+                        id: "NASA ID: AS17-147-22526",
+                        captionAr: "آخر سيارة قمرية (أبولو 17) في وادي توروس ليترو",
+                        captionEn: "The final Apollo 17 Lunar Rover parked in Taurus-Littrow Valley"
+                    }
+                ],
+                ar: {
+                    tabTitle: "3. سيارة القمر",
+                    name: "عربة أبولو القمرية (Lunar Rover)",
+                    location: "وادي هادلي–أبينين (Hadley–Apennine) • القمر",
+                    status: "مركونة بسلام",
+                    mission: "Apollo 15, 16, 17",
+                    superpower: "أول سيارة كهربائية خارج الأرض",
+                    act1: "بيب بيب! مرحباً أيها السائق الصغير! قبل مجيئي في رحلة أبولو 15 عام 1971 عند إحداثيات 26°07' شمالاً و03°38' شرقاً، كان رواد الفضاء يمشون لمسافات قصيرة فقط لأن بدلاتهم ثقيلة. لكنني منحتهم أجنحة على عجلات، وسرنا معاً عشرات الكيلومترات نحو الجبال والفوهات البركانية!",
+                    act2: "هل تعرف كيف وصلتُ إلى القمر؟ لقد طووني مثل حقيبة السفر وألصقوني بجانب المركبة القمرية! وعندما هبطنا، فُككتُ في 20 دقيقة فقط. لم يكن هناك أي مكان لي في صاروخ العودة الصغير، فركنني الرواد بعيداً قليلاً ووجّهوا كاميرتي التلفزيونية نحو مركبتهم ليصوروا لحظة إقلاعهم للأرض!",
+                    act3: "هناك الآن 3 سيارات قمرية كهربائية مركونة على القمر (من أبولو 15 و16 و17). أنا لا أحتاج إلى بنزين، وآثار إطاراتي الشبكية المصنوعة من أسلاك البيانو ستبقى محفورة في تراب القمر لملايين السنين!",
+                    didYouKnow: "إطارات عربة القمر لم تكن مليئة بالهواء لأن الهواء سينفجر في فراغ القمر؛ بل صُنعت من شبكة مرنة من أسلاك الفولاذ المغطاة بالتيتانيوم!",
+                    takeaway: "تغيير البيئة يغير قواعد التصميم! بدون هواء أو جاذبية أرضية، نبتكر عجلات شبكية وطرق طيّ ذكية تناسب القمر.",
+                    missionPrompt: "اضغط على زر الفحص لترى لماذا لا تختفي آثار عجلاتي في تراب القمر أبداً!",
+                    missionBtn: "افحص آثار الإطارات القمرية",
+                    secretFact: "في وادي هادلي (26°07'N, 03°38'E)، ولأن القمر بلا رياح ولا أمطار ولا غلاف جوي، ستبقى آثار عجلات عربة أبولو محفورة في تراب القمر لملايين السنين!"
+                },
+                en: {
+                    tabTitle: "3. Moon Buggy",
+                    name: "Apollo Lunar Roving Vehicle",
+                    location: "Hadley–Apennine Valley • The Moon",
+                    status: "Parked in Peace",
+                    mission: "Apollo 15, 16, 17",
+                    superpower: "First Electric Car Off-Earth",
+                    act1: "Beep beep! Hello young driver! Before I arrived on Apollo 15 in 1971 at 26°07'N, 03°38'E, astronauts could only walk short distances in their heavy spacesuits. I gave them wheels to explore mountains and deep rilles miles away from their lander!",
+                    act2: "How did I fit inside a rocket? Engineers folded me like a suitcase and strapped me to the side of the Lunar Module! Once unfolded, I cruised on battery power. With zero room on the ride back to Earth, the crew parked me nearby and aimed my TV camera to broadcast their liftoff live to Earth!",
+                    act3: "Three electric Moon Buggies still sit parked on the Moon today (Apollo 15, 16, and 17). My woven piano-wire tire tracks will remain crisp in the lunar dust for millions of years!",
+                    didYouKnow: "Lunar Rover tires had no air inside—air-filled rubber tires would burst in the Moon's vacuum—so they were woven out of springy steel piano wire and titanium!",
+                    takeaway: "Different worlds require new engineering rules! Without air or Earth's gravity, wire-mesh tires and foldable chassis unlock exploration.",
+                    missionPrompt: "Tap the scanner button to discover why my tire tracks never fade away on the Moon!",
+                    missionBtn: "Scan Lunar Tire Tracks",
+                    secretFact: "At Hadley Rille (26°07'N, 03°38'E), because the Moon has zero wind, rain, or atmosphere, the rover's tire tracks will remain preserved for millions of years!"
+                }
+            },
+            {
+                id: "alsep",
+                theme: "moon",
+                icon: "fa-satellite-dish",
+                year: "1969 - الآن",
+                coords: "Apollo 11–17 • 00°40'N, 23°28'E",
+                archiveId: "NASA ID: AS11-40-5948",
+                photoUrl: "https://images-assets.nasa.gov/image/AS11-40-5948/AS11-40-5948~medium.jpg",
+                fallbackImg: "https://placehold.co/800x500/172554/38bdf8?text=ALSEP+Moon+Station",
+                nasaUrl: "https://www.nasa.gov/the-apollo-program/",
+                gallery: [
+                    {
+                        url: "https://images-assets.nasa.gov/image/AS11-40-5948/AS11-40-5948~medium.jpg",
+                        id: "NASA ID: AS11-40-5948",
+                        captionAr: "مقياس الزلازل القمرية ومرآة الليزر العاكسة في بحر السكون",
+                        captionEn: "Passive Seismic Experiment and Laser Retroreflector at Tranquility Base"
+                    },
+                    {
+                        url: "https://images-assets.nasa.gov/image/AS12-47-6913/AS12-47-6913~medium.jpg",
+                        id: "NASA ID: AS12-47-6913",
+                        captionAr: "محطة التجارب العلمية ALSEP الكاملة تعمل على سطح القمر",
+                        captionEn: "Full Apollo Lunar Surface Experiments Package (ALSEP) deployed on the Moon"
+                    },
+                    {
+                        url: "https://images-assets.nasa.gov/image/AS14-67-9367/AS14-67-9367~medium.jpg",
+                        id: "NASA ID: AS14-67-9367",
+                        captionAr: "أجهزة القياس العلمي التي أرسلت بيانات باطن القمر لسنوات",
+                        captionEn: "Scientific instruments that beamed lunar interior data back to Earth for years"
+                    }
+                ],
+                ar: {
+                    tabTitle: "4. مرآة الليزر",
+                    name: "محطة القمر العلمية (ALSEP & Retroreflector)",
+                    location: "بحر السكون ومواقع أبولو • القمر",
+                    status: "مرآتها تعمل حتى اليوم!",
+                    mission: "Apollo 11 - 17",
+                    superpower: "تقيس ابتعاد القمر بالليزر",
+                    act1: "تششش... هل تسمع نبض القمر؟ عندما غادر رواد الفضاء القمر، لم يتركوه فارغاً، بل زرعوا في تربته عائلة كاملة من الأجهزة العلمية الذكية تُدعى ALSEP، بالإضافة إلى مرآة ليزر عاكسة خاصة جداً عند إحداثيات 00°40' شمالاً و23°28' شرقاً!",
+                    act2: "لمدة 8 سنوات متواصلة بعد عودة البشر، واصلتُ إرسال بيانات الزلازل القمرية (Moonquakes) وحرارة باطن القمر إلى العلماء على الأرض. أما مرآتي العاكسة فلا تحتاج إلى بطارية ولا كهرباء أبداً؛ إنها مكونة من 100 منشور زجاجي تعكس الضوء إلى مصدره بدقة متناهية!",
+                    act3: "حتى هذه اللحظة—بعد أكثر من 55 عاماً—يطلق العلماء من المراصد الأرضية أشعة ليزر نحوي فتعود إليهم في ثانيتين ونصف، وبفضلي اكتشفوا أن القمر يبتعد عنكم ببطء كل عام!",
+                    didYouKnow: "الزلازل القمرية التي سجلتها محطات ALSEP تستمر أحياناً لأكثر من ساعة كاملة لأن صخور القمر جافة جداً وتهتز مثل الجرس المعدني!",
+                    takeaway: "حتى بعد رحيل الرواد، تواصل الأدوات العلمية الذكية العمل بصمت لتجمع بيانات لسنوات طويلة.",
+                    missionPrompt: "أطلق شعاع ليزر من الأرض نحو مرآتي القمرية لتكتشف سراً مذهلاً عن حركة القمر!",
+                    missionBtn: "أطلق شعاع الليزر نحو القمر",
+                    secretFact: "بفضل مرآة أبولو الليزرية، اكتشف العلماء أن القمر يبتعد عن كوكب الأرض بمقدار 3.8 سنتيمتر كل عام (بنفس سرعة نمو أظافرك)!"
+                },
+                en: {
+                    tabTitle: "4. Laser Mirror",
+                    name: "Apollo Science Station (ALSEP)",
+                    location: "Sea of Tranquility & Apollo Sites • Moon",
+                    status: "Mirror Still Active!",
+                    mission: "Apollo 11 - 17",
+                    superpower: "Measures Moon Distance via Laser",
+                    act1: "Ksssh... Can you feel the Moon's pulse? When astronauts left the Moon, they planted a network of smart science instruments called ALSEP along with a special Laser Retroreflector right at 00°40'N, 23°28'E!",
+                    act2: "For 8 straight years after humans returned home, I beamed data about real Moonquakes and lunar heat back to Earth. And my laser mirror needs zero batteries or power—its 100 glass corner-cubes bounce light straight back to wherever it came from!",
+                    act3: "Even today—over 55 years later—observatories on Earth fire laser pulses at me and catch the reflection 2.5 seconds later, measuring the Moon's orbit down to the millimeter!",
+                    didYouKnow: "Moonquakes recorded by ALSEP stations can ring like a tuning fork for over an hour because the Moon's dry crust doesn't dampen vibrations like Earth's wet rocks!",
+                    takeaway: "Even after astronauts return home, smart scientific instruments keep working silently for decades.",
+                    missionPrompt: "Fire a laser beam from Earth to my lunar mirror to uncover a cosmic secret!",
+                    missionBtn: "Fire Laser Beam to Moon",
+                    secretFact: "Thanks to the Apollo laser reflector, scientists discovered that the Moon is slowly drifting away from Earth by 3.8 centimeters every year!"
+                }
+            },
+            {
+                id: "opportunity",
+                theme: "mars",
+                icon: "fa-robot",
+                year: "2004 - 2018",
+                coords: "Mars • 01°56'46\"S, 354°28'24\"E",
+                archiveId: "NASA ID: PIA18079 • 3D MODEL",
+                photoUrl: "https://images-assets.nasa.gov/image/PIA18079/PIA18079~medium.jpg",
+                fallbackImg: "https://placehold.co/800x500/7c2d12/fb923c?text=Mars+Rover+Opportunity",
+                nasaUrl: "https://science.nasa.gov/resource/spirit-and-opportunity-rover-3d-model/",
+                gallery: [
+                    {
+                        url: "https://images-assets.nasa.gov/image/PIA18079/PIA18079~medium.jpg",
+                        id: "NASA ID: PIA18079",
+                        captionAr: "سيلفي مركبة أوبورتيونيتي على سطح المريخ بعد تنظيف ألواحها",
+                        captionEn: "Opportunity Rover self-portrait on Mars after wind cleaned its solar panels"
+                    },
+                    {
+                        url: "https://images-assets.nasa.gov/image/PIA05237/PIA05237~medium.jpg",
+                        id: "NASA ID: PIA05237",
+                        captionAr: "كرات التوت الأزرق المريخية (الهيماتيت) التي أثبتت وجود الماء قديماً",
+                        captionEn: "Martian 'Blueberries' (Hematite spheres) proving ancient liquid water on Mars"
+                    },
+                    {
+                        url: "https://images-assets.nasa.gov/image/PIA15689/PIA15689~medium.jpg",
+                        id: "NASA ID: PIA15689",
+                        captionAr: "آثار عجلات أوبورتيونيتي تمتد عبر صحراء المريخ الحمراء",
+                        captionEn: "Opportunity's wheel tracks stretching across the red Martian desert"
+                    }
+                ],
+                ar: {
+                    tabTitle: "5. بطل المريخ 3D",
+                    name: "مركبة أوبورتيونيتي (Opportunity)",
+                    location: "وادي المثابرة • كوكب المريخ",
+                    status: "بطل أسطوري نائم",
+                    mission: "Mars Exploration Rover",
+                    superpower: "عاشت 14 عاماً بدل 90 يوماً!",
+                    act1: "أهلاً يا صديقي... أنا مغطى بالغبار الأحمر الآن عند إحداثيات 01°56' جنوباً على المريخ، لكنني عشتُ أعظم مغامرة روبوتية! هبطتُ داخل وسائد هوائية عملاقة ارتدت فوق تربة المريخ مثل كرة التنس عام 2004. كانت خطتي أن أعمل 90 يوماً فقط قبل أن يغطي الغبار ألواحي الشمسية!",
+                    act2: "لكن رياح المريخ اللطيفة كانت تنظف ألواحي الشمسية بين الحين والآخر، فرفضتُ التوقف وعملتُ لأكثر من 14 عاماً! قطعتُ 45.16 كيلومتراً (أطول من سباق الماراثون!) واكتشفتُ أدلة قاطعة على أن المياه العذبة كانت تجري فوق المريخ قديماً. في صيف 2018 هبّت عاصفة رملية غطت الكوكب كله وحجبت الشمس عني.",
+                    act3: "قبل أن تنطفئ بطاريتي، أرسلتُ آخر بياناتي التي ترجمها المهندسون شعرياً إلى: 'بطاريتي منخفضة، والجو يزداد ظلاماً'. يمكنك تدوير مجسمي ثلاثي الأبعاد أدناه لتتفحص عجلاتي الست وألواحي الشمسية!",
+                    didYouKnow: "توأمي المركبة سبيريت (Spirit) هبطت على الجانب الآخر من المريخ وصُممت أيضاً لـ 90 يوماً، لكنها صمدت لأكثر من 6 سنوات واكتشفت ينابيع مياه ساخنة قديمة!",
+                    takeaway: "المثابرة تصنع المعجزات العلمية! مركبة صُممت لـ 3 أشهر استمرت 14 عاماً وغيّرت فهمنا لتاريخ الماء على المريخ.",
+                    missionPrompt: "امسح الغبار المريخي الأحمر عن صورتي (أو اضغط الزر أدناه) لتكشف ماذا وجدتُ في صخور المريخ!",
+                    missionBtn: "امسح غبار المريخ واكشف الاكتشاف",
+                    secretFact: "عثرت أوبورتيونيتي على كرات معدنية صغيرة سمّاها العلماء 'التوت الأزرق المريخي' (Hematite)، وهي دليل قاطع على وجود ماء سائل دافئ على المريخ في الماضي!"
+                },
+                en: {
+                    tabTitle: "5. Mars Hero 3D",
+                    name: "Mars Rover Opportunity (Oppy)",
+                    location: "Perseverance Valley • Mars",
+                    status: "Legendary Hero Asleep",
+                    mission: "Mars Exploration Rover",
+                    superpower: "Lasted 14 Years Instead of 90 Days!",
+                    act1: "Hello friend... I'm covered in red dust now at 01°56'S on Mars, after living the greatest robotic adventure! In 2004, I bounced onto the Martian surface inside giant airbags like a tennis ball. Engineers built me to survive just 90 Martian days before dust covered my solar panels!",
+                    act2: "Lucky Martian gusts kept dusting off my solar wings, so I refused to quit and explored for over 14 years! I drove 45.16 km—longer than an Olympic marathon—and proved liquid freshwater once flowed across Mars. In 2018, a planet-encircling dust storm blotted out the Sun.",
+                    act3: "Before going to sleep, my final telemetry translated poetically to: 'My battery is low and it's getting dark.' Rotate my 3D model below to inspect my 6 rocker-bogie wheels and solar array!",
+                    didYouKnow: "My twin rover Spirit landed on the opposite side of Mars—also built for 90 days—yet survived over 6 years and discovered ancient Martian hot springs!",
+                    takeaway: "Perseverance creates scientific miracles! A rover built for 90 days survived 14 years and rewrote Mars's water history.",
+                    missionPrompt: "Wipe the red Martian dust off my photo (or tap below) to reveal what I found in Martian rocks!",
+                    missionBtn: "Wipe Martian Dust & Reveal Discovery",
+                    secretFact: "Opportunity discovered tiny mineral spheres nicknamed 'Martian Blueberries' (Hematite), proving warm liquid water once flowed on ancient Mars!"
+                }
+            },
+            {
+                id: "insight",
+                theme: "mars",
+                icon: "fa-wave-square",
+                year: "2018 - 2022",
+                coords: "Mars • 04°30'09\"N, 135°37'24\"E",
+                archiveId: "NASA ID: PIA22743",
+                photoUrl: "https://images-assets.nasa.gov/image/PIA22743/PIA22743~medium.jpg",
+                fallbackImg: "https://placehold.co/800x500/7c2d12/fb923c?text=NASA+InSight+Lander",
+                nasaUrl: "https://science.nasa.gov/mission/insight/",
+                gallery: [
+                    {
+                        url: "https://images-assets.nasa.gov/image/PIA22743/PIA22743~medium.jpg",
+                        id: "NASA ID: PIA22743",
+                        captionAr: "أول صورة سيلفي كاملة للمسبار إنسايت في سهل إيليزيوم على المريخ",
+                        captionEn: "First full selfie of NASA's InSight Lander at Elysium Planitia on Mars"
+                    },
+                    {
+                        url: "https://images-assets.nasa.gov/image/PIA22977/PIA22977~medium.jpg",
+                        id: "NASA ID: PIA22977",
+                        captionAr: "الدرع الأبيض يحمي مقياس الزلازل المريخية من الرياح وتغير الحرارة",
+                        captionEn: "The white Wind and Thermal Shield protecting InSight's Marsquake seismometer"
+                    },
+                    {
+                        url: "https://images-assets.nasa.gov/image/PIA25287/PIA25287~medium.jpg",
+                        id: "NASA ID: PIA25287",
+                        captionAr: "آخر صورة سيلفي لإنسايت بعد أن غطى غبار المريخ ألواحه الشمسية",
+                        captionEn: "InSight's final selfie after heavy Martian dust covered its solar panels"
+                    }
+                ],
+                ar: {
+                    tabTitle: "6. طبيب المريخ",
+                    name: "المسبار إنسايت (InSight Lander)",
+                    location: "سهل إيليزيوم • المريخ",
+                    status: "أنهى فحصه الطبي",
+                    mission: "NASA InSight Mars",
+                    superpower: "أول سماعة طبيب لكوكب آخر",
+                    act1: "هشّ... اصمت لحظة واستمع! أنا لستُ مركبة بعجلات تتحرك؛ بل كنتُ أول 'طبيب جيولوجي' يفحص قلب كوكب المريخ من الداخل في سهل إيليزيوم! استخدمتُ ذراعي الآلية لأضع سماعتي الفائقة الحساسية (مقياس الزلازل SEIS) مباشرة على تربة المريخ وغطيتُها بدرع أبيض لحمايتها من الرياح.",
+                    act2: "طوال 4 سنوات، سجلتُ أكثر من 1,300 زلزال مريخي (Marsquakes)، بل وسمعتُ صوت اصطدام النيازك بسطح المريخ وصوت الرياح المريخية لأول مرة في تاريخ البشرية! ومع مرور الوقت، تراكم الغبار المريخي الكثيف فوق ألواحي الشمسية الدائرية حتى انخفضت طاقتي تدريجياً في ديسمبر 2022.",
+                    act3: "بفضل فحوصاتي الطبية الدقيقة، رسم العلماء أول خريطة لطبقات المريخ الداخلية: القشرة، والوشاح، واللب السائل!",
+                    didYouKnow: "جهاز قياس الزلازل في إنسايت كان حساساً لدرجة أنه يستطيع رصد اهتزازات أصغر من عرض ذرة هيدروجين واحدة!",
+                    takeaway: "ليس كل استكشاف يحتاج للحركة؛ أحياناً الثبات والإنصات العميق يكشفان أسرار قلب الكوكب.",
+                    missionPrompt: "اضغط على سماعة الطبيب لتسمع صوت زلزال حقيقي في باطن كوكب المريخ!",
+                    missionBtn: "استمع لنبض باطن المريخ",
+                    secretFact: "كشف مسبار إنسايت أن لبّ كوكب المريخ الداخلي سائل وأكبر مما كان يعتقده العلماء، مما ساعدنا على فهم كيف تتكون الكواكب الصخرية!"
+                },
+                en: {
+                    tabTitle: "6. Mars Doctor",
+                    name: "NASA InSight Mars Lander",
+                    location: "Elysium Planitia • Mars",
+                    status: "Checkup Complete",
+                    mission: "NASA InSight Mars",
+                    superpower: "First Stethoscope on Another Planet",
+                    act1: "Shhh... listen closely! I didn't have wheels to roam around—instead, I was the first 'planetary doctor' to check Mars's heartbeat at Elysium Planitia! I used my robotic arm to place my ultra-sensitive seismometer (SEIS) directly onto Martian soil under a white wind shield.",
+                    act2: "Over 4 years, I detected more than 1,300 Marsquakes, heard meteoroids crashing onto Mars, and recorded Martian winds for the first time in history! Slowly, thick red dust blanketed my round solar panels until my power faded in December 2022.",
+                    act3: "Thanks to my planetary checkup, scientists mapped Mars's interior layers—crust, mantle, and liquid core—for the very first time!",
+                    didYouKnow: "InSight's seismometer was so sensitive it could detect ground vibrations smaller than the width of a single hydrogen atom!",
+                    takeaway: "Not all exploration requires driving—sometimes standing still and listening closely reveals the hidden heart of a planet.",
+                    missionPrompt: "Tap the space stethoscope to hear a real Marsquake vibration from deep inside Mars!",
+                    missionBtn: "Listen to Mars's Heartbeat",
+                    secretFact: "InSight revealed that Mars has a liquid metal core larger than scientists expected, helping us understand how rocky planets like Earth form!"
+                }
+            },
+            {
+                id: "ingenuity",
+                theme: "mars",
+                icon: "fa-helicopter",
+                year: "2021 - 2024",
+                coords: "Jezero Crater • 18°26'41\"N, 77°27'03\"E",
+                archiveId: "NASA ID: PIA24647",
+                photoUrl: "https://images-assets.nasa.gov/image/PIA24647/PIA24647~medium.jpg",
+                fallbackImg: "https://placehold.co/800x500/7c2d12/fb923c?text=Ingenuity+Mars+Helicopter",
+                nasaUrl: "https://science.nasa.gov/mission/mars-2020-perseverance/ingenuity-mars-helicopter/",
+                gallery: [
+                    {
+                        url: "https://images-assets.nasa.gov/image/PIA24647/PIA24647~medium.jpg",
+                        id: "NASA ID: PIA24647",
+                        captionAr: "مروحية إنجينيويتي تحلق في سماء المريخ في أول رحلة طيران خارج الأرض",
+                        captionEn: "Ingenuity hovering in the Martian sky during humanity's first off-world flight"
+                    },
+                    {
+                        url: "https://images-assets.nasa.gov/image/PIA24626/PIA24626~medium.jpg",
+                        id: "NASA ID: PIA24626",
+                        captionAr: "صورة سيلفي للمركبة بيرسيفيرانس وخلفها مروحية إنجينيويتي على تربة المريخ",
+                        captionEn: "Perseverance rover selfie with the Ingenuity helicopter resting on Martian soil"
+                    },
+                    {
+                        url: "https://images-assets.nasa.gov/image/PIA24663/PIA24663~medium.jpg",
+                        id: "NASA ID: PIA24663",
+                        captionAr: "لقطة جوية التقطتها مروحية إنجينيويتي من الأعلى لسطح فوهة جيزيرو",
+                        captionEn: "Aerial view of Jezero Crater snapped from above by Ingenuity's camera"
+                    }
+                ],
+                ar: {
+                    tabTitle: "7. طائرة المريخ",
+                    name: "مروحية إنجينيويتي (Ingenuity Mars Helicopter)",
+                    location: "فوهة جيزيرو (Jezero Crater) • المريخ",
+                    status: "أول طائرة على كوكب آخر!",
+                    mission: "Mars 2020 • 72 Flights",
+                    superpower: "حققت لحظة الأخوين رايت على المريخ",
+                    act1: "زووم! مرحباً من سماء المريخ! قال الكثيرون إن الطيران على المريخ مستحيل لأن غلافه الجوي رقيق جداً (يعادل 1% فقط من كثافة هواء الأرض!). لكنني وصلتُ مختبئة تحت بطن مركبة بيرسيفيرانس، وفي 19 أبريل 2021 حلّقتُ لأصنع أول رحلة طيران بمحرك على كوكب آخر!",
+                    act2: "صُممتُ لأقوم بـ 5 رحلات تجريبية فقط خلال 30 يوماً، لكنني أدهشتُ الجميع ونفذتُ 72 رحلة طيران مذهلة على مدى 3 سنوات! أصبحتُ 'الكشاف الجوي' الذي يطير أمام المركبة بيرسيفيرانس ليصور لها الطريق الآمن بين الكثبان الرملية والصخور. في رحلتي الـ 72 تضررت إحدى شفراتي المروحية أثناء الهبوط، فتوقفتُ عن الطيران وبقيتُ كمحطة أرصاد جوية صامتة!",
+                    act3: "أحملُ معي قطعة قماش صغيرة من جناح طائرة الأخوين رايت الأولى عام 1903، وبفضلي ستطير مروحيات أكبر مع رواد الفضاء في المستقبل!",
+                    didYouKnow: "لكي تستطيع مروحية إنجينيويتي الطيران في هواء المريخ الرقيق جداً، تدور شفراتها الكربونية بسرعة 2,537 دورة في الدقيقة—أي أسرع بـ 5 مرات من مروحيات الأرض!",
+                    takeaway: "التجارب الصغيرة تفتح آفاق المستقبل؛ 5 رحلات تجريبية تحولت إلى 72 رحلة وأثبتت إمكانية الطيران في عوالم أخرى.",
+                    missionPrompt: "شغّل محرك إنجينيويتي لتكتشف سر شفراتها الفائقة السرعة في سماء المريخ!",
+                    missionBtn: "شغّل مروحة المريخ (2,537 دورة/دقيقة)",
+                    secretFact: "صُممت إنجينيويتي لـ 5 رحلات فقط، لكنها حلّقت 72 مرة لمسافة إجمالية تجاوزت 17 كيلومتراً على المريخ!"
+                },
+                en: {
+                    tabTitle: "7. Mars Chopper",
+                    name: "Ingenuity Mars Helicopter",
+                    location: "Jezero Crater • Mars",
+                    status: "First Aircraft on Another World!",
+                    mission: "Mars 2020 • 72 Flights",
+                    superpower: "Wright Brothers Moment on Mars",
+                    act1: "Whoosh! Greetings from the Martian sky! Many thought flying on Mars was impossible because its atmosphere is 99% thinner than Earth's! Yet I rode tucked under the belly of the Perseverance rover, and on April 19, 2021, I lifted off to achieve the first powered flight on another planet!",
+                    act2: "Built for just 5 test flights over 30 days, I amazed engineers by completing 72 incredible flights across nearly 3 years! I became Perseverance's aerial scout, spotting safe paths ahead. On Flight 72, one of my carbon-fiber rotor blades was damaged on landing, ending my flights—though I still monitor Martian weather!",
+                    act3: "I carry a tiny swatch of fabric from the Wright brothers' 1903 Flyer, paving the way for future fleets of flying explorers on Mars and Titan!",
+                    didYouKnow: "To generate lift in Mars's ultra-thin air, Ingenuity's rotor blades spin at 2,537 RPM—about 5 times faster than a helicopter on Earth!",
+                    takeaway: "Bold experiments unlock the future: 5 test flights turned into 72 and proved powered flight works on other planets.",
+                    missionPrompt: "Spin up Ingenuity's rotors to unlock the secret of flying in Mars's thin atmosphere!",
+                    missionBtn: "Spin Mars Rotors (2,537 RPM)",
+                    secretFact: "Designed for just 5 flights, Ingenuity flew 72 times for over 17 kilometers across Jezero Crater!"
+                }
+            },
+            {
+                id: "cassini",
+                theme: "saturn",
+                icon: "fa-ring",
+                year: "1997 - 2017",
+                coords: "Saturn Atmosphere • Deep Space",
+                archiveId: "NASA ID: PIA21345",
+                photoUrl: "https://images-assets.nasa.gov/image/PIA21345/PIA21345~medium.jpg",
+                fallbackImg: "https://placehold.co/800x500/713f12/facc15?text=Cassini+at+Saturn",
+                nasaUrl: "https://science.nasa.gov/mission/cassini/",
+                gallery: [
+                    {
+                        url: "https://images-assets.nasa.gov/image/PIA21345/PIA21345~medium.jpg",
+                        id: "NASA ID: PIA21345",
+                        captionAr: "حلقات زحل الذهبية الساحرة كما رصدها مسبار كاسيني عن قرب",
+                        captionEn: "Saturn's golden rings captured up close by NASA's Cassini spacecraft"
+                    },
+                    {
+                        url: "https://images-assets.nasa.gov/image/PIA17172/PIA17172~medium.jpg",
+                        id: "NASA ID: PIA17172",
+                        captionAr: "يوم ابتسمت الأرض: كوكبنا يظهر كنقطة زرقاء صغيرة تحت حلقات زحل",
+                        captionEn: "The Day the Earth Smiled: Earth appears as a tiny blue dot beneath Saturn's rings"
+                    },
+                    {
+                        url: "https://images-assets.nasa.gov/image/PIA11688/PIA11688~medium.jpg",
+                        id: "NASA ID: PIA11688",
+                        captionAr: "ينابيع الماء الجليدية تنفجر من القطب الجنوبي لقمر إنسيلادوس",
+                        captionEn: "Icy water geysers erupting from the south pole of Saturn's moon Enceladus"
+                    }
+                ],
+                ar: {
+                    tabTitle: "8. حارس زحل",
+                    name: "مسبار كاسيني (Cassini Spacecraft)",
+                    location: "كوكب زحل وحلقاته الجليدية",
+                    status: "أصبح جزءاً من زحل!",
+                    mission: "Cassini-Huygens (1997–2017)",
+                    superpower: "اكتشف محيطات تحت جليد أقمار زحل",
+                    act1: "تحية ملكية من سيد الحلقات! انطلقتُ من الأرض عام 1997 ووصلتُ إلى كوكب زحل عام 2004 لأدور حوله 13 عاماً كاملة. التقطتُ مئات الآلاف من الصور المذهلة لحلقات زحل، وأنزلتُ المسبار الأوروبي 'هويجنز' على قمر تيتان الضبابي!",
+                    act2: "أعظم اكتشافاتي كان رصد ينابيع مياه جليدية عملاقة تنفجر من قمر 'إنسيلادوس' الصغير، مما أثبت وجود محيط مائي دافئ تحت قشرته الجليدية قد يصلح للحياة! وعندما أوشك وقودي على النفاد عام 2017، قررت ناسا ألا تتركني أسبح بلا تحكم حتى لا أصطدم بأقمار زحل وألوّث محيطاتها ببكتيريا من الأرض!",
+                    act3: "في 'الختام الكبير' (Grand Finale)، غصتُ 22 مرة بين زحل وحلقاته، ثم اندفعتُ داخل الغلاف الجوي لزحل وأنا أرسل بياناتي حتى اللحظة الأخيرة، لأصبح جزءاً من الكوكب الذي أحببته!",
+                    didYouKnow: "تضحية كاسيني المخططة داخل غلاف زحل تُسمى 'الحماية الكوكبية' (Planetary Protection)، لحماية أقمار زحل ذات المحيطات من أي تلوث أرضي!",
+                    takeaway: "العلماء يحمون الكواكب الأخرى كما يحمون الأرض؛ الحماية الكوكبية تضمن عدم تلويث العوالم التي قد تحتضن حياة.",
+                    missionPrompt: "اضغط الزر لتستكشف تضحية كاسيني في 'الختام الكبير' واكتشاف محيط إنسيلادوس!",
+                    missionBtn: "استكشف الختام الكبير لكاسيني",
+                    secretFact: "اكتشف كاسيني نافورات بخار الماء والمواد العضوية المنبعثة من قمر إنسيلادوس، مما جعله أحد أهم الأماكن للبحث عن حياة خارج الأرض!"
+                },
+                en: {
+                    tabTitle: "8. Saturn Guardian",
+                    name: "Cassini Saturn Orbiter",
+                    location: "Saturn & Its Icy Rings",
+                    status: "Became Part of Saturn!",
+                    mission: "Cassini-Huygens (1997–2017)",
+                    superpower: "Found Oceans on Saturn's Moons",
+                    act1: "Royal greetings from the ringed giant! Launched in 1997, I arrived at Saturn in 2004 and orbited for 13 extraordinary years—capturing hundreds of thousands of breathtaking images and delivering the Huygens probe onto hazy moon Titan!",
+                    act2: "My greatest discovery was spotting giant icy geysers erupting from the moon Enceladus, proving a warm liquid ocean hides beneath its icy crust! When my fuel ran low in 2017, NASA refused to let me drift uncontrolled where I might crash into and contaminate those ocean moons!",
+                    act3: "During my 'Grand Finale,' I dived 22 times between Saturn and its rings before plunging into Saturn's atmosphere—transmitting science until my final second as I became part of the planet I explored!",
+                    didYouKnow: "Cassini's intentional plunge into Saturn is called 'Planetary Protection'—ensuring Earth microbes never contaminate potentially habitable ocean moons!",
+                    takeaway: "Scientists protect other worlds just like Earth—Planetary Protection keeps ocean moons safe from contamination.",
+                    missionPrompt: "Tap below to explore Cassini's Grand Finale dive and its ocean discovery on Enceladus!",
+                    missionBtn: "Explore Cassini's Grand Finale",
+                    secretFact: "Cassini discovered plumes of water vapor and organic molecules erupting from Enceladus, making it a prime target in the search for life!"
+                }
+            },
+            {
+                id: "voyager",
+                theme: "deepSpace",
+                icon: "fa-compact-disc",
+                year: "1977 - الآن",
+                coords: "Interstellar • >24 Billion km from Earth",
+                archiveId: "NASA ID: PIA23645",
+                photoUrl: "https://images-assets.nasa.gov/image/PIA23645/PIA23645~medium.jpg",
+                fallbackImg: "https://placehold.co/800x500/311066/2dd4bf?text=Voyager+1+Pale+Blue+Dot",
+                nasaUrl: "https://science.nasa.gov/mission/voyager/",
+                gallery: [
+                    {
+                        url: "https://images-assets.nasa.gov/image/PIA23645/PIA23645~medium.jpg",
+                        id: "NASA ID: PIA23645",
+                        captionAr: "صورة النقطة الزرقاء الباهتة: كوكب الأرض يسبح في شعاع شمس من مسافة 6 مليارات كم",
+                        captionEn: "Pale Blue Dot: Planet Earth suspended in a sunbeam from 6 billion km away"
+                    },
+                    {
+                        url: "https://images-assets.nasa.gov/image/PIA00337/PIA00337~medium.jpg",
+                        id: "NASA ID: PIA00337",
+                        captionAr: "الأسطوانة الذهبية المثبتة على فوياجر 1 وتحمل أصوات الأرض وتحياتها للنجوم",
+                        captionEn: "The Golden Record mounted on Voyager 1 carrying Earth's sounds and greetings"
+                    },
+                    {
+                        url: "https://images-assets.nasa.gov/image/PIA01364/PIA01364~medium.jpg",
+                        id: "NASA ID: PIA01364",
+                        captionAr: "كوكب المشتري وبقعته الحمراء العملاقة كما صوّرها فوياجر 1 عام 1979",
+                        captionEn: "Jupiter and its Great Red Spot imaged by Voyager 1 in 1979"
+                    }
+                ],
+                ar: {
+                    tabTitle: "9. مسافر النجوم",
+                    name: "مسبار فوياجر 1 (Voyager 1)",
+                    location: "الفضاء بين النجوم (خارج المجموعة الشمسية)",
+                    status: "ما زال يطير ويرسل!",
+                    mission: "Interstellar Mission",
+                    superpower: "أبعد جسم صنعه البشر",
+                    act1: "تحية من وراء الكواكب! أنا لم أتوقف أبداً منذ انطلاقي عام 1977. زرتُ كوكبي المشتري وزحل وكشفتُ براكين قمر آيو، ثم واصلتُ رحلتي لأصبح أبعد جسم صنعه البشر على الإطلاق على مسافة تفوق 24 مليار كيلومتر في الفضاء بين النجوم!",
+                    act2: "في عام 1990، التفتُّ للخلف من مسافة 6 مليارات كيلومتر والتقطتُ صورة 'النقطة الزرقاء الباهتة' (Pale Blue Dot)؛ انظر إلى شعاع الضوء في الصورة—تلك النقطة الصغيرة جداً بحجم بكسل واحد هي كوكبكم الأرض بكل من عليه! وأنا أستمد طاقتي من مولد نووي حراري صغير لا يعتمد على الشمس البعيدة.",
+                    act3: "أحملُ على جانبي أسطوانة نحاسية مطلية بالذهب فيها موسيقى، وأصوات الأمواج والطيور، وتحيات بـ 55 لغة منها اللغة العربية: 'تحياتنا للأصدقاء في النجوم. يا ليت يجمعنا الزمان'. سأظل أطير في المجرة لمليارات السنين كرسالة سلام من كوكب الأرض!",
+                    didYouKnow: "تستغرق إشارة الراديو القادمة من فوياجر 1 بسرعة الضوء أكثر من 22 ساعة كاملة لكي تصل إلى هوائيات ناسا على الأرض!",
+                    takeaway: "العلم يوحد البشرية؛ فوياجر 1 يحمل تحياتنا بـ 55 لغة كرسالة سلام وأمل من كوكب الأرض إلى النجوم.",
+                    missionPrompt: "شغّل الأسطوانة الذهبية التي يحملها فوياجر 1 لتكتشف الرسالة المخفية للكائنات الفضائية!",
+                    missionBtn: "شغّل الأسطوانة الذهبية (Golden Record)",
+                    secretFact: "يحمل فوياجر 1 أسطوانة نحاسية مطلية بالذهب تحتوي على تحيات بـ 55 لغة (منها العربية)، وأصوات الطبيعة، وموسيقى، وخريطة ترشد أي حضارة ذكية إلى موقع كوكب الأرض!"
+                },
+                en: {
+                    tabTitle: "9. Star Traveler",
+                    name: "Voyager 1 Interstellar Probe",
+                    location: "Interstellar Space (Beyond Solar System)",
+                    status: "Still Flying & Transmitting!",
+                    mission: "Interstellar Mission",
+                    superpower: "Farthest Human-Made Object",
+                    act1: "Greetings from beyond the planets! I haven't stopped flying since 1977. After revealing Jupiter, Saturn, and volcanic moon Io, I crossed the boundary of our solar system to become humanity's farthest ambassador—over 24 billion kilometers away in interstellar space!",
+                    act2: "In 1990, from 6 billion km away, I turned my camera back and snapped the famous 'Pale Blue Dot' photo; look closely at the sunbeam—that tiny single-pixel speck is your entire home planet Earth! Powered by a nuclear thermal battery, I keep talking to NASA even where sunlight is faint.",
+                    act3: "Bolted to my side is a gold-plated phonograph record carrying Earth's music, ocean waves, birdsong, and greetings in 55 languages—traveling through the Milky Way for billions of years as humanity's time capsule!",
+                    didYouKnow: "Even traveling at the speed of light, a radio message from Voyager 1 takes over 22 hours to reach NASA's Deep Space Network antennas on Earth!",
+                    takeaway: "Science unites humanity—Voyager 1 carries greetings in 55 languages as a peaceful time capsule from Earth to the stars.",
+                    missionPrompt: "Spin Voyager 1's Golden Record to uncover the cosmic message sent to the stars!",
+                    missionBtn: "Spin the Golden Record",
+                    secretFact: "Voyager 1 carries a gold-plated phonograph record featuring greetings in 55 languages, Earth's nature sounds, music, and a star map showing where Earth is located!"
+                }
+            }
+        ];
+
+        const quizQuestions = [
+            {
+                ar: {
+                    q: "1. لماذا انقسمت الوحدة القمرية (Apollo Lunar Module) إلى جزأين عند مغادرة القمر؟",
+                    options: [
+                        "لأن جزءها العلوي تعطل فاضطر الرواد لتركه",
+                        "ليستخدم الجزء العلوي الجزء السفلي كمنصة إطلاق ويوفر الوقود والوزن",
+                        "لتحويلها إلى محطة قطار قمرية"
+                    ],
+                    correct: 1,
+                    explain: "أحسنت! الجزء السفلي بأرجله الأربعة بقي كمنصة إطلاق صامتة في بحر السكون حتى اليوم."
+                },
+                en: {
+                    q: "1. Why did the Apollo Lunar Module split into two stages when leaving the Moon?",
+                    options: [
+                        "Because the top half broke down",
+                        "So the upper cabin could use the lower stage as a launchpad and save fuel",
+                        "To turn it into a lunar train station"
+                    ],
+                    correct: 1,
+                    explain: "Spot on! The four-legged descent stage stayed behind as a silent launchpad at Tranquility Base."
+                }
+            },
+            {
+                ar: {
+                    q: "2. ما الذي يميز المسبار الروبوتي سيرفيور 3 (Surveyor 3) عن غيره من الروبوتات؟",
+                    options: [
+                        "أنه الروبوت الوحيد الذي زاره رواد الفضاء على القمر وأعادوا كاميرته للأرض",
+                        "أنه طار إلى كوكب بلوتو في يومين",
+                        "أنه كان يعمل بطاقة الرياح القمرية"
+                    ],
+                    correct: 0,
+                    explain: "رائع! زاره رواد أبولو 12 عام 1969 وأعادوا كاميرته لدراسة تأثير الفضاء عليها."
+                },
+                en: {
+                    q: "2. What makes the Surveyor 3 robotic lander unique in space history?",
+                    options: [
+                        "It is the only robot visited by humans on another world with parts returned to Earth",
+                        "It flew to Pluto in two days",
+                        "It ran on lunar wind power"
+                    ],
+                    correct: 0,
+                    explain: "Awesome! Apollo 12 astronauts visited Surveyor 3 in 1969 and brought its camera home."
+                }
+            },
+            {
+                ar: {
+                    q: "3. لماذا تبقى آثار عجلات عربة أبولو القمرية (LRV) على القمر لملايين السنين؟",
+                    options: [
+                        "لأن عجلاتها مصنوعة من الصمغ الفضائي",
+                        "لأن القمر لا يملك رياحاً ولا أمطاراً تمحو الآثار",
+                        "لأن رواد الفضاء يقومون بتجديدها كل عام"
+                    ],
+                    correct: 1,
+                    explain: "ممتاز! غياب الغلاف الجوي والرياح والأمطار على القمر يحفظ الآثار لملايين السنين."
+                },
+                en: {
+                    q: "3. Why will the tire tracks of the Apollo Lunar Rover stay on the Moon for millions of years?",
+                    options: [
+                        "Because its tires were coated in space glue",
+                        "Because the Moon has no wind or rain to erase them",
+                        "Because astronauts repaint them every year"
+                    ],
+                    correct: 1,
+                    explain: "Awesome! With no atmosphere, wind, or rain, lunar tracks remain preserved for millions of years."
+                }
+            },
+            {
+                ar: {
+                    q: "4. كيف تمكنت مروحية إنجينيويتي (Ingenuity) من الطيران في هواء المريخ الرقيق جداً؟",
+                    options: [
+                        "بفضل دوران شفراتها بسرعة فائقة تصل إلى 2,537 دورة في الدقيقة",
+                        "بفضل ربطها ببالون هيليوم عملاق",
+                        "لأن جاذبية المريخ معدومة تماماً"
+                    ],
+                    correct: 0,
+                    explain: "عبقري! دوران شفراتها بسرعة تفوق مروحيات الأرض بـ 5 مرات مكّنها من تحقيق 72 رحلة!"
+                },
+                en: {
+                    q: "4. How did NASA's Ingenuity helicopter fly in Mars's ultra-thin atmosphere?",
+                    options: [
+                        "By spinning its carbon-fiber blades at an ultra-fast 2,537 RPM",
+                        "By tying it to a giant helium balloon",
+                        "Because Mars has zero gravity"
+                    ],
+                    correct: 0,
+                    explain: "Brilliant! Spinning 5 times faster than Earth helicopters let Ingenuity complete 72 flights!"
+                }
+            },
+            {
+                ar: {
+                    q: "5. لماذا أنهى مسبار كاسيني (Cassini) مهمته بالغوص داخل كوكب زحل عام 2017؟",
+                    options: [
+                        "لأن بطاريته انفجرت بالخطأ",
+                        "لحماية أقمار زحل ذات المحيطات (مثل إنسيلادوس) من التلوث ببكتيريا الأرض",
+                        "للبحث عن الذهب داخل حلقات زحل"
+                    ],
+                    correct: 1,
+                    explain: "إجابة خبير فضاء! هذه القاعدة تسمى الحماية الكوكبية (Planetary Protection)."
+                },
+                en: {
+                    q: "5. Why did NASA intentionally plunge Cassini into Saturn in 2017?",
+                    options: [
+                        "Because its battery exploded by mistake",
+                        "To protect ocean-bearing moons like Enceladus from Earth microbes",
+                        "To mine gold inside Saturn's rings"
+                    ],
+                    correct: 1,
+                    explain: "Space expert answer! This vital rule is known as Planetary Protection."
+                }
+            },
+            {
+                ar: {
+                    q: "6. ماذا يحمل مسبار فوياجر 1 (Voyager 1) معه في رحلته بين النجوم؟",
+                    options: [
+                        "أسطوانة ذهبية تحمل تحيات البشر بـ 55 لغة وأصوات الأرض",
+                        "مجموعة من بذور التفاح لزراعتها على زحل",
+                        "خزان ماء كبير لإطفاء النجوم"
+                    ],
+                    correct: 0,
+                    explain: "ممتاز! الأسطوانة الذهبية هي رسالة البشرية إلى الكون وتحمل تحية باللغة العربية أيضاً!"
+                },
+                en: {
+                    q: "6. What is Voyager 1 carrying on its journey through interstellar space?",
+                    options: [
+                        "A Golden Record with greetings in 55 languages & Earth sounds",
+                        "Bags of apple seeds to plant on Saturn",
+                        "A giant water tank to cool down stars"
+                    ],
+                    correct: 0,
+                    explain: "Brilliant! The Golden Record is humanity's time capsule traveling among the stars."
+                }
+            }
+        ];
+
+        // ========================================================
+        // 2. WEB AUDIO API FUN SOUND EFFECTS (NO EXTERNAL URLS)
+        // ========================================================
+        let audioCtx = null;
+
+        function playFx(type) {
+            try {
+                if (!audioCtx) {
+                    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                }
+                if (audioCtx.state === 'suspended') {
+                    audioCtx.resume();
+                }
+
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+                const now = audioCtx.currentTime;
+
+                if (type === 'star') {
+                    osc.type = 'triangle';
+                    osc.frequency.setValueAtTime(523.25, now);
+                    osc.frequency.setValueAtTime(659.25, now + 0.09);
+                    osc.frequency.setValueAtTime(783.99, now + 0.18);
+                    osc.frequency.setValueAtTime(1046.5, now + 0.27);
+                    gain.gain.setValueAtTime(0.15, now);
+                    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.55);
+                    osc.connect(gain);
+                    gain.connect(audioCtx.destination);
+                    osc.start(now);
+                    osc.stop(now + 0.55);
+                } else if (type === 'laser') {
+                    osc.type = 'sawtooth';
+                    osc.frequency.setValueAtTime(1200, now);
+                    osc.frequency.exponentialRampToValueAtTime(180, now + 0.35);
+                    gain.gain.setValueAtTime(0.12, now);
+                    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.35);
+                    osc.connect(gain);
+                    gain.connect(audioCtx.destination);
+                    osc.start(now);
+                    osc.stop(now + 0.35);
+                } else if (type === 'quake') {
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(68, now);
+                    osc.frequency.linearRampToValueAtTime(42, now + 0.6);
+                    gain.gain.setValueAtTime(0.25, now);
+                    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.65);
+                    osc.connect(gain);
+                    gain.connect(audioCtx.destination);
+                    osc.start(now);
+                    osc.stop(now + 0.65);
+                } else {
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(440, now);
+                    osc.frequency.exponentialRampToValueAtTime(660, now + 0.12);
+                    gain.gain.setValueAtTime(0.08, now);
+                    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.12);
+                    osc.connect(gain);
+                    gain.connect(audioCtx.destination);
+                    osc.start(now);
+                    osc.stop(now + 0.12);
+                }
+            } catch (e) {
+                // Audio fallback ignored
+            }
+        }
+
+        // ========================================================
+        // 3. CHAPTER RENDERING & INTERACTIVE STORY MISSIONS
+        // ========================================================
+        function renderChapterTabs() {
+            const container = document.getElementById('chapter-tabs');
+            container.innerHTML = '';
+
+            storyChapters.forEach((ch, idx) => {
+                const data = ch[currentLang];
+                const isActive = idx === activeChapterIndex;
+                const isDone = unlockedStars.has(ch.id);
+
+                const btn = document.createElement('button');
+                btn.onclick = () => {
+                    playFx('click');
+                    activeChapterIndex = idx;
+                    activeGalleryIndex = 0;
+                    renderChapterTabs();
+                    renderActiveChapter();
+                };
+
+                btn.className = `btn-comic p-3 rounded-2xl text-start flex flex-col justify-between gap-1.5 ${
+                    isActive
+                        ? 'bg-gradient-to-br from-cosmos-cyan via-amber-300 to-emerald-400 text-slate-950 font-black'
+                        : 'bg-purple-950/90 hover:bg-purple-900 text-white font-bold'
+                }`;
+
+                btn.innerHTML = `
+                    <div class="flex items-center justify-between w-full">
+                        <i class="fa-solid ${ch.icon} text-base ${isActive ? 'text-slate-950' : 'text-cosmos-cyan'}"></i>
+                        <i class="fa-${isDone ? 'solid' : 'regular'} fa-star text-xs ${isDone ? (isActive ? 'text-amber-700' : 'text-cosmos-gold') : 'opacity-40'}"></i>
+                    </div>
+                    <span class="text-xs sm:text-sm truncate w-full">${data.tabTitle}</span>
+                `;
+                container.appendChild(btn);
+            });
+        }
+
+        function setMediaView(mode) {
+            activeMediaMode = mode;
+            const ch = storyChapters[activeChapterIndex];
+            if (!ch.hasBlueprint) return;
+
+            const photoEl = document.getElementById('nasa-photo');
+            const captionEl = document.getElementById('nasa-photo-caption');
+            const archiveEl = document.getElementById('nasa-archive-id');
+            const btnBlueprint = document.getElementById('btn-view-blueprint');
+            const btnPhoto = document.getElementById('btn-view-photo');
+
+            if (mode === 'blueprint') {
+                photoEl.src = ch.blueprintUrl;
+                photoEl.classList.remove('object-cover');
+                photoEl.classList.add('object-contain', 'bg-slate-50', 'p-2');
+                captionEl.textContent = currentLang === 'ar'
+                    ? 'المخطط الهندسي التفصيلي للوحدة القمرية (Apollo Lunar Module)'
+                    : 'Detailed Engineering Schematic of the Apollo Lunar Module';
+                archiveEl.textContent = 'NASA LM-SCHEMATIC';
+                btnBlueprint.className = 'py-2 px-3 rounded-xl font-black text-xs bg-cosmos-cyan text-slate-950 flex items-center justify-center gap-1.5';
+                btnPhoto.className = 'py-2 px-3 rounded-xl font-bold text-xs text-purple-200 hover:text-white flex items-center justify-center gap-1.5';
+            } else {
+                const item = ch.gallery[activeGalleryIndex] || ch.gallery[0];
+                photoEl.src = item.url;
+                photoEl.classList.remove('object-contain', 'bg-slate-50', 'p-2');
+                photoEl.classList.add('object-cover');
+                captionEl.textContent = currentLang === 'ar' ? item.captionAr : item.captionEn;
+                archiveEl.textContent = item.id;
+                btnPhoto.className = 'py-2 px-3 rounded-xl font-black text-xs bg-cosmos-cyan text-slate-950 flex items-center justify-center gap-1.5';
+                btnBlueprint.className = 'py-2 px-3 rounded-xl font-bold text-xs text-purple-200 hover:text-white flex items-center justify-center gap-1.5';
+            }
+            playFx('click');
+        }
+
+        function selectGalleryPhoto(idx) {
+            activeGalleryIndex = idx;
+            const ch = storyChapters[activeChapterIndex];
+            const item = ch.gallery[idx];
+            if (!item) return;
+
+            const photoEl = document.getElementById('nasa-photo');
+            photoEl.classList.remove('object-contain', 'bg-slate-50', 'p-2');
+            photoEl.classList.add('object-cover');
+            photoEl.src = item.url;
+
+            document.getElementById('nasa-photo-caption').textContent = currentLang === 'ar' ? item.captionAr : item.captionEn;
+            document.getElementById('nasa-archive-id').textContent = item.id;
+            document.getElementById('gallery-counter').textContent = `${idx + 1} / ${ch.gallery.length}`;
+
+            if (ch.hasBlueprint) {
+                activeMediaMode = 'photo';
+                document.getElementById('btn-view-photo').className = 'py-2 px-3 rounded-xl font-black text-xs bg-cosmos-cyan text-slate-950 flex items-center justify-center gap-1.5';
+                document.getElementById('btn-view-blueprint').className = 'py-2 px-3 rounded-xl font-bold text-xs text-purple-200 hover:text-white flex items-center justify-center gap-1.5';
+            }
+
+            renderChapterGallery(ch);
+            playFx('click');
+        }
+
+        function renderChapterGallery(ch) {
+            const thumbsEl = document.getElementById('chapter-gallery-thumbs');
+            thumbsEl.innerHTML = '';
+            const list = ch.gallery || [];
+            document.getElementById('gallery-counter').textContent = `${activeGalleryIndex + 1} / ${list.length}`;
+
+            list.forEach((item, idx) => {
+                const isSelected = idx === activeGalleryIndex && (!ch.hasBlueprint || activeMediaMode === 'photo');
+                const btn = document.createElement('button');
+                btn.onclick = () => selectGalleryPhoto(idx);
+                btn.className = `relative rounded-xl overflow-hidden border-2 transition-all h-16 sm:h-20 bg-slate-900 ${
+                    isSelected
+                        ? 'border-cosmos-gold ring-2 ring-cosmos-gold/60 scale-[1.03]'
+                        : 'border-white/25 opacity-75 hover:opacity-100'
+                }`;
+                btn.innerHTML = `
+                    <img src="${item.url}" onerror="this.src='${ch.fallbackImg}'" alt="NASA Gallery ${idx + 1}" class="w-full h-full object-cover">
+                    <span class="absolute bottom-1 right-1 px-1.5 py-0.2 rounded bg-black/75 font-mono text-[9px] text-white font-bold">#${idx + 1}</span>
+                `;
+                thumbsEl.appendChild(btn);
+            });
+        }
+
+        function applyWorldTheme(themeKey) {
+            const theme = worldThemes[themeKey] || worldThemes.deepSpace;
+            document.body.style.background = theme.pageBg;
+            const readerCard = document.getElementById('comic-reader-card');
+            readerCard.style.setProperty('--panel-from', theme.panelFrom);
+            readerCard.style.setProperty('--panel-to', theme.panelTo);
+            readerCard.style.setProperty('--panel-border', theme.panelBorder);
+            readerCard.style.setProperty('--panel-accent', theme.panelAccent);
+
+            const avatar = document.getElementById('char-avatar');
+            avatar.className = `w-14 h-14 rounded-2xl bg-gradient-to-br ${theme.avatarGrad} text-slate-950 flex items-center justify-center text-2xl font-black border-2 border-white shadow-lg shrink-0`;
+        }
+
+        function renderActiveChapter() {
+            stopSpeech();
+            const ch = storyChapters[activeChapterIndex];
+            const data = ch[currentLang];
+            const t = uiText[currentLang];
+            const isUnlocked = unlockedStars.has(ch.id);
+
+            applyWorldTheme(ch.theme);
+
+            document.getElementById('chapter-indicator').textContent = `CHAPTER ${activeChapterIndex + 1} / ${storyChapters.length}`;
+            document.getElementById('char-avatar').innerHTML = `<i class="fa-solid ${ch.icon}"></i>`;
+            document.getElementById('char-location').textContent = data.location;
+            document.getElementById('char-name').textContent = data.name;
+            document.getElementById('char-coords-text').textContent = ch.coords;
+            document.getElementById('char-year').textContent = ch.year;
+            document.getElementById('story-act-1').textContent = data.act1;
+            document.getElementById('story-act-2').textContent = data.act2;
+            document.getElementById('story-act-3').textContent = data.act3;
+            document.getElementById('did-you-know-text').textContent = data.didYouKnow;
+            document.getElementById('student-takeaway-text').textContent = data.takeaway;
+
+            // Photo / Blueprint Setup
+            const switchBar = document.getElementById('blueprint-switch-bar');
+            const compareBox = document.getElementById('blueprint-compare-box');
+            const standardFrame = document.getElementById('standard-photo-frame');
+            const voyagerLiveBox = document.getElementById('voyager-live-telemetry');
+            const photoEl = document.getElementById('nasa-photo');
+            const captionEl = document.getElementById('nasa-photo-caption');
+            const activeItem = ch.gallery[activeGalleryIndex] || ch.gallery[0];
+            photoEl.onerror = () => { photoEl.src = ch.fallbackImg; };
+
+            // Update 3D Planetary Observatory
+            updatePlanetObservatory(ch);
+
+            // Voyager Live Telemetry Toggle
+            if (ch.id === 'voyager') {
+                voyagerLiveBox.classList.remove('hidden');
+            } else {
+                voyagerLiveBox.classList.add('hidden');
+            }
+
+            if (ch.hasBlueprint) {
+                switchBar.classList.add('hidden');
+                compareBox.classList.remove('hidden');
+                standardFrame.classList.add('hidden');
+                document.getElementById('compare-blueprint-img').src = ch.blueprintUrl;
+                updateCompareSlider(50);
+            } else {
+                compareBox.classList.add('hidden');
+                standardFrame.classList.remove('hidden');
+                switchBar.classList.add('hidden');
+                photoEl.classList.remove('object-contain', 'bg-slate-50', 'p-2');
+                photoEl.classList.add('object-cover');
+                photoEl.src = activeItem.url;
+                captionEl.textContent = currentLang === 'ar' ? activeItem.captionAr : activeItem.captionEn;
+                document.getElementById('nasa-archive-id').textContent = activeItem.id;
+            }
+
+            document.getElementById('nasa-photo-link').href = ch.nasaUrl;
+            renderChapterGallery(ch);
+
+            // Interactive Dust Cover for Opportunity
+            const dustLayer = document.getElementById('mars-dust-layer');
+            if (ch.id === 'opportunity' && !isUnlocked) {
+                dustLayer.classList.remove('hidden');
+                dustLayer.style.opacity = '1';
+            } else {
+                dustLayer.classList.add('hidden');
+            }
+
+            // Interactive 3D Rover Viewer Card (Opportunity Chapter)
+            const card3D = document.getElementById('nasa-3d-card');
+            if (ch.id === 'opportunity') {
+                card3D.classList.remove('hidden');
+                setTimeout(initRover3DViewer, 60);
+            } else {
+                card3D.classList.add('hidden');
+            }
+
+            // Stats Card
+            document.getElementById('hw-status-pill').textContent = data.status;
+            document.getElementById('hw-mission-val').textContent = data.mission;
+            document.getElementById('hw-superpower-val').textContent = data.superpower;
+
+            // Mini-Mission Setup
+            document.getElementById('mini-mission-prompt').textContent = data.missionPrompt;
+            const controlsDiv = document.getElementById('mini-mission-controls');
+            const secretBox = document.getElementById('secret-reveal-box');
+            const starStatus = document.getElementById('mission-star-status');
+
+            controlsDiv.innerHTML = '';
+            const actionBtn = document.createElement('button');
+            actionBtn.className = 'btn-comic px-4 py-2.5 rounded-xl bg-cosmos-gold hover:bg-amber-300 text-slate-950 font-black text-xs sm:text-sm flex items-center gap-2';
+            actionBtn.innerHTML = `<i class="fa-solid fa-bolt"></i> <span>${data.missionBtn}</span>`;
+            actionBtn.onclick = () => triggerChapterMission(ch.id);
+            controlsDiv.appendChild(actionBtn);
+
+            if (isUnlocked) {
+                secretBox.classList.remove('hidden');
+                document.getElementById('secret-science-text').textContent = data.secretFact;
+                starStatus.innerHTML = `<i class="fa-solid fa-star text-cosmos-gold"></i> ${currentLang === 'ar' ? 'مكتشفة!' : 'Unlocked!'}`;
+            } else {
+                secretBox.classList.add('hidden');
+                starStatus.innerHTML = `<i class="fa-regular fa-star"></i> +1 ${currentLang === 'ar' ? 'نجمة' : 'Star'}`;
+            }
+
+            // Prev / Next Buttons
+            document.getElementById('prev-ch-btn').disabled = activeChapterIndex === 0;
+            const nextLabel = document.getElementById('next-ch-label');
+            if (activeChapterIndex === storyChapters.length - 1) {
+                nextLabel.textContent = t.finishStoryBtn;
+            } else {
+                nextLabel.textContent = t.nextChapter;
+            }
+        }
+
+        function triggerChapterMission(chapterId) {
+            const ch = storyChapters[activeChapterIndex];
+            const data = ch[currentLang];
+
+            if (chapterId === 'alsep') playFx('laser');
+            else if (chapterId === 'insight' || chapterId === 'ingenuity') playFx('quake');
+            else playFx('star');
+
+            if (chapterId === 'opportunity') {
+                const dustLayer = document.getElementById('mars-dust-layer');
+                dustLayer.style.opacity = '0';
+                setTimeout(() => dustLayer.classList.add('hidden'), 500);
+            }
+
+            if (!unlockedStars.has(chapterId)) {
+                unlockedStars.add(chapterId);
+                updateStarHUD();
+                renderChapterTabs();
+                showToast(currentLang === 'ar'
+                    ? `رائع! حصلت على نجمة الاستكشاف (${unlockedStars.size}/${storyChapters.length}) ⭐`
+                    : `Awesome! You earned Explorer Star (${unlockedStars.size}/${storyChapters.length}) ⭐`);
+            }
+
+            const secretBox = document.getElementById('secret-reveal-box');
+            secretBox.classList.remove('hidden');
+            document.getElementById('secret-science-text').textContent = data.secretFact;
+            document.getElementById('mission-star-status').innerHTML = `<i class="fa-solid fa-star text-cosmos-gold"></i> ${currentLang === 'ar' ? 'مكتشفة!' : 'Unlocked!'}`;
+        }
+
+        function wipeMarsDust() {
+            triggerChapterMission('opportunity');
+        }
+
+        function changeChapter(delta) {
+            playFx('click');
+            const nextIdx = activeChapterIndex + delta;
+            if (nextIdx >= storyChapters.length) {
+                scrollToQuiz();
+                return;
+            }
+            if (nextIdx >= 0 && nextIdx < storyChapters.length) {
+                activeChapterIndex = nextIdx;
+                activeGalleryIndex = 0;
+                renderChapterTabs();
+                renderActiveChapter();
+            }
+        }
+
+        function updateStarHUD() {
+            const count = unlockedStars.size;
+            const countEl = document.getElementById('stars-count');
+            countEl.textContent = count;
+            countEl.classList.remove('star-unlocked');
+            void countEl.offsetWidth;
+            countEl.classList.add('star-unlocked');
+
+            const cardStars = document.getElementById('card-stars-row');
+            let starsHtml = '';
+            for (let i = 0; i < storyChapters.length; i++) {
+                starsHtml += i < count
+                    ? '<i class="fa-solid fa-star star-unlocked"></i>'
+                    : '<i class="fa-regular fa-star opacity-40"></i>';
+            }
+            cardStars.innerHTML = starsHtml;
+        }
+
+        // ========================================================
+        // 4. TEXT-TO-SPEECH STORY VOICE NARRATOR
+        // ========================================================
+        let isSpeaking = false;
+
+        function speakChapterStory() {
+            if (!('speechSynthesis' in window)) {
+                showToast(currentLang === 'ar' ? 'المتصفح لا يدعم القراءة الصوتية' : 'Voice narration not supported in this browser');
+                return;
+            }
+
+            if (isSpeaking) {
+                stopSpeech();
+                return;
+            }
+
+            const ch = storyChapters[activeChapterIndex];
+            const d = ch[currentLang];
+            const fullNarration = `${d.act1} ... ${d.act2} ... ${d.act3}`;
+            const utterance = new SpeechSynthesisUtterance(fullNarration);
+            utterance.lang = currentLang === 'ar' ? 'ar-SA' : 'en-US';
+            utterance.rate = 0.96;
+            utterance.pitch = 1.05;
+
+            utterance.onstart = () => {
+                isSpeaking = true;
+                document.getElementById('voice-icon').className = 'fa-solid fa-stop';
+                document.getElementById('voice-label').textContent = uiText[currentLang].stopBtn;
+            };
+
+            utterance.onend = () => stopSpeech();
+            utterance.onerror = () => stopSpeech();
+
+            window.speechSynthesis.cancel();
+            window.speechSynthesis.speak(utterance);
+        }
+
+        function stopSpeech() {
+            if ('speechSynthesis' in window) {
+                window.speechSynthesis.cancel();
+            }
+            isSpeaking = false;
+            document.getElementById('voice-icon').className = 'fa-solid fa-volume-high';
+            document.getElementById('voice-label').textContent = uiText[currentLang].listenBtn;
+        }
+
+        // ========================================================
+        // 5. FINALE MINI-QUIZ & PERSONALIZED EXPLORER CARD
+        // ========================================================
+        function renderQuizStep() {
+            const qObj = quizQuestions[currentQuizStep][currentLang];
+            document.getElementById('q-step-label').textContent = currentLang === 'ar'
+                ? `سؤال ${currentQuizStep + 1} من ${quizQuestions.length}`
+                : `Question ${currentQuizStep + 1} of ${quizQuestions.length}`;
+            document.getElementById('q-score-label').textContent = currentLang === 'ar'
+                ? `النقاط: ${quizScore} / ${quizQuestions.length}`
+                : `Score: ${quizScore} / ${quizQuestions.length}`;
+
+            document.getElementById('q-prompt').textContent = qObj.q;
+            const choicesDiv = document.getElementById('q-choices');
+            choicesDiv.innerHTML = '';
+
+            const feedbackEl = document.getElementById('q-feedback');
+            feedbackEl.classList.add('hidden');
+            quizAnswered = false;
+
+            qObj.options.forEach((opt, idx) => {
+                const btn = document.createElement('button');
+                btn.className = 'btn-comic w-full text-start p-3.5 rounded-xl bg-purple-950 hover:bg-purple-900 text-white font-bold text-xs sm:text-sm';
+                btn.textContent = opt;
+                btn.onclick = () => handleQuizAnswer(idx, btn);
+                choicesDiv.appendChild(btn);
+            });
+        }
+
+        function handleQuizAnswer(selectedIdx, btnEl) {
+            if (quizAnswered) return;
+            quizAnswered = true;
+
+            const qObj = quizQuestions[currentQuizStep][currentLang];
+            const feedbackEl = document.getElementById('q-feedback');
+            feedbackEl.classList.remove('hidden');
+
+            if (selectedIdx === qObj.correct) {
+                quizScore++;
+                playFx('star');
+                btnEl.classList.remove('bg-purple-950');
+                btnEl.classList.add('bg-emerald-500', 'text-slate-950');
+                feedbackEl.className = 'p-3 rounded-xl text-xs sm:text-sm font-bold bg-emerald-950 border border-emerald-400 text-emerald-200';
+                feedbackEl.textContent = qObj.explain;
+            } else {
+                playFx('click');
+                btnEl.classList.remove('bg-purple-950');
+                btnEl.classList.add('bg-rose-600', 'text-white');
+                feedbackEl.className = 'p-3 rounded-xl text-xs sm:text-sm font-bold bg-rose-950 border border-rose-400 text-rose-200';
+                feedbackEl.textContent = qObj.explain;
+            }
+
+            document.getElementById('q-score-label').textContent = currentLang === 'ar'
+                ? `النقاط: ${quizScore} / ${quizQuestions.length}`
+                : `Score: ${quizScore} / ${quizQuestions.length}`;
+
+            setTimeout(() => {
+                if (currentQuizStep < quizQuestions.length - 1) {
+                    currentQuizStep++;
+                    renderQuizStep();
+                } else {
+                    showToast(currentLang === 'ar'
+                        ? 'مبروك! أكملت اختبار مستكشفي الفضاء بنجاح 🎉'
+                        : 'Congrats! You completed the Space Explorer Quiz 🎉');
+                    currentQuizStep = 0;
+                    quizScore = 0;
+                    renderQuizStep();
+                }
+            }, 2400);
+        }
+
+        function updateExplorerName(val) {
+            const clean = val.trim();
+            const defaultName = currentLang === 'ar' ? 'مستكشف الفضاء البطل' : 'Hero Space Explorer';
+            document.getElementById('explorer-card-name').textContent = clean || defaultName;
+        }
+
+        function copyExplorerBadge() {
+            const name = document.getElementById('explorer-card-name').textContent;
+            const stars = unlockedStars.size;
+            const total = storyChapters.length;
+            const shareMsg = currentLang === 'ar'
+                ? `🚀 بطاقة مستكشف الفضاء المعتمد | الاسم: ${name} | نجوم الاستكشاف: ${stars}/${total} ⭐ — مشروع تحدي ناسا: رسائل من الصمت!`
+                : `🚀 Certified Junior Space Explorer | Name: ${name} | Stars: ${stars}/${total} ⭐ — NASA Space Apps: Messages from Silence!`;
+
+            const tempArea = document.createElement('textarea');
+            tempArea.value = shareMsg;
+            document.body.appendChild(tempArea);
+            tempArea.select();
+            document.execCommand('copy');
+            document.body.removeChild(tempArea);
+
+            playFx('star');
+            showToast(currentLang === 'ar' ? 'تم نسخ بطاقتك الفضائية لمشاركتها!' : 'Explorer card copied to clipboard!');
+        }
+
+        // ========================================================
+        // 6. LANGUAGE TOGGLE & NAVIGATION HELPERS
+        // ========================================================
+        function toggleLanguage() {
+            stopSpeech();
+            currentLang = currentLang === 'ar' ? 'en' : 'ar';
+            const htmlEl = document.documentElement;
+            htmlEl.lang = currentLang;
+            htmlEl.dir = currentLang === 'ar' ? 'rtl' : 'ltr';
+
+            document.getElementById('lang-toggle').textContent = currentLang === 'ar' ? 'EN' : 'عربي';
+            document.getElementById('hud-title').textContent = uiText[currentLang].hudTitle;
+
+            const nameInput = document.getElementById('student-name-input');
+            nameInput.placeholder = currentLang === 'ar'
+                ? 'اكتب اسمك هنا ليظهر على البطاقة...'
+                : 'Type your name for your badge...';
+            updateExplorerName(nameInput.value);
+
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (uiText[currentLang][key]) {
+                    el.innerHTML = uiText[currentLang][key];
+                }
+            });
+
+            renderChapterTabs();
+            renderActiveChapter();
+            renderQuizStep();
+        }
+
+        function scrollToStory() {
+            document.getElementById('story-stage').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function scrollToQuiz() {
+            document.getElementById('explorer-finale').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function toggleSourcesModal(show) {
+            const modal = document.getElementById('sources-modal');
+            if (show) modal.classList.remove('hidden');
+            else modal.classList.add('hidden');
+        }
+
+        function showToast(msg) {
+            const box = document.getElementById('toast-box');
+            document.getElementById('toast-text').textContent = msg;
+            box.classList.remove('hidden');
+            setTimeout(() => box.classList.add('hidden'), 3200);
+        }
+
+        // ========================================================
+        // 7. INTERACTIVE 3D SPIRIT & OPPORTUNITY ROVER VIEWER
+        // ========================================================
+        let rover3DInitialized = false;
+        let rover3DResizeFn = null;
+
+        function initRover3DViewer() {
+            const container = document.getElementById('rover-3d-container');
+            if (!container || typeof THREE === 'undefined') return;
+
+            if (rover3DInitialized) {
+                if (rover3DResizeFn) rover3DResizeFn();
+                return;
+            }
+            rover3DInitialized = true;
+
+            const scene = new THREE.Scene();
+            scene.background = new THREE.Color(0x0c0521);
+
+            const camera = new THREE.PerspectiveCamera(42, container.clientWidth / container.clientHeight, 0.1, 100);
+            camera.position.set(3.4, 2.3, 3.8);
+            camera.lookAt(0, 0.4, 0);
+
+            const renderer = new THREE.WebGLRenderer({ antialias: true });
+            renderer.setSize(container.clientWidth, container.clientHeight);
+            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+            container.appendChild(renderer.domElement);
+
+            // Lighting (Warm Martian sunlight + cool rim light)
+            const ambientLight = new THREE.AmbientLight(0xffffff, 0.65);
+            scene.add(ambientLight);
+
+            const sunLight = new THREE.DirectionalLight(0xffd6a5, 1.3);
+            sunLight.position.set(5, 8, 5);
+            scene.add(sunLight);
+
+            const rimLight = new THREE.DirectionalLight(0x00f5d4, 0.5);
+            rimLight.position.set(-4, 3, -4);
+            scene.add(rimLight);
+
+            // Martian Red Ground Disc
+            const groundGeo = new THREE.CylinderGeometry(2.6, 2.6, 0.12, 36);
+            const groundMat = new THREE.MeshStandardMaterial({ color: 0xb44c27, roughness: 0.9 });
+            const ground = new THREE.Mesh(groundGeo, groundMat);
+            ground.position.y = -0.55;
+            scene.add(ground);
+
+            // Build Spirit & Opportunity Rover Group
+            const roverGroup = new THREE.Group();
+
+            // Golden Foil Warm Electronics Box (WEB)
+            const bodyGeo = new THREE.BoxGeometry(1.1, 0.45, 0.95);
+            const goldMat = new THREE.MeshStandardMaterial({ color: 0xf59e0b, metalness: 0.7, roughness: 0.3 });
+            const body = new THREE.Mesh(bodyGeo, goldMat);
+            body.position.y = 0.15;
+            roverGroup.add(body);
+
+            // Triangular Solar Array Wings (Characteristic MER Solar Deck)
+            const solarMat = new THREE.MeshStandardMaterial({ color: 0x1e3a8a, metalness: 0.5, roughness: 0.25 });
+            const centerDeck = new THREE.Mesh(new THREE.BoxGeometry(1.45, 0.06, 1.35), solarMat);
+            centerDeck.position.y = 0.4;
+            roverGroup.add(centerDeck);
+
+            const leftWing = new THREE.Mesh(new THREE.BoxGeometry(0.65, 0.05, 1.15), solarMat);
+            leftWing.position.set(-1.02, 0.36, 0);
+            leftWing.rotation.z = 0.12;
+            roverGroup.add(leftWing);
+
+            const rightWing = new THREE.Mesh(new THREE.BoxGeometry(0.65, 0.05, 1.15), solarMat);
+            rightWing.position.set(1.02, 0.36, 0);
+            rightWing.rotation.z = -0.12;
+            roverGroup.add(rightWing);
+
+            // Pancam Mast & Stereo Camera Head
+            const whiteMat = new THREE.MeshStandardMaterial({ color: 0xf1f5f9, roughness: 0.4 });
+            const mast = new THREE.Mesh(new THREE.CylinderGeometry(0.06, 0.08, 0.95, 12), whiteMat);
+            mast.position.set(0.38, 0.85, 0.35);
+            roverGroup.add(mast);
+
+            const camHead = new THREE.Mesh(new THREE.BoxGeometry(0.42, 0.16, 0.2), whiteMat);
+            camHead.position.set(0.38, 1.34, 0.38);
+            roverGroup.add(camHead);
+
+            // Stereo Camera Lenses (Eyes)
+            const lensMat = new THREE.MeshStandardMaterial({ color: 0x00f5d4, emissive: 0x00a896, emissiveIntensity: 0.5 });
+            const eyeL = new THREE.Mesh(new THREE.CylinderGeometry(0.04, 0.04, 0.06, 12), lensMat);
+            eyeL.rotation.x = Math.PI / 2;
+            eyeL.position.set(0.28, 1.34, 0.49);
+            const eyeR = eyeL.clone();
+            eyeR.position.set(0.48, 1.34, 0.49);
+            roverGroup.add(eyeL, eyeR);
+
+            // High-Gain Dish Antenna
+            const dish = new THREE.Mesh(new THREE.CylinderGeometry(0.24, 0.05, 0.08, 16), whiteMat);
+            dish.position.set(-0.35, 0.52, -0.32);
+            dish.rotation.x = -0.35;
+            roverGroup.add(dish);
+
+            // 6 Rocker-Bogie Wheels
+            const wheelGeo = new THREE.CylinderGeometry(0.22, 0.22, 0.16, 18);
+            const wheelMat = new THREE.MeshStandardMaterial({ color: 0x334155, metalness: 0.6, roughness: 0.5 });
+            const strutMat = new THREE.MeshStandardMaterial({ color: 0x94a3b8, metalness: 0.7 });
+
+            const wheelCoords = [
+                [-0.85, -0.28,  0.65], [0, -0.28,  0.68], [0.85, -0.28,  0.65],
+                [-0.85, -0.28, -0.65], [0, -0.28, -0.68], [0.85, -0.28, -0.65]
+            ];
+
+            wheelCoords.forEach(([wx, wy, wz]) => {
+                const wheel = new THREE.Mesh(wheelGeo, wheelMat);
+                wheel.rotation.x = Math.PI / 2;
+                wheel.position.set(wx, wy, wz);
+                roverGroup.add(wheel);
+
+                const leg = new THREE.Mesh(new THREE.CylinderGeometry(0.03, 0.03, 0.48, 8), strutMat);
+                leg.position.set(wx * 0.75, -0.05, wz * 0.78);
+                leg.rotation.x = wz > 0 ? 0.45 : -0.45;
+                roverGroup.add(leg);
+            });
+
+            scene.add(roverGroup);
+
+            // Mouse & Touch Drag Controls
+            let isDragging = false;
+            let prevX = 0;
+            let prevY = 0;
+
+            const onDown = (x, y) => { isDragging = true; prevX = x; prevY = y; };
+            const onMove = (x, y) => {
+                if (!isDragging) return;
+                roverGroup.rotation.y += (x - prevX) * 0.012;
+                roverGroup.rotation.x = Math.max(-0.35, Math.min(0.45, roverGroup.rotation.x + (y - prevY) * 0.008));
+                prevX = x;
+                prevY = y;
+            };
+            const onUp = () => { isDragging = false; };
+
+            renderer.domElement.addEventListener('mousedown', e => onDown(e.clientX, e.clientY));
+            window.addEventListener('mousemove', e => onMove(e.clientX, e.clientY));
+            window.addEventListener('mouseup', onUp);
+
+            renderer.domElement.addEventListener('touchstart', e => {
+                if (e.touches.length === 1) onDown(e.touches[0].clientX, e.touches[0].clientY);
+            }, { passive: true });
+            renderer.domElement.addEventListener('touchmove', e => {
+                if (e.touches.length === 1) onMove(e.touches[0].clientX, e.touches[0].clientY);
+            }, { passive: true });
+            renderer.domElement.addEventListener('touchend', onUp);
+
+            rover3DResizeFn = () => {
+                if (!container.clientWidth || !container.clientHeight) return;
+                camera.aspect = container.clientWidth / container.clientHeight;
+                camera.updateProjectionMatrix();
+                renderer.setSize(container.clientWidth, container.clientHeight);
+            };
+            window.addEventListener('resize', rover3DResizeFn);
+
+            function animateRover() {
+                requestAnimationFrame(animateRover);
+                if (!isDragging) {
+                    roverGroup.rotation.y += 0.006;
+                }
+                renderer.render(scene, camera);
+            }
+            animateRover();
+        }
+
+        // ========================================================
+        // 7B. 3D PLANETARY LANDING BEACON & COMPARISON SLIDER
+        // ========================================================
+        let planetScene, planetCamera, planetRenderer, planetMesh, ringMesh, beaconPin;
+        let planetInitialized = false;
+        let planetDragging = false;
+        let pPrevX = 0, pPrevY = 0;
+
+        function updateCompareSlider(val) {
+            const pct = Number(val);
+            document.getElementById('compare-percent').textContent = `${pct}%`;
+            document.getElementById('compare-overlay-clip').style.clipPath = `inset(0 ${100 - pct}% 0 0)`;
+            document.getElementById('compare-divider-line').style.left = `${pct}%`;
+        }
+
+        function initPlanetObservatory() {
+            const container = document.getElementById('planet-3d-viewport');
+            if (!container || typeof THREE === 'undefined' || planetInitialized) return;
+            planetInitialized = true;
+
+            planetScene = new THREE.Scene();
+            planetCamera = new THREE.PerspectiveCamera(40, container.clientWidth / container.clientHeight, 0.1, 100);
+            planetCamera.position.set(0, 0.4, 3.6);
+
+            planetRenderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+            planetRenderer.setSize(container.clientWidth, container.clientHeight);
+            planetRenderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+            container.appendChild(planetRenderer.domElement);
+
+            const amb = new THREE.AmbientLight(0xffffff, 0.45);
+            planetScene.add(amb);
+
+            const keyLight = new THREE.DirectionalLight(0xffffff, 1.35);
+            keyLight.position.set(4, 3, 5);
+            planetScene.add(keyLight);
+
+            // Planet Sphere
+            const geo = new THREE.SphereGeometry(1.15, 36, 36);
+            const mat = new THREE.MeshStandardMaterial({ color: 0x94a3b8, roughness: 0.85, metalness: 0.1 });
+            planetMesh = new THREE.Mesh(geo, mat);
+            planetScene.add(planetMesh);
+
+            // Saturn Rings (Hidden unless Saturn theme)
+            const rGeo = new THREE.RingGeometry(1.45, 2.15, 48);
+            const rMat = new THREE.MeshBasicMaterial({ color: 0xfacc15, side: THREE.DoubleSide, transparent: true, opacity: 0.65 });
+            ringMesh = new THREE.Mesh(rGeo, rMat);
+            ringMesh.rotation.x = Math.PI / 2.4;
+            ringMesh.visible = false;
+            planetMesh.add(ringMesh);
+
+            // Glowing Landing Beacon Pin
+            const pinGroup = new THREE.Group();
+            const pinHead = new THREE.Mesh(
+                new THREE.SphereGeometry(0.085, 16, 16),
+                new THREE.MeshBasicMaterial({ color: 0x00f5d4 })
+            );
+            pinHead.position.y = 0.18;
+            const pinStem = new THREE.Mesh(
+                new THREE.CylinderGeometry(0.015, 0.015, 0.2, 8),
+                new THREE.MeshBasicMaterial({ color: 0xffd166 })
+            );
+            pinStem.position.y = 0.08;
+            pinGroup.add(pinHead, pinStem);
+            pinGroup.position.set(0.35, 0.25, 1.07);
+            pinGroup.rotation.x = 0.25;
+            pinGroup.rotation.z = -0.3;
+            beaconPin = pinGroup;
+            planetMesh.add(beaconPin);
+
+            // Drag Rotation
+            planetRenderer.domElement.addEventListener('mousedown', e => { planetDragging = true; pPrevX = e.clientX; pPrevY = e.clientY; });
+            window.addEventListener('mousemove', e => {
+                if (!planetDragging) return;
+                planetMesh.rotation.y += (e.clientX - pPrevX) * 0.012;
+                planetMesh.rotation.x = Math.max(-0.6, Math.min(0.6, planetMesh.rotation.x + (e.clientY - pPrevY) * 0.008));
+                pPrevX = e.clientX; pPrevY = e.clientY;
+            });
+            window.addEventListener('mouseup', () => { planetDragging = false; });
+
+            window.addEventListener('resize', () => {
+                if (!container.clientWidth || !container.clientHeight) return;
+                planetCamera.aspect = container.clientWidth / container.clientHeight;
+                planetCamera.updateProjectionMatrix();
+                planetRenderer.setSize(container.clientWidth, container.clientHeight);
+            });
+
+            let pulseClock = 0;
+            function animatePlanet() {
+                requestAnimationFrame(animatePlanet);
+                pulseClock += 0.06;
+                if (!planetDragging && planetMesh) {
+                    planetMesh.rotation.y += 0.0045;
+                }
+                if (beaconPin) {
+                    const s = 1 + Math.sin(pulseClock) * 0.25;
+                    beaconPin.children[0].scale.set(s, s, s);
+                }
+                planetRenderer.render(planetScene, planetCamera);
+            }
+            animatePlanet();
+        }
+
+        function updatePlanetObservatory(ch) {
+            if (!planetInitialized) initPlanetObservatory();
+            if (!planetMesh) return;
+
+            document.getElementById('planet-telemetry-latlon').textContent = ch.coords;
+            const badge = document.getElementById('planet-body-badge');
+
+            ringMesh.visible = false;
+            beaconPin.visible = true;
+
+            if (ch.theme === 'moon') {
+                planetMesh.material.color.setHex(0xcbd5e1);
+                badge.textContent = 'MOON • 3D BEACON';
+            } else if (ch.theme === 'mars') {
+                planetMesh.material.color.setHex(0xd9532f);
+                badge.textContent = 'MARS • 3D BEACON';
+            } else if (ch.theme === 'saturn') {
+                planetMesh.material.color.setHex(0xfbbf24);
+                ringMesh.visible = true;
+                badge.textContent = 'SATURN • ORBIT 3D';
+            } else {
+                planetMesh.material.color.setHex(0x2dd4bf);
+                badge.textContent = 'INTERSTELLAR • 3D';
+            }
+        }
+
+        // Start Live Voyager 1 Distance Ticker (+17 km every second)
+        let voyagerDistanceKm = 24892410540;
+        setInterval(() => {
+            voyagerDistanceKm += 17;
+            const el = document.getElementById('voyager-km-counter');
+            if (el) {
+                el.textContent = voyagerDistanceKm.toLocaleString('en-US') + ' km';
+            }
+        }, 1000);
+
+        // ========================================================
+        // 8. ANIMATED TWINKLING COSMOS CANVAS BACKGROUND
+        // ========================================================
+        function initCosmosCanvas() {
+            const canvas = document.getElementById('cosmos-canvas');
+            const ctx = canvas.getContext('2d');
+            let stars = [];
+
+            function resize() {
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+                stars = Array.from({ length: 85 }, () => ({
+                    x: Math.random() * canvas.width,
+                    y: Math.random() * canvas.height,
+                    r: Math.random() * 2 + 0.5,
+                    alpha: Math.random(),
+                    speed: Math.random() * 0.02 + 0.005
+                }));
+            }
+
+            window.addEventListener('resize', resize);
+            resize();
+
+            function draw() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                stars.forEach(s => {
+                    s.alpha += s.speed;
+                    const opacity = 0.25 + Math.abs(Math.sin(s.alpha)) * 0.75;
+                    ctx.beginPath();
+                    ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+                    ctx.fillStyle = `rgba(255, 255, 255, ${opacity})`;
+                    ctx.fill();
+                });
+                requestAnimationFrame(draw);
+            }
+            draw();
+        }
+
+        window.onload = function() {
+            initCosmosCanvas();
+            initPlanetObservatory();
+            renderChapterTabs();
+            renderActiveChapter();
+            renderQuizStep();
+        };
+    </script>
+</body>
+</html>
